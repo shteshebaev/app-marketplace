@@ -181,13 +181,13 @@ function CategoryCard({ category }: CategoryCardProps) {
       className="
         group
         relative
-        bg-gradient-to-br from-white to-gray-50
-        dark:from-[#1C1C1E] dark:to-[#2C2C2E]
+        bg-white
+        dark:bg-[#1C1C1E]
         rounded-apple-md p-4
-        border border-white/50 dark:border-white/10
-        shadow-[0_2px_15px_-3px_rgba(0,0,0,0.07),0_10px_20px_-2px_rgba(0,0,0,0.04)]
+        border border-gray-100 dark:border-white/10
+        shadow-[0_1px_3px_rgba(0,0,0,0.04),0_4px_12px_rgba(0,0,0,0.04)]
         dark:shadow-[0_2px_15px_-3px_rgba(0,0,0,0.3)]
-        hover:shadow-[0_8px_30px_rgb(0,0,0,0.12)]
+        hover:shadow-[0_4px_20px_rgba(0,0,0,0.08)]
         dark:hover:shadow-[0_8px_30px_rgba(0,122,255,0.15)]
         transition-all duration-300 ease-out
         hover:scale-[1.03] hover:-translate-y-1
@@ -239,13 +239,13 @@ function SolutionCard({ solution }: SolutionCardProps) {
       className="
         group
         relative
-        bg-gradient-to-br from-white via-white to-gray-50/80
-        dark:from-[#1C1C1E] dark:via-[#1C1C1E] dark:to-[#252528]
+        bg-white
+        dark:bg-[#1C1C1E]
         rounded-apple-xl p-5
-        border border-white/60 dark:border-white/10
-        shadow-[0_4px_20px_-5px_rgba(0,0,0,0.1),0_8px_16px_-8px_rgba(0,0,0,0.1)]
+        border border-gray-100 dark:border-white/10
+        shadow-[0_1px_3px_rgba(0,0,0,0.04),0_4px_12px_rgba(0,0,0,0.05)]
         dark:shadow-[0_4px_20px_-5px_rgba(0,0,0,0.4)]
-        hover:shadow-[0_20px_40px_-10px_rgba(0,0,0,0.15)]
+        hover:shadow-[0_8px_24px_rgba(0,0,0,0.08)]
         dark:hover:shadow-[0_20px_40px_-10px_rgba(0,122,255,0.2)]
         transition-all duration-300 ease-out
         hover:scale-[1.02] hover:-translate-y-1
