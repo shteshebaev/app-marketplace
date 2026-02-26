@@ -168,25 +168,25 @@ export function HomePage() {
                         </a>
                     </div>
 
-                    <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
                         {popularSolutions.map((solution) => (
                             <div
                                 key={solution.id}
-                                className="group relative overflow-hidden rounded-[20px] bg-white dark:bg-slate-900/80 p-5 cursor-pointer transition-all hover:shadow-lg hover:shadow-slate-200/50 dark:hover:shadow-slate-900/50 border border-slate-200/80 dark:border-slate-800 hover:-translate-y-1"
+                                className="group relative overflow-hidden rounded-[22px] bg-white dark:bg-slate-900/80 p-6 cursor-pointer transition-all hover:shadow-lg hover:shadow-slate-200/50 dark:hover:shadow-slate-900/50 border border-slate-200/80 dark:border-slate-800 hover:-translate-y-1"
                             >
                                 <div className="flex items-center gap-4">
-                                    <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${solution.gradient} flex items-center justify-center text-white font-bold shadow-md flex-shrink-0`}>
+                                    <div className={`w-14 h-14 rounded-2xl bg-gradient-to-br ${solution.gradient} flex items-center justify-center text-white text-lg font-bold shadow-lg flex-shrink-0`}>
                                         {solution.name.charAt(0)}
                                     </div>
                                     <div className="flex-1 min-w-0">
-                                        <h3 className="font-semibold text-slate-900 dark:text-white truncate">{solution.name}</h3>
-                                        <div className="flex items-center gap-2 mt-1">
+                                        <h3 className="text-[17px] font-semibold text-slate-900 dark:text-white truncate">{solution.name}</h3>
+                                        <div className="flex items-center gap-2 mt-1.5">
                                             <div className="flex items-center gap-1">
-                                                <Star className="w-3.5 h-3.5 text-amber-500 fill-amber-500" />
-                                                <span className="text-sm font-medium text-slate-600 dark:text-slate-400">{solution.rating}</span>
+                                                <Star className="w-4 h-4 text-amber-500 fill-amber-500" />
+                                                <span className="text-[15px] font-medium text-slate-600 dark:text-slate-400">{solution.rating}</span>
                                             </div>
                                             <span className="text-slate-300 dark:text-slate-600">•</span>
-                                            <span className="text-sm font-semibold text-slate-900 dark:text-white">{solution.price} ₽</span>
+                                            <span className="text-[15px] font-semibold text-slate-900 dark:text-white">{solution.price} ₽</span>
                                         </div>
                                     </div>
                                 </div>
