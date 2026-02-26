@@ -159,8 +159,8 @@ function OrderCard({ order }: OrderCardProps) {
     <div
       className="
         p-4
-        bg-apple-gray6/50 dark:bg-[#2C2C2E]/50
-        hover:bg-apple-gray6 dark:hover:bg-apple-dark-gray5
+        bg-gray-100/50 dark:bg-[#2C2C2E]/50
+        hover:bg-gray-100 dark:hover:bg-[#3A3A3C]
         rounded-apple-md
         transition-all duration-apple ease-apple
         cursor-pointer

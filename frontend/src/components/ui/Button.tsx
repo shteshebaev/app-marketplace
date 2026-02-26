@@ -17,8 +17,8 @@ const variantStyles: Record<ButtonVariant, string> = {
     hover:bg-primary-600 hover:shadow-apple-glow
   `,
   secondary: `
-    bg-apple-gray6 text-text-primary
-    hover:bg-apple-gray5
+    bg-gray-100 dark:bg-[#2C2C2E] text-[#1C1C1E] dark:text-white
+    hover:bg-gray-200 dark:hover:bg-[#3A3A3C]
   `,
   ghost: `
     bg-transparent text-text-primary

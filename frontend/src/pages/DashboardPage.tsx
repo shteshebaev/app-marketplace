@@ -88,7 +88,7 @@ function RecentOrderItem({ customer, amount, status, time }: RecentOrderProps) {
         <div
           className="
             w-10 h-10
-            bg-apple-gray6 dark:bg-[#2C2C2E] rounded-full
+            bg-gray-100 dark:bg-[#2C2C2E] rounded-full
             flex items-center justify-center
             text-text-secondary
           "
@@ -226,8 +226,8 @@ function QuickActionButton({ icon, label, description }: QuickActionButtonProps)
     <button
       className="
         w-full p-4
-        bg-apple-gray6/50 dark:bg-[#2C2C2E]/50
-        hover:bg-apple-gray6 dark:hover:bg-apple-dark-gray5
+        bg-gray-100/50 dark:bg-[#2C2C2E]/50
+        hover:bg-gray-100 dark:hover:bg-[#3A3A3C]
         rounded-apple-md
         text-left
         transition-all duration-apple ease-apple

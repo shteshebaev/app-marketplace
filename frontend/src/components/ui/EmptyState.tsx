@@ -32,9 +32,9 @@ export function EmptyState({
         className="
           w-16 h-16
           flex items-center justify-center
-          bg-apple-gray6 rounded-full
+          bg-gray-100 dark:bg-[#2C2C2E] rounded-full
           mb-6
-          text-apple-gray1
+          text-gray-400
         "
       >
         {icon}

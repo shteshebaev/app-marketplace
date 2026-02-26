@@ -142,7 +142,7 @@ export function Header({ onMenuToggle }: HeaderProps) {
             <div
               className="
                 w-7 h-7
-                bg-apple-gray5 dark:bg-[#3A3A3C] rounded-full
+                bg-gray-200 dark:bg-[#3A3A3C] rounded-full
                 flex items-center justify-center
               "
             >
