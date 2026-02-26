@@ -3,12 +3,16 @@ import { Menu, Sun, Moon } from 'lucide-react';
 import { Button } from '../ui';
 import { useTheme } from '../../hooks';
 
+type PublicPage = 'home' | 'categories';
+
 interface PublicLayoutProps {
   children: ReactNode;
   onLogin?: () => void;
+  onNavigate?: (page: PublicPage) => void;
+  currentPage?: PublicPage;
 }
 
-export function PublicLayout({ children, onLogin }: PublicLayoutProps) {
+export function PublicLayout({ children, onLogin, onNavigate, currentPage = 'home' }: PublicLayoutProps) {
   const { isDark, toggleTheme } = useTheme();
 
   return (
@@ -26,7 +30,7 @@ export function PublicLayout({ children, onLogin }: PublicLayoutProps) {
       >
         <div className="h-full max-w-[1440px] mx-auto px-6 lg:px-10 flex items-center justify-between">
           {/* Logo */}
-          <a href="/" className="flex items-center gap-3">
+          <button onClick={() => onNavigate?.('home')} className="flex items-center gap-3">
             <div
               className="
                 w-10 h-10
@@ -40,11 +44,13 @@ export function PublicLayout({ children, onLogin }: PublicLayoutProps) {
             <span className="text-h3 text-text-primary font-semibold">
               Marketplace
             </span>
-          </a>
+          </button>
 
           {/* Center Navigation */}
           <nav className="hidden lg:flex items-center gap-1">
-            <NavLink href="#categories">Категории</NavLink>
+            <NavButton onClick={() => onNavigate?.('categories')} isActive={currentPage === 'categories'}>
+              Категории
+            </NavButton>
             <NavLink href="#solutions">Решения</NavLink>
             <NavLink href="#pricing">Цены</NavLink>
             <NavLink href="#about">О нас</NavLink>
@@ -114,5 +120,31 @@ function NavLink({ href, children }: NavLinkProps) {
     >
       {children}
     </a>
+  );
+}
+
+interface NavButtonProps {
+  onClick: () => void;
+  isActive?: boolean;
+  children: React.ReactNode;
+}
+
+function NavButton({ onClick, isActive, children }: NavButtonProps) {
+  return (
+    <button
+      onClick={onClick}
+      className={`
+        px-4 py-2
+        text-body-sm font-medium
+        rounded-apple
+        transition-all duration-apple ease-apple
+        ${isActive
+          ? 'text-text-primary bg-black/5 dark:bg-white/10'
+          : 'text-text-secondary hover:text-text-primary hover:bg-black/5 dark:hover:bg-white/10'
+        }
+      `}
+    >
+      {children}
+    </button>
   );
 }

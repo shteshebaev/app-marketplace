@@ -52,7 +52,11 @@ const popularSolutions: Solution[] = [
     { id: '4', name: 'EduPlatform', category: 'Образование', rating: 4.8, reviews: 72, price: '10 000', gradient: 'from-amber-500 to-orange-600' },
 ];
 
-export function HomePage() {
+interface HomePageProps {
+    onNavigate?: (page: 'home' | 'categories') => void;
+}
+
+export function HomePage({ onNavigate }: HomePageProps) {
     return (
         <div className="min-h-[calc(100vh-72px)] bg-[#f8fafc] dark:bg-[#0a0a0f]">
             <div className="max-w-[1400px] mx-auto px-6 py-8">
@@ -147,10 +151,13 @@ export function HomePage() {
                         <h2 className="text-2xl font-bold text-slate-900 dark:text-white">
                             Категории решений
                         </h2>
-                        <a href="#all" className="text-blue-500 hover:text-blue-600 font-medium flex items-center gap-1">
+                        <button
+                            onClick={() => onNavigate?.('categories')}
+                            className="text-blue-500 hover:text-blue-600 font-medium flex items-center gap-1 transition-colors"
+                        >
                             Все категории
                             <ArrowRight className="w-4 h-4" />
-                        </a>
+                        </button>
                     </div>
 
                     <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
@@ -166,10 +173,10 @@ export function HomePage() {
                         <h2 className="text-xl font-bold text-slate-900 dark:text-white">
                             Популярные решения
                         </h2>
-                        <a href="#all" className="text-blue-500 hover:text-blue-600 font-medium text-sm flex items-center gap-1">
+                        <button className="text-blue-500 hover:text-blue-600 font-medium text-sm flex items-center gap-1 transition-colors">
                             Все решения
                             <ArrowRight className="w-4 h-4" />
-                        </a>
+                        </button>
                     </div>
 
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
