@@ -53,7 +53,7 @@ const popularSolutions: Solution[] = [
 ];
 
 interface HomePageProps {
-    onNavigate?: (page: 'home' | 'categories' | 'order-development') => void;
+    onNavigate?: (page: 'home' | 'categories' | 'order-development' | 'all-solutions') => void;
     onCategoryClick?: (categoryId: string) => void;
 }
 
@@ -178,7 +178,10 @@ export function HomePage({ onNavigate, onCategoryClick }: HomePageProps) {
                         <h2 className="text-xl font-bold text-slate-900 dark:text-white">
                             Популярные решения
                         </h2>
-                        <button className="text-blue-500 hover:text-blue-600 font-medium text-sm flex items-center gap-1 transition-colors">
+                        <button
+                            onClick={() => onNavigate?.('all-solutions')}
+                            className="text-blue-500 hover:text-blue-600 font-medium text-sm flex items-center gap-1 transition-colors"
+                        >
                             Все решения
                             <ArrowRight className="w-4 h-4" />
                         </button>

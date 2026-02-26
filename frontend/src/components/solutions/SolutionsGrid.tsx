@@ -12,6 +12,7 @@ interface SolutionsGridProps {
     onCompareToggle: (solution: Solution) => void;
     onSolutionSelect: (solutionId: string) => void;
     onResetFilters: () => void;
+    onOrderDevelopment?: () => void;
 }
 
 function SolutionSkeleton({ viewMode }: { viewMode: SolutionViewMode }) {
@@ -67,7 +68,7 @@ function SolutionSkeleton({ viewMode }: { viewMode: SolutionViewMode }) {
     );
 }
 
-function EmptyState({ onResetFilters }: { onResetFilters: () => void }) {
+function EmptyState({ onResetFilters, onOrderDevelopment }: { onResetFilters: () => void; onOrderDevelopment?: () => void }) {
     return (
         <div className="flex flex-col items-center justify-center py-16 px-6 text-center">
             <div className="w-20 h-20 rounded-3xl bg-[var(--bg-card)] border border-[var(--border-color)]
@@ -78,8 +79,7 @@ function EmptyState({ onResetFilters }: { onResetFilters: () => void }) {
                 Ничего не найдено
             </h3>
             <p className="text-[var(--text-secondary)] max-w-md mb-6">
-                В этой категории нет решений по выбранным параметрам.
-                Попробуйте расширить фильтр или закажите индивидуальное решение.
+                Попробуйте изменить фильтр или закажите индивидуальную разработку под ваши задачи.
             </p>
             <div className="flex flex-col sm:flex-row gap-3">
                 <button
@@ -92,12 +92,13 @@ function EmptyState({ onResetFilters }: { onResetFilters: () => void }) {
                     Сбросить фильтры
                 </button>
                 <button
+                    onClick={onOrderDevelopment}
                     className="flex items-center justify-center gap-2 px-6 py-3 bg-gradient-to-r
-                        from-blue-500 to-indigo-500 rounded-xl text-white font-medium
-                        hover:shadow-lg hover:shadow-blue-500/30 transition-all"
+                        from-orange-500 to-pink-500 rounded-xl text-white font-medium
+                        hover:shadow-lg hover:shadow-orange-500/30 transition-all"
                 >
                     <Sparkles className="w-4 h-4" />
-                    Индивидуальная разработка
+                    Заказать разработку
                 </button>
             </div>
         </div>
@@ -111,7 +112,8 @@ export const SolutionsGrid = memo(function SolutionsGrid({
     compareItems,
     onCompareToggle,
     onSolutionSelect,
-    onResetFilters
+    onResetFilters,
+    onOrderDevelopment
 }: SolutionsGridProps) {
     const maxCompare = 3;
     const canCompare = compareItems.length < maxCompare;
@@ -130,7 +132,7 @@ export const SolutionsGrid = memo(function SolutionsGrid({
     }
 
     if (solutions.length === 0) {
-        return <EmptyState onResetFilters={onResetFilters} />;
+        return <EmptyState onResetFilters={onResetFilters} onOrderDevelopment={onOrderDevelopment} />;
     }
 
     const isSelected = (id: string) => compareItems.some(item => item.id === id);

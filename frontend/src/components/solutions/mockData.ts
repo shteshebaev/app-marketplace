@@ -411,3 +411,48 @@ export const getTopSolutions = (categoryId: string): Solution[] => {
     const popular = solutions.find(s => s.isPopular && s.badge !== 'top' && s.badge !== 'best-value');
     return [top, bestValue, popular].filter(Boolean) as Solution[];
 };
+
+// Get all solutions
+export const getAllSolutions = (): Solution[] => {
+    return allSolutions;
+};
+
+// Get all categories as array
+export const getAllCategories = (): CategoryDetails[] => {
+    return Object.values(categoryDetails);
+};
+
+// Get global recommended solutions (across all categories)
+export const getGlobalRecommendedSolutions = (): Solution[] => {
+    const recommended: Solution[] = [];
+
+    // Get top solutions from each category
+    const categories = Object.keys(categoryDetails);
+    for (const categoryId of categories) {
+        const topInCategory = allSolutions.find(
+            s => s.categoryId === categoryId && s.badge === 'top'
+        );
+        if (topInCategory && recommended.length < 4) {
+            recommended.push(topInCategory);
+        }
+    }
+
+    return recommended;
+};
+
+// Calculate average rating across all solutions
+export const getAverageRating = (): number => {
+    if (allSolutions.length === 0) return 0;
+    const sum = allSolutions.reduce((acc, s) => acc + s.rating, 0);
+    return Math.round((sum / allSolutions.length) * 10) / 10;
+};
+
+// Get total solutions count
+export const getTotalSolutionsCount = (): number => {
+    return allSolutions.length;
+};
+
+// Get total categories count
+export const getTotalCategoriesCount = (): number => {
+    return Object.keys(categoryDetails).length;
+};

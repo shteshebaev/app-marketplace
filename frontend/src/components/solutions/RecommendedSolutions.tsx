@@ -4,6 +4,8 @@ import type { Solution } from './types';
 interface RecommendedSolutionsProps {
     solutions: Solution[];
     onSelect: (solutionId: string) => void;
+    title?: string;
+    subtitle?: string;
 }
 
 const recommendationTypes = [
@@ -12,7 +14,12 @@ const recommendationTypes = [
     { badge: 'popular', icon: Gem, label: 'Оптимально по цене', color: 'from-blue-500 to-indigo-500' }
 ];
 
-export function RecommendedSolutions({ solutions, onSelect }: RecommendedSolutionsProps) {
+export function RecommendedSolutions({
+    solutions,
+    onSelect,
+    title = 'Рекомендуем начать с',
+    subtitle = 'Проверенные решения, выбранные экспертами'
+}: RecommendedSolutionsProps) {
     if (solutions.length === 0) return null;
 
     return (
@@ -23,10 +30,10 @@ export function RecommendedSolutions({ solutions, onSelect }: RecommendedSolutio
                     <div className="w-1 h-8 bg-gradient-to-b from-blue-500 to-indigo-500 rounded-full" />
                     <div>
                         <h2 className="text-xl font-bold text-[var(--text-primary)]">
-                            Рекомендуем начать с
+                            {title}
                         </h2>
                         <p className="text-sm text-[var(--text-secondary)]">
-                            Проверенные решения, выбранные экспертами
+                            {subtitle}
                         </p>
                     </div>
                 </div>

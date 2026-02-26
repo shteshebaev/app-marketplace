@@ -3,7 +3,7 @@ import { Menu, Sun, Moon } from 'lucide-react';
 import { Button } from '../ui';
 import { useTheme } from '../../hooks';
 
-type PublicPage = 'home' | 'categories' | 'order-development';
+type PublicPage = 'home' | 'categories' | 'all-solutions' | 'order-development';
 
 interface PublicLayoutProps {
   children: ReactNode;
@@ -51,7 +51,9 @@ export function PublicLayout({ children, onLogin, onNavigate, currentPage = 'hom
             <NavButton onClick={() => onNavigate?.('categories')} isActive={currentPage === 'categories'}>
               Категории
             </NavButton>
-            <NavLink href="#solutions">Решения</NavLink>
+            <NavButton onClick={() => onNavigate?.('all-solutions')} isActive={currentPage === 'all-solutions'}>
+              Решения
+            </NavButton>
             <NavLink href="#pricing">Цены</NavLink>
             <NavLink href="#about">О нас</NavLink>
           </nav>

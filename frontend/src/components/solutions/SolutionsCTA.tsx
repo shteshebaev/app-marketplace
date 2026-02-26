@@ -2,9 +2,10 @@ import { Sparkles, ArrowRight, MessageCircle, CheckCircle } from 'lucide-react';
 
 interface SolutionsCTAProps {
     categoryName: string;
+    onOrderDevelopment?: () => void;
 }
 
-export function SolutionsCTA({ categoryName }: SolutionsCTAProps) {
+export function SolutionsCTA({ categoryName, onOrderDevelopment }: SolutionsCTAProps) {
     return (
         <section className="py-12 lg:py-16">
             <div className="max-w-[1400px] mx-auto px-6 lg:px-10">
@@ -38,8 +39,11 @@ export function SolutionsCTA({ categoryName }: SolutionsCTAProps) {
                             </h2>
 
                             <p className="text-lg text-white/80 mb-6">
-                                Разработаем {categoryName.toLowerCase()} под ваши уникальные задачи.
-                                Полная интеграция с вашими бизнес-процессами.
+                                {categoryName
+                                    ? `Разработаем ${categoryName.toLowerCase()} под ваши уникальные задачи.`
+                                    : 'Разработаем решение под ваши уникальные задачи.'
+                                }
+                                {' '}Полная интеграция с вашими бизнес-процессами.
                             </p>
 
                             {/* Benefits */}
@@ -59,7 +63,9 @@ export function SolutionsCTA({ categoryName }: SolutionsCTAProps) {
 
                             {/* Buttons */}
                             <div className="flex flex-col sm:flex-row gap-4">
-                                <button className="group flex items-center justify-center gap-2 px-6 py-4 bg-white
+                                <button
+                                    onClick={onOrderDevelopment}
+                                    className="group flex items-center justify-center gap-2 px-6 py-4 bg-white
                                     rounded-xl text-indigo-600 font-semibold hover:bg-white/90
                                     transition-all duration-200 hover:shadow-xl hover:shadow-black/20
                                     hover:-translate-y-0.5">

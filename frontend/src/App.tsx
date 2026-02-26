@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { DashboardLayout, PublicLayout } from './components/layout';
-import { OrdersPage, DashboardPage, HomePage, CategoriesPage, SolutionsPage, OrderDevelopmentPage } from './pages';
+import { OrdersPage, DashboardPage, HomePage, CategoriesPage, SolutionsPage, AllSolutionsPage, OrderDevelopmentPage } from './pages';
 
-type PublicPage = 'home' | 'categories' | 'solutions' | 'order-development';
+type PublicPage = 'home' | 'categories' | 'solutions' | 'all-solutions' | 'order-development';
 
 interface NavigationState {
     page: PublicPage;
@@ -24,6 +24,7 @@ function App() {
   };
 
   const handlePublicNavigate = (page: PublicPage, categoryId?: string) => {
+    console.log('Navigate to:', page);
     setNavigation({ page, categoryId });
   };
 
@@ -60,6 +61,12 @@ function App() {
             onNavigateCategories={() => handlePublicNavigate('categories')}
           />
         );
+      case 'all-solutions':
+        return (
+          <AllSolutionsPage
+            onOrderDevelopment={() => handlePublicNavigate('order-development')}
+          />
+        );
       case 'order-development':
         return (
           <OrderDevelopmentPage
@@ -82,7 +89,7 @@ function App() {
       <PublicLayout
         onLogin={handleLogin}
         onNavigate={(page) => handlePublicNavigate(page as PublicPage)}
-        currentPage={navigation.page === 'solutions' ? 'categories' : navigation.page}
+        currentPage={navigation.page === 'solutions' ? 'categories' : navigation.page === 'order-development' ? 'home' : navigation.page}
       >
         {renderPublicPage()}
       </PublicLayout>
