@@ -22,6 +22,8 @@ interface AllSolutionsPageProps {
     onSolutionSelect?: (solutionId: string) => void;
 }
 
+
+
 export function AllSolutionsPage({
     onOrderDevelopment,
     onSolutionSelect
