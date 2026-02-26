@@ -58,59 +58,53 @@ export function HomePage() {
             <div className="max-w-[1400px] mx-auto px-6 py-8">
 
                 {/* Hero Section */}
-                <div className="grid grid-cols-12 gap-4 mb-8">
-                    {/* Main Hero */}
-                    <div className="col-span-12 lg:col-span-7 relative overflow-hidden rounded-[32px] bg-[#0f0f1a] p-8 lg:p-10 min-h-[280px]">
-                        {/* Mesh gradient background */}
-                        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_#3b82f6_0%,_transparent_50%)] opacity-40" />
-                        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_left,_#8b5cf6_0%,_transparent_50%)] opacity-30" />
-                        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_#06b6d4_0%,_transparent_40%)] opacity-20" />
+                <div className="relative overflow-hidden rounded-[32px] bg-[#0f0f1a] p-8 lg:p-10 mb-8">
+                    {/* Mesh gradient background */}
+                    <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_#3b82f6_0%,_transparent_50%)] opacity-40" />
+                    <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_left,_#8b5cf6_0%,_transparent_50%)] opacity-30" />
+                    <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_#06b6d4_0%,_transparent_40%)] opacity-20" />
 
-                        <div className="relative z-10 h-full flex flex-col justify-between">
-                            <div>
+                    <div className="relative z-10">
+                        <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-8">
+                            {/* Left side - Text */}
+                            <div className="flex-1">
                                 <h1 className="text-4xl lg:text-5xl font-bold text-white leading-[1.1] mb-4 tracking-tight">
                                     Готовые решения<br />
                                     <span className="bg-gradient-to-r from-blue-400 via-violet-400 to-cyan-400 bg-clip-text text-transparent">для бизнеса</span>
                                 </h1>
-                                <p className="text-slate-400 text-lg max-w-md">
+                                <p className="text-slate-400 text-lg max-w-md mb-6">
                                     150+ проверенных продуктов для автоматизации и роста
                                 </p>
+                                <button className="flex items-center gap-3 bg-white text-slate-900 font-semibold px-7 py-3.5 rounded-full hover:bg-slate-100 transition-all shadow-lg shadow-white/10">
+                                    Смотреть каталог
+                                    <ArrowRight className="w-5 h-5" />
+                                </button>
                             </div>
 
-                            <button className="self-start flex items-center gap-3 bg-white text-slate-900 font-semibold px-7 py-3.5 rounded-full hover:bg-slate-100 transition-all mt-6 shadow-lg shadow-white/10">
-                                Смотреть каталог
-                                <ArrowRight className="w-5 h-5" />
-                            </button>
-                        </div>
-                    </div>
+                            {/* Right side - Stats */}
+                            <div className="flex gap-4 lg:gap-6">
+                                <div className="text-center">
+                                    <div className="w-12 h-12 rounded-2xl bg-blue-500/20 flex items-center justify-center mx-auto mb-3">
+                                        <TrendingUp className="w-6 h-6 text-blue-400" />
+                                    </div>
+                                    <div className="text-3xl lg:text-4xl font-bold text-white">2.5K</div>
+                                    <div className="text-slate-400 text-sm">Клиентов</div>
+                                </div>
 
-                    {/* Stats */}
-                    <div className="col-span-12 lg:col-span-5 grid grid-cols-2 gap-4">
-                        <div className="relative overflow-hidden rounded-[24px] bg-gradient-to-br from-blue-500 to-blue-600 p-6 flex flex-col justify-between">
-                            <div className="absolute -right-6 -top-6 w-24 h-24 bg-white/10 rounded-full blur-2xl" />
-                            <TrendingUp className="w-7 h-7 text-white/80" />
-                            <div>
-                                <div className="text-4xl font-bold text-white">2.5K</div>
-                                <div className="text-blue-100">Клиентов</div>
-                            </div>
-                        </div>
+                                <div className="text-center">
+                                    <div className="w-12 h-12 rounded-2xl bg-emerald-500/20 flex items-center justify-center mx-auto mb-3">
+                                        <Shield className="w-6 h-6 text-emerald-400" />
+                                    </div>
+                                    <div className="text-3xl lg:text-4xl font-bold text-white">99.9%</div>
+                                    <div className="text-slate-400 text-sm">Uptime</div>
+                                </div>
 
-                        <div className="relative overflow-hidden rounded-[24px] bg-gradient-to-br from-emerald-500 to-teal-600 p-6 flex flex-col justify-between">
-                            <div className="absolute -right-6 -top-6 w-24 h-24 bg-white/10 rounded-full blur-2xl" />
-                            <Shield className="w-7 h-7 text-white/80" />
-                            <div>
-                                <div className="text-4xl font-bold text-white">99.9%</div>
-                                <div className="text-emerald-100">Uptime</div>
-                            </div>
-                        </div>
-
-                        <div className="col-span-2 relative overflow-hidden rounded-[24px] bg-gradient-to-r from-violet-500 via-purple-500 to-fuchsia-500 p-6 flex items-center justify-between">
-                            <div className="absolute -left-10 -bottom-10 w-32 h-32 bg-white/10 rounded-full blur-2xl" />
-                            <div className="flex items-center gap-4">
-                                <Zap className="w-8 h-8 text-white/90" />
-                                <div>
-                                    <div className="text-3xl font-bold text-white">24/7</div>
-                                    <div className="text-violet-100">Техническая поддержка</div>
+                                <div className="text-center">
+                                    <div className="w-12 h-12 rounded-2xl bg-violet-500/20 flex items-center justify-center mx-auto mb-3">
+                                        <Zap className="w-6 h-6 text-violet-400" />
+                                    </div>
+                                    <div className="text-3xl lg:text-4xl font-bold text-white">24/7</div>
+                                    <div className="text-slate-400 text-sm">Поддержка</div>
                                 </div>
                             </div>
                         </div>
@@ -120,20 +114,30 @@ export function HomePage() {
                 {/* Order Development Card */}
                 <a
                     href="#order-development"
-                    className="block mb-8 relative overflow-hidden rounded-[28px] bg-gradient-to-r from-amber-500 via-orange-500 to-rose-500 p-6 lg:p-8 cursor-pointer group hover:shadow-2xl hover:shadow-orange-500/20 transition-all"
+                    className="block mb-8 relative overflow-hidden rounded-[28px] bg-gradient-to-r from-amber-500 via-orange-500 to-rose-500 p-6 lg:p-7 cursor-pointer group transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl hover:shadow-orange-500/30"
                 >
-                    <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_right,_#fff_0%,_transparent_70%)] opacity-10" />
+                    {/* Glossy overlay */}
+                    <div className="absolute inset-0 bg-gradient-to-b from-white/20 via-transparent to-black/10" />
+
+                    {/* Shine effect on hover */}
+                    <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
+
+                    {/* Background pattern */}
+                    <div className="absolute right-0 top-0 bottom-0 w-1/3 bg-gradient-to-l from-white/10 to-transparent" />
+
                     <div className="relative flex items-center justify-between">
                         <div className="flex items-center gap-5">
-                            <div className="w-16 h-16 rounded-2xl bg-white/20 backdrop-blur-sm flex items-center justify-center text-white shadow-lg">
+                            <div className="w-16 h-16 rounded-2xl bg-white/20 backdrop-blur-sm flex items-center justify-center text-white shadow-lg group-hover:scale-110 group-hover:bg-white/30 transition-all duration-300">
                                 <Code2 className="w-8 h-8" />
                             </div>
                             <div>
-                                <h3 className="text-2xl font-bold text-white mb-1">Заказать разработку</h3>
+                                <h3 className="text-2xl font-bold text-white mb-1 drop-shadow-sm">Заказать разработку</h3>
                                 <p className="text-white/80">Индивидуальное решение под ваш бизнес</p>
                             </div>
                         </div>
-                        <ArrowRight className="w-8 h-8 text-white/80 group-hover:translate-x-2 transition-transform" />
+                        <div className="w-12 h-12 rounded-full bg-white/20 flex items-center justify-center group-hover:bg-white/30 transition-all">
+                            <ArrowRight className="w-6 h-6 text-white group-hover:translate-x-1 transition-transform" />
+                        </div>
                     </div>
                 </a>
 
@@ -169,24 +173,31 @@ export function HomePage() {
                     </div>
 
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-                        {popularSolutions.map((solution) => (
+                        {popularSolutions.map((solution, index) => (
                             <div
                                 key={solution.id}
-                                className="group relative overflow-hidden rounded-[22px] bg-white dark:bg-slate-900/80 p-6 cursor-pointer transition-all hover:shadow-lg hover:shadow-slate-200/50 dark:hover:shadow-slate-900/50 border border-slate-200/80 dark:border-slate-800 hover:-translate-y-1"
+                                className="group relative overflow-hidden rounded-[24px] bg-gradient-to-br from-slate-50 to-slate-100 dark:from-slate-800 dark:to-slate-900 p-5 cursor-pointer transition-all duration-300 hover:-translate-y-2 hover:shadow-xl hover:shadow-slate-900/15 dark:hover:shadow-black/40"
                             >
-                                <div className="flex items-center gap-4">
-                                    <div className={`w-14 h-14 rounded-2xl bg-gradient-to-br ${solution.gradient} flex items-center justify-center text-white text-lg font-bold shadow-lg flex-shrink-0`}>
+                                {/* Decorative gradient blob */}
+                                <div className={`absolute -top-10 -right-10 w-32 h-32 bg-gradient-to-br ${solution.gradient} opacity-20 rounded-full blur-2xl group-hover:opacity-30 transition-opacity`} />
+
+                                <div className="relative flex items-center gap-4">
+                                    <div className={`w-14 h-14 rounded-2xl bg-gradient-to-br ${solution.gradient} flex items-center justify-center text-white text-lg font-bold shadow-xl group-hover:scale-110 group-hover:rotate-3 transition-all duration-300 flex-shrink-0`}>
                                         {solution.name.charAt(0)}
                                     </div>
                                     <div className="flex-1 min-w-0">
-                                        <h3 className="text-[17px] font-semibold text-slate-900 dark:text-white truncate">{solution.name}</h3>
-                                        <div className="flex items-center gap-2 mt-1.5">
-                                            <div className="flex items-center gap-1">
-                                                <Star className="w-4 h-4 text-amber-500 fill-amber-500" />
-                                                <span className="text-[15px] font-medium text-slate-600 dark:text-slate-400">{solution.rating}</span>
+                                        <div className="flex items-center gap-2 mb-1.5">
+                                            <h3 className="font-bold text-slate-900 dark:text-white truncate">{solution.name}</h3>
+                                            {index === 0 && (
+                                                <span className="px-2 py-0.5 bg-gradient-to-r from-amber-400 to-orange-500 text-white text-[10px] font-bold rounded-full uppercase shadow-sm">Top</span>
+                                            )}
+                                        </div>
+                                        <div className="flex items-center gap-3">
+                                            <div className="flex items-center gap-1 bg-amber-50 dark:bg-amber-500/10 px-2 py-0.5 rounded-full">
+                                                <Star className="w-3.5 h-3.5 text-amber-500 fill-amber-500" />
+                                                <span className="text-sm font-bold text-amber-600 dark:text-amber-400">{solution.rating}</span>
                                             </div>
-                                            <span className="text-slate-300 dark:text-slate-600">•</span>
-                                            <span className="text-[15px] font-semibold text-slate-900 dark:text-white">{solution.price} ₽</span>
+                                            <span className="text-sm font-bold text-slate-900 dark:text-white">{solution.price} ₽</span>
                                         </div>
                                     </div>
                                 </div>
@@ -208,32 +219,37 @@ function CategoryCard({ category }: CategoryCardProps) {
     return (
         <a
             href={`#category-${category.id}`}
-            className="group relative overflow-hidden rounded-[24px] bg-gradient-to-br from-slate-800 to-slate-900 dark:from-slate-900 dark:to-slate-950 p-5 cursor-pointer transition-all hover:-translate-y-1 hover:shadow-2xl hover:shadow-slate-900/30"
+            className={`group relative overflow-hidden rounded-[28px] bg-gradient-to-br ${category.gradient} p-6 cursor-pointer transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl hover:shadow-black/20`}
         >
-            {/* Colored gradient overlay */}
-            <div className={`absolute inset-0 bg-gradient-to-br ${category.gradient} opacity-80`} />
+            {/* Glossy overlay */}
+            <div className="absolute inset-0 bg-gradient-to-b from-white/25 via-transparent to-black/10" />
 
-            {/* Mesh pattern overlay */}
-            <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_left,_rgba(255,255,255,0.15)_0%,_transparent_50%)]" />
-            <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_right,_rgba(0,0,0,0.3)_0%,_transparent_60%)]" />
+            {/* Shine effect */}
+            <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
 
             {/* Large background icon */}
-            <div className="absolute -right-3 -bottom-3 opacity-[0.15] text-white scale-[3] group-hover:scale-[3.3] group-hover:opacity-20 transition-all duration-500">
+            <div className="absolute -right-4 -bottom-4 opacity-20 text-white scale-[3.5] group-hover:scale-[4] group-hover:opacity-25 transition-all duration-700">
                 {category.icon}
             </div>
 
-            <div className="relative z-10 h-full flex flex-col justify-between min-h-[120px]">
-                <div className="w-12 h-12 rounded-2xl bg-white/20 backdrop-blur-md flex items-center justify-center text-white shadow-lg shadow-black/10">
+            <div className="relative z-10 h-full flex flex-col justify-between min-h-[140px]">
+                {/* Icon */}
+                <div className="w-14 h-14 rounded-2xl bg-white/20 backdrop-blur-sm flex items-center justify-center text-white shadow-lg shadow-black/10 group-hover:scale-110 group-hover:bg-white/30 transition-all duration-300">
                     {category.icon}
                 </div>
 
                 <div>
-                    <h3 className="font-bold text-white text-[17px] mb-0.5 drop-shadow-sm">
+                    <h3 className="font-bold text-white text-xl mb-1 drop-shadow-sm">
                         {category.name}
                     </h3>
-                    <span className="text-sm text-white/80 font-medium">
-                        {category.count} решений
-                    </span>
+                    <div className="flex items-center gap-2">
+                        <span className="text-white/80 font-medium">
+                            {category.count} решений
+                        </span>
+                        <div className="w-6 h-6 rounded-full bg-white/20 flex items-center justify-center group-hover:bg-white/30 transition-all">
+                            <ArrowRight className="w-3.5 h-3.5 text-white group-hover:translate-x-0.5 transition-transform" />
+                        </div>
+                    </div>
                 </div>
             </div>
         </a>
