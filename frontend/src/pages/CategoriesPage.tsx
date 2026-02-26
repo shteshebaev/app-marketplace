@@ -3,7 +3,6 @@ import {
     CategoriesHero,
     CategoriesFilterBar,
     CategoriesGrid,
-    PopularCategoriesBlock,
     CustomDevelopmentCTA,
     type Category,
     type FilterState,
@@ -40,13 +39,6 @@ export function CategoriesPage() {
         viewMode: 'grid',
     });
     const [debouncedSearch, setDebouncedSearch] = useState('');
-    const [isLoading, setIsLoading] = useState(true);
-
-    // Simulate loading
-    useEffect(() => {
-        const timer = setTimeout(() => setIsLoading(false), 800);
-        return () => clearTimeout(timer);
-    }, []);
 
     // Debounced search
     useEffect(() => {
@@ -133,25 +125,11 @@ export function CategoriesPage() {
                     resultsCount={filteredCategories.length}
                 />
 
-                {/* Popular Categories Block - only show if not filtering */}
-                {!filters.search && !filters.onlyPopular && filters.viewMode === 'grid' && (
-                    <PopularCategoriesBlock categories={allCategories} />
-                )}
-
-                {/* Section header for all categories */}
-                {!filters.search && !filters.onlyPopular && filters.viewMode === 'grid' && (
-                    <div className="mb-6">
-                        <h2 className="text-xl font-bold text-slate-900 dark:text-white">
-                            Все категории
-                        </h2>
-                    </div>
-                )}
 
                 {/* Categories Grid/List */}
                 <CategoriesGrid
                     categories={filteredCategories}
                     viewMode={filters.viewMode}
-                    isLoading={isLoading}
                 />
 
                 {/* Custom Development CTA */}

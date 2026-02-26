@@ -31,9 +31,7 @@ export function PopularCategoriesBlock({ categories }: PopularCategoriesBlockPro
             {/* Popular categories grid - larger cards */}
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
                 {popularCategories.map((category, index) => (
-                    <div key={category.id} className="[&>a]:min-h-[200px]">
-                        <CategoryCard category={category} index={index} />
-                    </div>
+                    <CategoryCard key={category.id} category={category} index={index} />
                 ))}
             </div>
         </section>
