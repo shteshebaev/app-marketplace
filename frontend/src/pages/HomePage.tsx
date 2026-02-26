@@ -180,39 +180,51 @@ function CategoryCard({ category }: CategoryCardProps) {
       href={`#category-${category.id}`}
       className="
         group
-        bg-white dark:bg-[#1C1C1E]
+        relative
+        bg-gradient-to-br from-white to-gray-50
+        dark:from-[#1C1C1E] dark:to-[#2C2C2E]
         rounded-apple-md p-4
-        border border-apple-gray5 dark:border-[#3A3A3C]
-        hover:border-primary/30
-        shadow-apple-sm hover:shadow-apple
-        transition-all duration-apple ease-apple
-        hover:scale-[1.02]
+        border border-white/50 dark:border-white/10
+        shadow-[0_2px_15px_-3px_rgba(0,0,0,0.07),0_10px_20px_-2px_rgba(0,0,0,0.04)]
+        dark:shadow-[0_2px_15px_-3px_rgba(0,0,0,0.3)]
+        hover:shadow-[0_8px_30px_rgb(0,0,0,0.12)]
+        dark:hover:shadow-[0_8px_30px_rgba(0,122,255,0.15)]
+        transition-all duration-300 ease-out
+        hover:scale-[1.03] hover:-translate-y-1
         active:scale-[0.98]
         cursor-pointer
+        overflow-hidden
       "
     >
-      <div
-        className="
-          w-10 h-10
-          bg-primary/10 dark:bg-primary/20
-          rounded-apple-sm
-          flex items-center justify-center
-          text-primary
-          mb-3
-          group-hover:bg-primary group-hover:text-white
-          transition-colors duration-apple
-        "
-      >
-        {category.icon}
+      {/* Subtle gradient overlay on hover */}
+      <div className="absolute inset-0 bg-gradient-to-br from-primary/0 to-primary/0 group-hover:from-primary/5 group-hover:to-transparent transition-all duration-300 rounded-apple-md" />
+
+      <div className="relative z-10">
+        <div
+          className="
+            w-11 h-11
+            bg-gradient-to-br from-primary/10 to-primary/5
+            dark:from-primary/20 dark:to-primary/10
+            rounded-apple
+            flex items-center justify-center
+            text-primary
+            mb-3
+            group-hover:from-primary group-hover:to-primary-600 group-hover:text-white
+            group-hover:shadow-[0_4px_15px_rgba(0,122,255,0.4)]
+            transition-all duration-300
+          "
+        >
+          {category.icon}
+        </div>
+
+        <h3 className="text-body-sm font-semibold text-[#1C1C1E] dark:text-white mb-1 truncate">
+          {category.name}
+        </h3>
+
+        <p className="text-caption text-gray-500 dark:text-gray-400">
+          {category.count} решений
+        </p>
       </div>
-
-      <h3 className="text-body-sm font-medium text-[#1C1C1E] dark:text-white mb-1 truncate">
-        {category.name}
-      </h3>
-
-      <p className="text-caption text-gray-500 dark:text-gray-400">
-        {category.count} решений
-      </p>
     </a>
   );
 }
@@ -226,26 +238,34 @@ function SolutionCard({ solution }: SolutionCardProps) {
     <div
       className="
         group
-        bg-white dark:bg-[#1C1C1E]
-        rounded-apple-xl p-5
-        border border-apple-gray5 dark:border-[#3A3A3C]
-        shadow-apple-sm hover:shadow-apple-md
-        transition-all duration-apple ease-apple
-        hover:scale-[1.01]
-        cursor-pointer
         relative
+        bg-gradient-to-br from-white via-white to-gray-50/80
+        dark:from-[#1C1C1E] dark:via-[#1C1C1E] dark:to-[#252528]
+        rounded-apple-xl p-5
+        border border-white/60 dark:border-white/10
+        shadow-[0_4px_20px_-5px_rgba(0,0,0,0.1),0_8px_16px_-8px_rgba(0,0,0,0.1)]
+        dark:shadow-[0_4px_20px_-5px_rgba(0,0,0,0.4)]
+        hover:shadow-[0_20px_40px_-10px_rgba(0,0,0,0.15)]
+        dark:hover:shadow-[0_20px_40px_-10px_rgba(0,122,255,0.2)]
+        transition-all duration-300 ease-out
+        hover:scale-[1.02] hover:-translate-y-1
+        cursor-pointer
         flex flex-col
+        overflow-hidden
       "
     >
+      {/* Background glow effect */}
+      <div className="absolute -top-20 -right-20 w-40 h-40 bg-primary/5 dark:bg-primary/10 rounded-full blur-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+
       {/* Popular badge */}
       {solution.popular && (
         <div
           className="
-            absolute -top-2 -right-2
-            bg-gradient-to-r from-amber-400 to-orange-500
+            absolute -top-1 -right-1
+            bg-gradient-to-r from-amber-400 via-orange-500 to-red-500
             text-white text-caption-sm font-semibold
-            px-3 py-1 rounded-full
-            shadow-apple-sm
+            px-3 py-1.5 rounded-bl-apple rounded-tr-apple-xl
+            shadow-[0_4px_15px_rgba(251,146,60,0.4)]
           "
         >
           Популярное
@@ -278,33 +298,37 @@ function SolutionCard({ solution }: SolutionCardProps) {
       </p>
 
       {/* Features */}
-      <div className="flex flex-wrap gap-2 mb-4">
+      <div className="relative z-10 flex flex-wrap gap-2 mb-4">
         {solution.features.map((feature) => (
           <span
             key={feature}
             className="
-              inline-flex items-center gap-1
-              text-caption text-gray-600 dark:text-gray-400
-              bg-apple-gray6 dark:bg-[#2C2C2E]
-              px-2 py-1 rounded-md
+              inline-flex items-center gap-1.5
+              text-caption text-gray-600 dark:text-gray-300
+              bg-gradient-to-r from-gray-100 to-gray-50
+              dark:from-[#2C2C2E] dark:to-[#3A3A3C]
+              px-2.5 py-1 rounded-full
+              border border-gray-200/50 dark:border-white/5
             "
           >
-            <Check className="w-3 h-3 text-green-500" />
+            <Check className="w-3 h-3 text-emerald-500" />
             {feature}
           </span>
         ))}
       </div>
 
       {/* Footer */}
-      <div className="flex items-center justify-between pt-3 border-t border-apple-gray5 dark:border-[#3A3A3C]">
-        <span className="text-body-sm font-semibold text-[#1C1C1E] dark:text-white">
-          {solution.price}
-        </span>
+      <div className="relative z-10 flex items-center justify-between pt-4 mt-auto border-t border-gray-100 dark:border-white/10">
+        <div>
+          <span className="text-h3 font-bold text-[#1C1C1E] dark:text-white">
+            {solution.price}
+          </span>
+        </div>
 
         <Button
-          variant="ghost"
+          variant="primary"
           size="sm"
-          className="text-primary"
+          className="shadow-[0_4px_15px_rgba(0,122,255,0.3)] hover:shadow-[0_6px_20px_rgba(0,122,255,0.4)]"
           rightIcon={<ArrowRight className="w-4 h-4" />}
         >
           Подробнее
