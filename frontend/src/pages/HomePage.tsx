@@ -53,7 +53,7 @@ const popularSolutions: Solution[] = [
 ];
 
 interface HomePageProps {
-    onNavigate?: (page: 'home' | 'categories') => void;
+    onNavigate?: (page: 'home' | 'categories' | 'order-development') => void;
     onCategoryClick?: (categoryId: string) => void;
 }
 
@@ -117,9 +117,9 @@ export function HomePage({ onNavigate, onCategoryClick }: HomePageProps) {
                 </div>
 
                 {/* Order Development Card */}
-                <a
-                    href="#order-development"
-                    className="block mb-8 relative overflow-hidden rounded-[28px] bg-gradient-to-r from-amber-500 via-orange-500 to-rose-500 p-6 lg:p-7 cursor-pointer group transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl hover:shadow-orange-500/30"
+                <button
+                    onClick={() => onNavigate?.('order-development')}
+                    className="block w-full mb-8 relative overflow-hidden rounded-[28px] bg-gradient-to-r from-amber-500 via-orange-500 to-rose-500 p-6 lg:p-7 cursor-pointer group transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl hover:shadow-orange-500/30 text-left"
                 >
                     {/* Glossy overlay */}
                     <div className="absolute inset-0 bg-gradient-to-b from-white/20 via-transparent to-black/10" />
@@ -144,7 +144,7 @@ export function HomePage({ onNavigate, onCategoryClick }: HomePageProps) {
                             <ArrowRight className="w-6 h-6 text-white group-hover:translate-x-1 transition-transform" />
                         </div>
                     </div>
-                </a>
+                </button>
 
                 {/* Categories Section */}
                 <section className="mb-8">

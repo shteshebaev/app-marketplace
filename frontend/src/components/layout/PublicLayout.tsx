@@ -3,7 +3,7 @@ import { Menu, Sun, Moon } from 'lucide-react';
 import { Button } from '../ui';
 import { useTheme } from '../../hooks';
 
-type PublicPage = 'home' | 'categories';
+type PublicPage = 'home' | 'categories' | 'order-development';
 
 interface PublicLayoutProps {
   children: ReactNode;

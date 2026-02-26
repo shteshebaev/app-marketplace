@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { DashboardLayout, PublicLayout } from './components/layout';
-import { OrdersPage, DashboardPage, HomePage, CategoriesPage, SolutionsPage } from './pages';
+import { OrdersPage, DashboardPage, HomePage, CategoriesPage, SolutionsPage, OrderDevelopmentPage } from './pages';
 
-type PublicPage = 'home' | 'categories' | 'solutions';
+type PublicPage = 'home' | 'categories' | 'solutions' | 'order-development';
 
 interface NavigationState {
     page: PublicPage;
@@ -58,6 +58,12 @@ function App() {
             categoryId={navigation.categoryId || 'crm'}
             onNavigateHome={() => handlePublicNavigate('home')}
             onNavigateCategories={() => handlePublicNavigate('categories')}
+          />
+        );
+      case 'order-development':
+        return (
+          <OrderDevelopmentPage
+            onNavigateHome={() => handlePublicNavigate('home')}
           />
         );
       default:
