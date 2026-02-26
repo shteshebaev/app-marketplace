@@ -82,8 +82,8 @@ export function HomePage() {
   };
 
   return (
-    <div className="h-[calc(100vh-72px)] flex flex-col overflow-hidden">
-      <div className="flex-1 max-w-[1440px] mx-auto w-full px-6 lg:px-10 py-6 lg:py-8 flex flex-col">
+    <div className="min-h-[calc(100vh-72px)] overflow-y-auto">
+      <div className="max-w-[1440px] mx-auto w-full px-6 lg:px-10 py-6 lg:py-8">
         {/* Top section: CTA + Categories */}
         <div className="flex flex-col lg:flex-row gap-6 lg:gap-8 mb-6 lg:mb-8">
           {/* CTA Block */}
