@@ -8,21 +8,22 @@ interface CategoriesGridProps {
     categories: Category[];
     viewMode: ViewMode;
     isLoading?: boolean;
+    onCategoryClick?: (categoryId: string) => void;
 }
 
-export function CategoriesGrid({ categories, viewMode, isLoading = false }: CategoriesGridProps) {
+export function CategoriesGrid({ categories, viewMode, isLoading = false, onCategoryClick }: CategoriesGridProps) {
     // Memoize the rendered categories to prevent unnecessary re-renders
     const renderedCategories = useMemo(() => {
         if (viewMode === 'grid') {
             return categories.map((category, index) => (
-                <CategoryCard key={category.id} category={category} index={index} />
+                <CategoryCard key={category.id} category={category} index={index} onClick={onCategoryClick} />
             ));
         }
 
         return categories.map((category, index) => (
-            <CategoryListItem key={category.id} category={category} index={index} />
+            <CategoryListItem key={category.id} category={category} index={index} onClick={onCategoryClick} />
         ));
-    }, [categories, viewMode]);
+    }, [categories, viewMode, onCategoryClick]);
 
     if (isLoading) {
         return viewMode === 'grid' ? (

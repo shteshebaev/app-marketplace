@@ -54,9 +54,10 @@ const popularSolutions: Solution[] = [
 
 interface HomePageProps {
     onNavigate?: (page: 'home' | 'categories') => void;
+    onCategoryClick?: (categoryId: string) => void;
 }
 
-export function HomePage({ onNavigate }: HomePageProps) {
+export function HomePage({ onNavigate, onCategoryClick }: HomePageProps) {
     return (
         <div className="min-h-[calc(100vh-72px)] bg-[#f8fafc] dark:bg-[#0a0a0f]">
             <div className="max-w-[1400px] mx-auto px-6 py-8">
@@ -162,7 +163,11 @@ export function HomePage({ onNavigate }: HomePageProps) {
 
                     <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
                         {categories.map((category) => (
-                            <CategoryCard key={category.id} category={category} />
+                            <CategoryCard
+                                key={category.id}
+                                category={category}
+                                onClick={() => onCategoryClick?.(category.id)}
+                            />
                         ))}
                     </div>
                 </section>
@@ -220,13 +225,14 @@ export function HomePage({ onNavigate }: HomePageProps) {
 
 interface CategoryCardProps {
     category: Category;
+    onClick?: () => void;
 }
 
-function CategoryCard({ category }: CategoryCardProps) {
+function CategoryCard({ category, onClick }: CategoryCardProps) {
     return (
-        <a
-            href={`#category-${category.id}`}
-            className={`group relative overflow-hidden rounded-[28px] bg-gradient-to-br ${category.gradient} p-6 cursor-pointer transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl hover:shadow-black/20`}
+        <button
+            onClick={onClick}
+            className={`group relative overflow-hidden rounded-[28px] bg-gradient-to-br ${category.gradient} p-6 cursor-pointer transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl hover:shadow-black/20 text-left w-full`}
         >
             {/* Glossy overlay */}
             <div className="absolute inset-0 bg-gradient-to-b from-white/25 via-transparent to-black/10" />
@@ -259,6 +265,6 @@ function CategoryCard({ category }: CategoryCardProps) {
                     </div>
                 </div>
             </div>
-        </a>
+        </button>
     );
 }

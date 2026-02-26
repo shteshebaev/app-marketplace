@@ -5,6 +5,7 @@ import { type Category } from './types';
 interface CategoryListItemProps {
     category: Category;
     index?: number;
+    onClick?: (categoryId: string) => void;
 }
 
 const iconMap: Record<string, React.ReactNode> = {
@@ -25,12 +26,20 @@ const iconMap: Record<string, React.ReactNode> = {
     globe: <Globe className="w-5 h-5" />,
 };
 
-export const CategoryListItem = memo(function CategoryListItem({ category, index = 0 }: CategoryListItemProps) {
+export const CategoryListItem = memo(function CategoryListItem({ category, index = 0, onClick }: CategoryListItemProps) {
     const icon = iconMap[category.icon] || <Briefcase className="w-5 h-5" />;
+
+    const handleClick = (e: React.MouseEvent) => {
+        if (onClick) {
+            e.preventDefault();
+            onClick(category.id);
+        }
+    };
 
     return (
         <a
             href={`/categories/${category.id}`}
+            onClick={handleClick}
             className="group flex items-center gap-4 p-4 rounded-2xl bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800 hover:border-slate-200 dark:hover:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-all duration-200"
             style={{
                 animationDelay: `${index * 30}ms`,

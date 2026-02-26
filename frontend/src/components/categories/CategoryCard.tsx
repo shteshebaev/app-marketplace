@@ -5,6 +5,7 @@ import { type Category } from './types';
 interface CategoryCardProps {
     category: Category;
     index?: number;
+    onClick?: (categoryId: string) => void;
 }
 
 const iconMap: Record<string, React.ReactNode> = {
@@ -25,12 +26,20 @@ const iconMap: Record<string, React.ReactNode> = {
     globe: <Globe className="w-7 h-7" />,
 };
 
-export const CategoryCard = memo(function CategoryCard({ category, index = 0 }: CategoryCardProps) {
+export const CategoryCard = memo(function CategoryCard({ category, index = 0, onClick }: CategoryCardProps) {
     const icon = iconMap[category.icon] || <Briefcase className="w-7 h-7" />;
+
+    const handleClick = (e: React.MouseEvent) => {
+        if (onClick) {
+            e.preventDefault();
+            onClick(category.id);
+        }
+    };
 
     return (
         <a
             href={`/categories/${category.id}`}
+            onClick={handleClick}
             className={`group relative overflow-hidden rounded-[24px] bg-gradient-to-br ${category.gradient} p-6 cursor-pointer transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl hover:shadow-black/20`}
             style={{
                 animationDelay: `${index * 50}ms`,

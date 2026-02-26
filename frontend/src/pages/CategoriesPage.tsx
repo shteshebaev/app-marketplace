@@ -31,7 +31,11 @@ const allCategories: Category[] = [
 
 const DEBOUNCE_DELAY = 300;
 
-export function CategoriesPage() {
+interface CategoriesPageProps {
+    onCategoryClick?: (categoryId: string) => void;
+}
+
+export function CategoriesPage({ onCategoryClick }: CategoriesPageProps) {
     const [filters, setFilters] = useState<FilterState>({
         search: '',
         sort: 'popular',
@@ -130,6 +134,7 @@ export function CategoriesPage() {
                 <CategoriesGrid
                     categories={filteredCategories}
                     viewMode={filters.viewMode}
+                    onCategoryClick={onCategoryClick}
                 />
 
                 {/* Custom Development CTA */}

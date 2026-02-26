@@ -1,11 +1,18 @@
 import { useState } from 'react';
 import { DashboardLayout, PublicLayout } from './components/layout';
-import { OrdersPage, DashboardPage, HomePage, CategoriesPage } from './pages';
+import { OrdersPage, DashboardPage, HomePage, CategoriesPage, SolutionsPage } from './pages';
+
+type PublicPage = 'home' | 'categories' | 'solutions';
+
+interface NavigationState {
+    page: PublicPage;
+    categoryId?: string;
+}
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [activeMenuItem, setActiveMenuItem] = useState('dashboard');
-  const [currentPage, setCurrentPage] = useState<'home' | 'categories'>('home');
+  const [navigation, setNavigation] = useState<NavigationState>({ page: 'home' });
 
   const handleLogin = () => {
     setIsAuthenticated(true);
@@ -16,8 +23,12 @@ function App() {
     setActiveMenuItem(menuItem);
   };
 
-  const handlePublicNavigate = (page: 'home' | 'categories') => {
-    setCurrentPage(page);
+  const handlePublicNavigate = (page: PublicPage, categoryId?: string) => {
+    setNavigation({ page, categoryId });
+  };
+
+  const handleCategoryClick = (categoryId: string) => {
+    setNavigation({ page: 'solutions', categoryId });
   };
 
   // Render page based on active menu item
@@ -34,18 +45,39 @@ function App() {
 
   // Render public page
   const renderPublicPage = () => {
-    switch (currentPage) {
+    switch (navigation.page) {
       case 'categories':
-        return <CategoriesPage />;
+        return (
+          <CategoriesPage
+            onCategoryClick={handleCategoryClick}
+          />
+        );
+      case 'solutions':
+        return (
+          <SolutionsPage
+            categoryId={navigation.categoryId || 'crm'}
+            onNavigateHome={() => handlePublicNavigate('home')}
+            onNavigateCategories={() => handlePublicNavigate('categories')}
+          />
+        );
       default:
-        return <HomePage onNavigate={handlePublicNavigate} />;
+        return (
+          <HomePage
+            onNavigate={(page) => handlePublicNavigate(page as PublicPage)}
+            onCategoryClick={handleCategoryClick}
+          />
+        );
     }
   };
 
   // Public view (not authenticated)
   if (!isAuthenticated) {
     return (
-      <PublicLayout onLogin={handleLogin} onNavigate={handlePublicNavigate} currentPage={currentPage}>
+      <PublicLayout
+        onLogin={handleLogin}
+        onNavigate={(page) => handlePublicNavigate(page as PublicPage)}
+        currentPage={navigation.page === 'solutions' ? 'categories' : navigation.page}
+      >
         {renderPublicPage()}
       </PublicLayout>
     );
