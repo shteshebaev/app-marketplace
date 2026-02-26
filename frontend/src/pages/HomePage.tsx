@@ -18,18 +18,20 @@ interface Category {
   id: string;
   name: string;
   icon: React.ReactNode;
+  largeIcon: React.ReactNode;
   count: number;
+  iconColor: string;
 }
 
 const categories: Category[] = [
-  { id: 'crm', name: 'CRM-системы', icon: <Users className="w-6 h-6" />, count: 24 },
-  { id: 'ecommerce', name: 'Интернет-магазины', icon: <ShoppingCart className="w-6 h-6" />, count: 18 },
-  { id: 'delivery', name: 'Доставка', icon: <Truck className="w-6 h-6" />, count: 12 },
-  { id: 'education', name: 'Образование', icon: <GraduationCap className="w-6 h-6" />, count: 15 },
-  { id: 'fitness', name: 'Фитнес и здоровье', icon: <Dumbbell className="w-6 h-6" />, count: 9 },
-  { id: 'warehouse', name: 'Склад и логистика', icon: <Warehouse className="w-6 h-6" />, count: 11 },
-  { id: 'realestate', name: 'Недвижимость', icon: <Building2 className="w-6 h-6" />, count: 8 },
-  { id: 'food', name: 'Рестораны и кафе', icon: <Utensils className="w-6 h-6" />, count: 14 },
+  { id: 'crm', name: 'CRM-системы', icon: <Users className="w-6 h-6" />, largeIcon: <Users className="w-full h-full" />, count: 24, iconColor: 'text-blue-500' },
+  { id: 'ecommerce', name: 'Интернет-магазины', icon: <ShoppingCart className="w-6 h-6" />, largeIcon: <ShoppingCart className="w-full h-full" />, count: 18, iconColor: 'text-violet-500' },
+  { id: 'delivery', name: 'Доставка', icon: <Truck className="w-6 h-6" />, largeIcon: <Truck className="w-full h-full" />, count: 12, iconColor: 'text-emerald-500' },
+  { id: 'education', name: 'Образование', icon: <GraduationCap className="w-6 h-6" />, largeIcon: <GraduationCap className="w-full h-full" />, count: 15, iconColor: 'text-amber-500' },
+  { id: 'fitness', name: 'Фитнес и здоровье', icon: <Dumbbell className="w-6 h-6" />, largeIcon: <Dumbbell className="w-full h-full" />, count: 9, iconColor: 'text-rose-500' },
+  { id: 'warehouse', name: 'Склад и логистика', icon: <Warehouse className="w-6 h-6" />, largeIcon: <Warehouse className="w-full h-full" />, count: 11, iconColor: 'text-slate-500' },
+  { id: 'realestate', name: 'Недвижимость', icon: <Building2 className="w-6 h-6" />, largeIcon: <Building2 className="w-full h-full" />, count: 8, iconColor: 'text-cyan-500' },
+  { id: 'food', name: 'Рестораны и кафе', icon: <Utensils className="w-6 h-6" />, largeIcon: <Utensils className="w-full h-full" />, count: 14, iconColor: 'text-orange-500' },
 ];
 
 interface Solution {
@@ -196,8 +198,10 @@ function CategoryCard({ category }: CategoryCardProps) {
         overflow-hidden
       "
     >
-      {/* Subtle gradient overlay on hover */}
-      <div className="absolute inset-0 bg-gradient-to-br from-primary/0 to-primary/0 group-hover:from-primary/5 group-hover:to-transparent transition-all duration-300 rounded-apple-md" />
+      {/* Large watermark icon */}
+      <div className={`absolute -bottom-3 -right-3 w-20 h-20 ${category.iconColor} opacity-[0.06] group-hover:opacity-[0.12] transition-opacity duration-300`}>
+        {category.largeIcon}
+      </div>
 
       <div className="relative z-10">
         <div
