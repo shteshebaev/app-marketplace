@@ -1,5 +1,5 @@
-import { type ReactNode } from 'react';
-import { Menu, Sun, Moon } from 'lucide-react';
+import { type ReactNode, useState } from 'react';
+import { Menu, Sun, Moon, User, Code2 } from 'lucide-react';
 import { Button } from '../ui';
 import { useTheme } from '../../hooks';
 
@@ -8,12 +8,14 @@ type PublicPage = 'home' | 'categories' | 'all-solutions' | 'order-development';
 interface PublicLayoutProps {
   children: ReactNode;
   onLogin?: () => void;
+  onLoginAsDeveloper?: () => void;
   onNavigate?: (page: PublicPage) => void;
   currentPage?: PublicPage;
 }
 
-export function PublicLayout({ children, onLogin, onNavigate, currentPage = 'home' }: PublicLayoutProps) {
+export function PublicLayout({ children, onLogin, onLoginAsDeveloper, onNavigate, currentPage = 'home' }: PublicLayoutProps) {
   const { isDark, toggleTheme } = useTheme();
+  const [showLoginMenu, setShowLoginMenu] = useState(false);
 
   return (
     <div className="min-h-screen bg-gradient-apple flex flex-col">
@@ -69,10 +71,53 @@ export function PublicLayout({ children, onLogin, onNavigate, currentPage = 'hom
               {isDark ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
             </button>
 
-            {/* Login button */}
-            <Button variant="ghost" size="sm" onClick={onLogin}>
-              Войти
-            </Button>
+            {/* Login button with dropdown */}
+            <div className="relative">
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => setShowLoginMenu(!showLoginMenu)}
+              >
+                Войти
+              </Button>
+
+              {showLoginMenu && (
+                <>
+                  <div
+                    className="fixed inset-0 z-40"
+                    onClick={() => setShowLoginMenu(false)}
+                  />
+                  <div className="absolute right-0 top-full mt-2 w-56 bg-white dark:bg-slate-800 rounded-xl shadow-xl border border-slate-200 dark:border-slate-700 py-2 z-50">
+                    <button
+                      onClick={() => {
+                        onLogin?.();
+                        setShowLoginMenu(false);
+                      }}
+                      className="w-full flex items-center gap-3 px-4 py-3 text-left text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors"
+                    >
+                      <User className="w-5 h-5 text-blue-500" />
+                      <div>
+                        <div className="font-medium">Войти как клиент</div>
+                        <div className="text-sm text-slate-500">Просмотр и заказ решений</div>
+                      </div>
+                    </button>
+                    <button
+                      onClick={() => {
+                        onLoginAsDeveloper?.();
+                        setShowLoginMenu(false);
+                      }}
+                      className="w-full flex items-center gap-3 px-4 py-3 text-left text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors"
+                    >
+                      <Code2 className="w-5 h-5 text-emerald-500" />
+                      <div>
+                        <div className="font-medium">Войти как разработчик</div>
+                        <div className="text-sm text-slate-500">Управление решениями</div>
+                      </div>
+                    </button>
+                  </div>
+                </>
+              )}
+            </div>
 
             {/* CTA button */}
             <Button variant="primary" size="sm" className="hidden sm:flex">
