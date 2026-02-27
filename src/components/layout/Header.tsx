@@ -4,9 +4,10 @@ import { useTheme } from '../../hooks';
 
 interface HeaderProps {
   onMenuToggle?: () => void;
+  hideMobileMenu?: boolean;
 }
 
-export function Header({ onMenuToggle }: HeaderProps) {
+export function Header({ onMenuToggle, hideMobileMenu = false }: HeaderProps) {
   const { isDark, toggleTheme } = useTheme();
 
   return (
@@ -25,22 +26,24 @@ export function Header({ onMenuToggle }: HeaderProps) {
         {/* Left section: Menu button (mobile) + Logo */}
         <div className="flex items-center gap-4">
           {/* Mobile menu button */}
-          <button
-            onClick={onMenuToggle}
-            className="
-              lg:hidden
-              w-10 h-10
-              flex items-center justify-center
-              rounded-apple
-              text-text-primary
-              transition-all duration-apple ease-apple
-              hover:bg-black/5 dark:hover:bg-white/10
-              active:scale-95
-            "
-            aria-label="Toggle menu"
-          >
-            <Menu className="w-5 h-5" />
-          </button>
+          {!hideMobileMenu && (
+            <button
+              onClick={onMenuToggle}
+              className="
+                lg:hidden
+                w-10 h-10
+                flex items-center justify-center
+                rounded-apple
+                text-text-primary
+                transition-all duration-apple ease-apple
+                hover:bg-black/5 dark:hover:bg-white/10
+                active:scale-95
+              "
+              aria-label="Toggle menu"
+            >
+              <Menu className="w-5 h-5" />
+            </button>
+          )}
 
           {/* Logo */}
           <a href="/" className="flex items-center gap-3">
