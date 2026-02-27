@@ -1,4 +1,4 @@
-import { BadgeCheck, Star, Users, Package, Calendar, MapPin, Globe, Send } from 'lucide-react';
+import { BadgeCheck, Star, Users, Package, Calendar, MapPin, Globe, Send, MessageCircle } from 'lucide-react';
 import type { Developer } from '../../../types/developer';
 
 interface DeveloperHeroProps {
@@ -23,19 +23,20 @@ export function DeveloperHero({ developer, onContact }: DeveloperHeroProps) {
                 }} />
             </div>
 
-            <div className="relative max-w-7xl mx-auto px-6 py-16 lg:py-24">
-                <div className="flex flex-col lg:flex-row items-start lg:items-center gap-8 lg:gap-12">
+            <div className="relative max-w-7xl mx-auto px-4 sm:px-6 py-8 sm:py-12 lg:py-24">
+                {/* Mobile: Logo centered */}
+                <div className="flex flex-col items-center text-center lg:text-left lg:flex-row lg:items-start gap-6 lg:gap-12">
                     {/* Logo */}
                     <div className="flex-shrink-0">
                         {developer.logo ? (
                             <img
                                 src={developer.logo}
                                 alt={developer.companyName}
-                                className="w-32 h-32 lg:w-40 lg:h-40 rounded-3xl object-cover shadow-2xl ring-4 ring-white/10"
+                                className="w-24 h-24 sm:w-32 sm:h-32 lg:w-40 lg:h-40 rounded-2xl sm:rounded-3xl object-cover shadow-2xl ring-4 ring-white/10"
                             />
                         ) : (
-                            <div className="w-32 h-32 lg:w-40 lg:h-40 rounded-3xl bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center shadow-2xl ring-4 ring-white/10">
-                                <span className="text-5xl lg:text-6xl font-bold text-white">
+                            <div className="w-24 h-24 sm:w-32 sm:h-32 lg:w-40 lg:h-40 rounded-2xl sm:rounded-3xl bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center shadow-2xl ring-4 ring-white/10">
+                                <span className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white">
                                     {developer.companyName.charAt(0)}
                                 </span>
                             </div>
@@ -43,65 +44,65 @@ export function DeveloperHero({ developer, onContact }: DeveloperHeroProps) {
                     </div>
 
                     {/* Info */}
-                    <div className="flex-1">
+                    <div className="flex-1 min-w-0">
                         {/* Name & Badge */}
-                        <div className="flex items-center gap-3 mb-4">
-                            <h1 className="text-3xl lg:text-4xl font-bold text-white">
+                        <div className="flex flex-col sm:flex-row items-center lg:items-start gap-2 sm:gap-3 mb-3 sm:mb-4">
+                            <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-white">
                                 {developer.companyName}
                             </h1>
                             {developer.isVerified && (
-                                <span className="flex items-center gap-1.5 px-3 py-1 bg-blue-500/20 rounded-full">
-                                    <BadgeCheck className="w-5 h-5 text-blue-400" />
-                                    <span className="text-sm font-medium text-blue-300">Verified</span>
+                                <span className="flex items-center gap-1.5 px-2.5 sm:px-3 py-1 bg-blue-500/20 rounded-full flex-shrink-0">
+                                    <BadgeCheck className="w-4 h-4 sm:w-5 sm:h-5 text-blue-400" />
+                                    <span className="text-xs sm:text-sm font-medium text-blue-300">Verified</span>
                                 </span>
                             )}
                         </div>
 
                         {/* Description */}
-                        <p className="text-lg text-slate-300 mb-6 max-w-2xl">
+                        <p className="text-base sm:text-lg text-slate-300 mb-5 sm:mb-6 max-w-2xl mx-auto lg:mx-0">
                             {developer.description}
                         </p>
 
-                        {/* Stats */}
-                        <div className="flex flex-wrap items-center gap-6 mb-8">
-                            <div className="flex items-center gap-2">
+                        {/* Stats - Grid on mobile */}
+                        <div className="grid grid-cols-3 gap-3 sm:flex sm:flex-wrap sm:items-center sm:gap-6 mb-6 sm:mb-8 justify-center lg:justify-start">
+                            <div className="flex flex-col sm:flex-row items-center gap-1 sm:gap-2">
                                 <div className="flex items-center gap-1">
-                                    <Star className="w-5 h-5 text-amber-400 fill-amber-400" />
-                                    <span className="text-xl font-bold text-white">{developer.rating}</span>
+                                    <Star className="w-4 h-4 sm:w-5 sm:h-5 text-amber-400 fill-amber-400" />
+                                    <span className="text-lg sm:text-xl font-bold text-white">{developer.rating}</span>
                                 </div>
-                                <span className="text-slate-400">({developer.reviewsCount} отзывов)</span>
+                                <span className="text-xs sm:text-sm text-slate-400">({developer.reviewsCount})</span>
                             </div>
 
-                            <div className="w-px h-6 bg-slate-700" />
+                            <div className="hidden sm:block w-px h-6 bg-slate-700" />
 
-                            <div className="flex items-center gap-2 text-slate-300">
-                                <Package className="w-5 h-5 text-slate-400" />
-                                <span className="font-semibold text-white">{developer.productsCount}</span>
-                                <span>решений</span>
+                            <div className="flex flex-col sm:flex-row items-center gap-1 sm:gap-2 text-slate-300">
+                                <Package className="w-4 h-4 sm:w-5 sm:h-5 text-slate-400" />
+                                <span className="text-lg sm:text-xl font-semibold text-white">{developer.productsCount}</span>
+                                <span className="text-xs sm:text-sm">решений</span>
                             </div>
 
-                            <div className="w-px h-6 bg-slate-700" />
+                            <div className="hidden sm:block w-px h-6 bg-slate-700" />
 
-                            <div className="flex items-center gap-2 text-slate-300">
-                                <Users className="w-5 h-5 text-slate-400" />
-                                <span className="font-semibold text-white">{formatNumber(developer.clientsCount)}</span>
-                                <span>клиентов</span>
+                            <div className="flex flex-col sm:flex-row items-center gap-1 sm:gap-2 text-slate-300">
+                                <Users className="w-4 h-4 sm:w-5 sm:h-5 text-slate-400" />
+                                <span className="text-lg sm:text-xl font-semibold text-white">{formatNumber(developer.clientsCount)}</span>
+                                <span className="text-xs sm:text-sm">клиентов</span>
                             </div>
                         </div>
 
                         {/* Meta Info */}
-                        <div className="flex flex-wrap items-center gap-4 text-sm text-slate-400">
+                        <div className="flex flex-wrap items-center justify-center lg:justify-start gap-3 sm:gap-4 text-xs sm:text-sm text-slate-400">
                             {developer.foundedYear && (
                                 <span className="flex items-center gap-1.5">
-                                    <Calendar className="w-4 h-4" />
+                                    <Calendar className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
                                     С {developer.foundedYear} года
                                 </span>
                             )}
 
                             {developer.contact.address && (
                                 <span className="flex items-center gap-1.5">
-                                    <MapPin className="w-4 h-4" />
-                                    {developer.contact.address}
+                                    <MapPin className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+                                    <span className="max-w-[150px] sm:max-w-none truncate">{developer.contact.address}</span>
                                 </span>
                             )}
 
@@ -112,20 +113,20 @@ export function DeveloperHero({ developer, onContact }: DeveloperHeroProps) {
                                     rel="noopener noreferrer"
                                     className="flex items-center gap-1.5 hover:text-blue-400 transition-colors"
                                 >
-                                    <Globe className="w-4 h-4" />
+                                    <Globe className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
                                     Сайт
                                 </a>
                             )}
                         </div>
                     </div>
 
-                    {/* CTA */}
-                    <div className="flex flex-col gap-3 w-full lg:w-auto">
+                    {/* CTA - Full width on mobile */}
+                    <div className="flex flex-col gap-3 w-full sm:w-auto mt-4 lg:mt-0">
                         <button
                             onClick={onContact}
-                            className="flex items-center justify-center gap-2 bg-gradient-to-r from-blue-500 to-indigo-600 text-white px-8 py-4 rounded-2xl font-semibold shadow-lg hover:shadow-xl hover:scale-[1.02] transition-all"
+                            className="flex items-center justify-center gap-2 bg-gradient-to-r from-blue-500 to-indigo-600 text-white px-6 sm:px-8 py-3.5 sm:py-4 rounded-xl sm:rounded-2xl font-semibold shadow-lg hover:shadow-xl hover:scale-[1.02] transition-all text-sm sm:text-base"
                         >
-                            <Send className="w-5 h-5" />
+                            <Send className="w-4 h-4 sm:w-5 sm:h-5" />
                             Связаться
                         </button>
 
@@ -134,8 +135,9 @@ export function DeveloperHero({ developer, onContact }: DeveloperHeroProps) {
                                 href={developer.socialLinks.telegram}
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="flex items-center justify-center gap-2 bg-white/10 text-white px-8 py-4 rounded-2xl font-semibold hover:bg-white/20 transition-all"
+                                className="flex items-center justify-center gap-2 bg-white/10 text-white px-6 sm:px-8 py-3.5 sm:py-4 rounded-xl sm:rounded-2xl font-semibold hover:bg-white/20 transition-all text-sm sm:text-base"
                             >
+                                <MessageCircle className="w-4 h-4 sm:w-5 sm:h-5" />
                                 Telegram
                             </a>
                         )}
