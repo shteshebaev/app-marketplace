@@ -5,3 +5,5 @@ export { CategoriesPage } from './CategoriesPage';
 export { SolutionsPage } from './SolutionsPage';
 export { AllSolutionsPage } from './AllSolutionsPage';
 export { OrderDevelopmentPage } from './OrderDevelopmentPage';
+export { RegisterPage } from './RegisterPage';
+export { LoginPage } from './LoginPage';

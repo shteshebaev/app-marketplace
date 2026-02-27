@@ -1,14 +1,25 @@
 import { useState } from 'react';
 import { DashboardLayout, PublicLayout, DeveloperDashboardLayout } from './components/layout';
-import { OrdersPage, DashboardPage, HomePage, CategoriesPage, SolutionsPage, AllSolutionsPage, OrderDevelopmentPage } from './pages';
+import {
+  OrdersPage,
+  DashboardPage,
+  HomePage,
+  CategoriesPage,
+  SolutionsPage,
+  AllSolutionsPage,
+  OrderDevelopmentPage,
+  RegisterPage,
+  LoginPage
+} from './pages';
 import { ProductPage } from './components/product';
 import { DeveloperDashboard, DeveloperStats, DeveloperReviews, EditCompanyProfile } from './components/developer/dashboard';
 import { DeveloperProfilePage } from './components/developer/public';
 import { ProductsList } from './components/developer/products';
 import { CreateProductWizard } from './components/developer/wizard';
 import { useAuth } from './context';
+import type { UserRole } from './types/auth';
 
-type PublicPage = 'home' | 'categories' | 'solutions' | 'all-solutions' | 'order-development' | 'product' | 'developer-profile';
+type PublicPage = 'home' | 'categories' | 'solutions' | 'all-solutions' | 'order-development' | 'product' | 'developer-profile' | 'register' | 'login';
 type DeveloperPage = 'dashboard' | 'products' | 'create' | 'stats' | 'reviews' | 'company' | 'preview' | 'settings';
 
 interface NavigationState {
@@ -23,16 +34,6 @@ function App() {
   const [activeMenuItem, setActiveMenuItem] = useState('dashboard');
   const [developerPage, setDeveloperPage] = useState<DeveloperPage>('dashboard');
   const [navigation, setNavigation] = useState<NavigationState>({ page: 'home' });
-
-  const handleLogin = (asDeveloper: boolean = false) => {
-    if (asDeveloper) {
-      loginAsDeveloper();
-      setDeveloperPage('dashboard');
-    } else {
-      loginAsUser();
-      setActiveMenuItem('dashboard');
-    }
-  };
 
   const handleNavigate = (path: string) => {
     const menuItem = path.replace('/', '');
@@ -54,6 +55,32 @@ function App() {
 
   const handleDeveloperNavigate = (page: string) => {
     setDeveloperPage(page as DeveloperPage);
+  };
+
+  // Handle successful registration
+  const handleRegisterSuccess = (role: UserRole) => {
+    if (role === 'DEVELOPER') {
+      setDeveloperPage('dashboard');
+    } else {
+      setActiveMenuItem('dashboard');
+    }
+    setNavigation({ page: 'home' });
+  };
+
+  // Handle successful login
+  const handleLoginSuccess = (role: UserRole) => {
+    if (role === 'DEVELOPER') {
+      loginAsDeveloper();
+      setDeveloperPage('dashboard');
+    } else if (role === 'ADMIN') {
+      // TODO: Redirect to admin dashboard
+      loginAsUser();
+      setActiveMenuItem('dashboard');
+    } else {
+      loginAsUser();
+      setActiveMenuItem('dashboard');
+    }
+    setNavigation({ page: 'home' });
   };
 
   // Render page based on active menu item (User Dashboard)
@@ -109,6 +136,18 @@ function App() {
   // Render public page
   const renderPublicPage = () => {
     switch (navigation.page) {
+      case 'register':
+        return (
+          <RegisterPage
+            onRegisterSuccess={handleRegisterSuccess}
+          />
+        );
+      case 'login':
+        return (
+          <LoginPage
+            onLoginSuccess={handleLoginSuccess}
+          />
+        );
       case 'categories':
         return (
           <CategoriesPage
@@ -162,12 +201,17 @@ function App() {
     }
   };
 
+  // Auth pages (register/login) - render without layout
+  if (navigation.page === 'register' || navigation.page === 'login') {
+    return renderPublicPage();
+  }
+
   // Public view (not authenticated)
   if (!isAuthenticated) {
     return (
       <PublicLayout
-        onLogin={() => handleLogin(false)}
-        onLoginAsDeveloper={() => handleLogin(true)}
+        onLogin={() => handlePublicNavigate('login')}
+        onLoginAsDeveloper={() => handlePublicNavigate('register')}
         onNavigate={(page) => handlePublicNavigate(page as PublicPage)}
         currentPage={
           navigation.page === 'solutions' || navigation.page === 'product' || navigation.page === 'developer-profile'
