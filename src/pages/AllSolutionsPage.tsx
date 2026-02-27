@@ -6,6 +6,7 @@ import {
     SolutionsGrid,
     CompareBar,
     SolutionsCTA,
+    QuickCategorySelect,
     getAllSolutions,
     getAllCategories,
     getGlobalRecommendedSolutions,
@@ -146,6 +147,18 @@ export function AllSolutionsPage({
         });
     }, [filters.viewMode]);
 
+    const handleCategoryToggle = useCallback((categoryId: string) => {
+        setFilters(prev => {
+            const isSelected = prev.categories.includes(categoryId);
+            return {
+                ...prev,
+                categories: isSelected
+                    ? prev.categories.filter(id => id !== categoryId)
+                    : [...prev.categories, categoryId]
+            };
+        });
+    }, []);
+
     const handleSolutionSelect = useCallback((solutionId: string) => {
         if (onSolutionSelect) {
             onSolutionSelect(solutionId);
@@ -164,6 +177,13 @@ export function AllSolutionsPage({
                 totalSolutions={totalSolutions}
                 totalCategories={totalCategories}
                 avgRating={avgRating}
+            />
+
+            {/* Quick Category Select */}
+            <QuickCategorySelect
+                categories={allCategories}
+                selectedCategories={filters.categories}
+                onCategoryToggle={handleCategoryToggle}
             />
 
             {/* Recommended Solutions (show only when no filters active) */}

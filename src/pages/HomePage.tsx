@@ -80,7 +80,10 @@ export function HomePage({ onNavigate, onCategoryClick }: HomePageProps) {
                                 <p className="text-slate-400 text-lg max-w-md mb-6">
                                     150+ проверенных продуктов для автоматизации и роста
                                 </p>
-                                <button className="flex items-center gap-3 bg-white text-slate-900 font-semibold px-7 py-3.5 rounded-full hover:bg-slate-100 transition-all shadow-lg shadow-white/10">
+                                <button
+                                    onClick={() => onNavigate?.('all-solutions')}
+                                    className="flex items-center gap-3 bg-white text-slate-900 font-semibold px-7 py-3.5 rounded-full shadow-lg shadow-white/10 transition-all duration-200 hover:scale-[1.02] hover:shadow-xl hover:shadow-white/20 active:scale-[0.98] active:bg-slate-100"
+                                >
                                     Смотреть каталог
                                     <ArrowRight className="w-5 h-5" />
                                 </button>
