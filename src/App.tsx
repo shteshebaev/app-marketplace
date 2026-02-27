@@ -1,12 +1,14 @@
 import { useState } from 'react';
 import { DashboardLayout, PublicLayout } from './components/layout';
 import { OrdersPage, DashboardPage, HomePage, CategoriesPage, SolutionsPage, AllSolutionsPage, OrderDevelopmentPage } from './pages';
+import { ProductPage } from './components/product';
 
-type PublicPage = 'home' | 'categories' | 'solutions' | 'all-solutions' | 'order-development';
+type PublicPage = 'home' | 'categories' | 'solutions' | 'all-solutions' | 'order-development' | 'product';
 
 interface NavigationState {
     page: PublicPage;
     categoryId?: string;
+    solutionId?: string;
 }
 
 function App() {
@@ -23,13 +25,17 @@ function App() {
     setActiveMenuItem(menuItem);
   };
 
-  const handlePublicNavigate = (page: PublicPage, categoryId?: string) => {
+  const handlePublicNavigate = (page: PublicPage, categoryId?: string, solutionId?: string) => {
     console.log('Navigate to:', page);
-    setNavigation({ page, categoryId });
+    setNavigation({ page, categoryId, solutionId });
   };
 
   const handleCategoryClick = (categoryId: string) => {
     setNavigation({ page: 'solutions', categoryId });
+  };
+
+  const handleSolutionClick = (solutionId: string) => {
+    setNavigation({ page: 'product', solutionId, categoryId: navigation.categoryId });
   };
 
   // Render page based on active menu item
@@ -59,12 +65,21 @@ function App() {
             categoryId={navigation.categoryId || 'crm'}
             onNavigateHome={() => handlePublicNavigate('home')}
             onNavigateCategories={() => handlePublicNavigate('categories')}
+            onSolutionSelect={handleSolutionClick}
           />
         );
       case 'all-solutions':
         return (
           <AllSolutionsPage
             onOrderDevelopment={() => handlePublicNavigate('order-development')}
+            onSolutionSelect={handleSolutionClick}
+          />
+        );
+      case 'product':
+        return (
+          <ProductPage
+            solutionId={navigation.solutionId || 'crm-1'}
+            onNavigateBack={() => handlePublicNavigate(navigation.categoryId ? 'solutions' : 'all-solutions', navigation.categoryId)}
           />
         );
       case 'order-development':
@@ -89,7 +104,7 @@ function App() {
       <PublicLayout
         onLogin={handleLogin}
         onNavigate={(page) => handlePublicNavigate(page as PublicPage)}
-        currentPage={navigation.page === 'solutions' ? 'categories' : navigation.page === 'order-development' ? 'home' : navigation.page}
+        currentPage={navigation.page === 'solutions' || navigation.page === 'product' ? 'categories' : navigation.page === 'order-development' ? 'home' : navigation.page}
       >
         {renderPublicPage()}
       </PublicLayout>

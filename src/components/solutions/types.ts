@@ -7,7 +7,7 @@ export interface Solution {
     rating: number;
     reviewsCount: number;
     price: string;
-    priceType: 'monthly' | 'yearly' | 'one-time' | 'from';
+    priceType: 'monthly' | 'yearly' | 'one-time' | 'from' | 'custom';
     tags: string[];
     badge?: 'top' | 'best-value' | 'new' | 'enterprise' | 'small-business';
     targetAudience?: string;
