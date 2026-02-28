@@ -1,4 +1,5 @@
 import { Sparkles, ArrowRight, MessageCircle, CheckCircle } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 
 interface SolutionsCTAProps {
     categoryName: string;
@@ -6,6 +7,14 @@ interface SolutionsCTAProps {
 }
 
 export function SolutionsCTA({ categoryName, onOrderDevelopment }: SolutionsCTAProps) {
+    const { t } = useTranslation();
+
+    const benefits = [
+        t('solutions.ctaBenefit1'),
+        t('solutions.ctaBenefit2'),
+        t('solutions.ctaBenefit3'),
+        t('solutions.ctaBenefit4')
+    ];
     return (
         <section className="py-12 lg:py-16">
             <div className="max-w-[1400px] mx-auto px-6 lg:px-10">
@@ -31,30 +40,25 @@ export function SolutionsCTA({ categoryName, onOrderDevelopment }: SolutionsCTAP
                             <div className="inline-flex items-center gap-2 bg-white/20 backdrop-blur-sm rounded-full
                                 px-4 py-2 mb-6">
                                 <Sparkles className="w-4 h-4 text-white" />
-                                <span className="text-sm font-medium text-white">Индивидуальный подход</span>
+                                <span className="text-sm font-medium text-white">{t('solutions.ctaBadge')}</span>
                             </div>
 
                             <h2 className="text-2xl lg:text-3xl font-bold text-white mb-4">
-                                Не нашли подходящее решение?
+                                {t('solutions.ctaTitle')}
                             </h2>
 
                             <p className="text-lg text-white/80 mb-6">
                                 {categoryName
-                                    ? `Разработаем ${categoryName.toLowerCase()} под ваши уникальные задачи.`
-                                    : 'Разработаем решение под ваши уникальные задачи.'
+                                    ? t('solutions.ctaDescWithCategory', { category: categoryName.toLowerCase() })
+                                    : t('solutions.ctaDesc')
                                 }
-                                {' '}Полная интеграция с вашими бизнес-процессами.
+                                {' '}{t('solutions.ctaIntegration')}
                             </p>
 
                             {/* Benefits */}
                             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-8">
-                                {[
-                                    'Анализ требований',
-                                    'Индивидуальный дизайн',
-                                    'Интеграция с системами',
-                                    'Техподдержка 24/7'
-                                ].map((benefit) => (
-                                    <div key={benefit} className="flex items-center gap-2 text-white/90">
+                                {benefits.map((benefit, index) => (
+                                    <div key={index} className="flex items-center gap-2 text-white/90">
                                         <CheckCircle className="w-5 h-5 text-emerald-400 flex-shrink-0" />
                                         <span className="text-sm">{benefit}</span>
                                     </div>
@@ -69,14 +73,14 @@ export function SolutionsCTA({ categoryName, onOrderDevelopment }: SolutionsCTAP
                                     rounded-xl text-indigo-600 font-semibold hover:bg-white/90
                                     transition-all duration-200 hover:shadow-xl hover:shadow-black/20
                                     hover:-translate-y-0.5">
-                                    <span>Заказать разработку</span>
+                                    <span>{t('solutions.orderDev')}</span>
                                     <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
                                 </button>
                                 <button className="flex items-center justify-center gap-2 px-6 py-4 bg-white/20
                                     backdrop-blur-sm border border-white/30 rounded-xl text-white font-semibold
                                     hover:bg-white/30 transition-all duration-200">
                                     <MessageCircle className="w-5 h-5" />
-                                    <span>Получить консультацию</span>
+                                    <span>{t('solutions.getConsultation')}</span>
                                 </button>
                             </div>
                         </div>
@@ -91,8 +95,8 @@ export function SolutionsCTA({ categoryName, onOrderDevelopment }: SolutionsCTAP
                                         <Sparkles className="w-10 h-10 text-white" />
                                     </div>
                                     <div className="text-center">
-                                        <div className="text-white font-bold text-lg mb-1">Ваше решение</div>
-                                        <div className="text-white/70 text-sm">Разработано специально для вас</div>
+                                        <div className="text-white font-bold text-lg mb-1">{t('solutions.yourSolution')}</div>
+                                        <div className="text-white/70 text-sm">{t('solutions.developedForYou')}</div>
                                     </div>
                                 </div>
                             </div>

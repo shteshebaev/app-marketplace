@@ -1,4 +1,5 @@
 import { ChevronRight, Sparkles } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 import type { CategoryDetails } from './types';
 
 interface CategoryHeaderProps {
@@ -8,6 +9,13 @@ interface CategoryHeaderProps {
 }
 
 export function CategoryHeader({ category, onNavigateHome, onNavigateCategories }: CategoryHeaderProps) {
+    const { t } = useTranslation();
+
+    const getSolutionsWord = (count: number) => {
+        if (count === 1) return t('solutions.solution');
+        if (count >= 2 && count <= 4) return t('solutions.solutions2_4');
+        return t('solutions.solutions5');
+    };
     return (
         <section className={`relative overflow-hidden bg-gradient-to-br ${category.gradient} py-12 lg:py-16`}>
             {/* Background pattern */}
@@ -23,14 +31,14 @@ export function CategoryHeader({ category, onNavigateHome, onNavigateCategories 
                         onClick={onNavigateHome}
                         className="hover:text-white transition-colors"
                     >
-                        Главная
+                        {t('solutions.home')}
                     </button>
                     <ChevronRight className="w-4 h-4" />
                     <button
                         onClick={onNavigateCategories}
                         className="hover:text-white transition-colors"
                     >
-                        Категории
+                        {t('solutions.categories')}
                     </button>
                     <ChevronRight className="w-4 h-4" />
                     <span className="text-white font-medium">{category.name}</span>
@@ -47,8 +55,7 @@ export function CategoryHeader({ category, onNavigateHome, onNavigateCategories 
                         <div className="inline-flex items-center gap-2 bg-white/20 backdrop-blur-sm rounded-full px-4 py-1.5 mb-4">
                             <span className="text-white font-semibold">{category.count}</span>
                             <span className="text-white/80">
-                                {category.count === 1 ? 'решение' :
-                                 category.count < 5 ? 'решения' : 'решений'}
+                                {getSolutionsWord(category.count)}
                             </span>
                         </div>
 
@@ -66,8 +73,8 @@ export function CategoryHeader({ category, onNavigateHome, onNavigateCategories 
                             <Sparkles className="w-5 h-5 text-white" />
                         </div>
                         <div className="text-left">
-                            <div className="text-white font-semibold">Индивидуальное решение</div>
-                            <div className="text-white/70 text-sm">Разработка под ваши задачи</div>
+                            <div className="text-white font-semibold">{t('solutions.customSolution')}</div>
+                            <div className="text-white/70 text-sm">{t('solutions.developForYou')}</div>
                         </div>
                         <ChevronRight className="w-5 h-5 text-white/70 group-hover:translate-x-1 transition-transform" />
                     </button>

@@ -1,4 +1,5 @@
 import { Search, SlidersHorizontal, Star, LayoutGrid, List, ChevronDown, X } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 import type { SolutionFilterState, SolutionSortOption, SolutionViewMode } from './types';
 import { useState } from 'react';
 
@@ -9,14 +10,6 @@ interface SolutionsFilterBarProps {
     resultsCount: number;
 }
 
-const sortOptions: { value: SolutionSortOption; label: string }[] = [
-    { value: 'popular', label: 'По популярности' },
-    { value: 'rating', label: 'По рейтингу' },
-    { value: 'price-asc', label: 'Сначала дешёвые' },
-    { value: 'price-desc', label: 'Сначала дорогие' },
-    { value: 'newest', label: 'По новизне' }
-];
-
 const ratingOptions = [4.5, 4.0, 3.5, 0];
 
 export function SolutionsFilterBar({
@@ -25,8 +18,23 @@ export function SolutionsFilterBar({
     availableTags,
     resultsCount
 }: SolutionsFilterBarProps) {
+    const { t } = useTranslation();
     const [showAdvanced, setShowAdvanced] = useState(false);
     const [showSortDropdown, setShowSortDropdown] = useState(false);
+
+    const sortOptions: { value: SolutionSortOption; label: string }[] = [
+        { value: 'popular', label: t('solutions.sortPopular') },
+        { value: 'rating', label: t('solutions.sortRating') },
+        { value: 'price-asc', label: t('solutions.sortPriceAsc') },
+        { value: 'price-desc', label: t('solutions.sortPriceDesc') },
+        { value: 'newest', label: t('solutions.sortNewest') }
+    ];
+
+    const getSolutionsWord = (count: number) => {
+        if (count === 1) return t('solutions.solution');
+        if (count >= 2 && count <= 4) return t('solutions.solutions2_4');
+        return t('solutions.solutions5');
+    };
 
     const updateFilter = <K extends keyof SolutionFilterState>(
         key: K,
@@ -65,7 +73,7 @@ export function SolutionsFilterBar({
                         <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-[var(--text-tertiary)]" />
                         <input
                             type="text"
-                            placeholder="Поиск решений..."
+                            placeholder={t('solutions.searchPlaceholder')}
                             value={filters.search}
                             onChange={(e) => updateFilter('search', e.target.value)}
                             className="w-full pl-12 pr-4 py-3 bg-[var(--bg-card)] border border-[var(--border-color)]
@@ -90,7 +98,7 @@ export function SolutionsFilterBar({
                             className="flex items-center gap-2 px-4 py-3 bg-[var(--bg-card)] border border-[var(--border-color)]
                                 rounded-xl hover:border-[var(--text-tertiary)] transition-all min-w-[180px]"
                         >
-                            <span className="text-[var(--text-secondary)] text-sm">Сортировка:</span>
+                            <span className="text-[var(--text-secondary)] text-sm">{t('solutions.sortLabel')}</span>
                             <span className="text-[var(--text-primary)] font-medium text-sm flex-1 text-left">
                                 {sortOptions.find(o => o.value === filters.sort)?.label}
                             </span>
@@ -129,7 +137,7 @@ export function SolutionsFilterBar({
                     {/* Rating Filter */}
                     <div className="flex items-center gap-2 px-4 py-3 bg-[var(--bg-card)] border border-[var(--border-color)] rounded-xl">
                         <Star className="w-4 h-4 text-amber-500 fill-amber-500" />
-                        <span className="text-sm text-[var(--text-secondary)] hidden sm:inline">Рейтинг:</span>
+                        <span className="text-sm text-[var(--text-secondary)] hidden sm:inline">{t('solutions.ratingLabel')}</span>
                         <div className="flex items-center gap-1">
                             {ratingOptions.map((rating) => (
                                 <button
@@ -140,7 +148,7 @@ export function SolutionsFilterBar({
                                             ? 'bg-amber-500 text-white font-medium'
                                             : 'text-[var(--text-secondary)] hover:bg-[var(--hover-overlay)]'}`}
                                 >
-                                    {rating === 0 ? 'Все' : `${rating}+`}
+                                    {rating === 0 ? t('solutions.ratingAll') : `${rating}+`}
                                 </button>
                             ))}
                         </div>
@@ -155,7 +163,7 @@ export function SolutionsFilterBar({
                                 : 'bg-[var(--bg-card)] border-[var(--border-color)] text-[var(--text-primary)] hover:border-[var(--text-tertiary)]'}`}
                     >
                         <SlidersHorizontal className="w-4 h-4" />
-                        <span className="text-sm font-medium">Фильтры</span>
+                        <span className="text-sm font-medium">{t('solutions.filtersBtn')}</span>
                         {filters.tags.length > 0 && (
                             <span className={`w-5 h-5 rounded-full text-xs flex items-center justify-center
                                 ${showAdvanced ? 'bg-white/20' : 'bg-blue-500 text-white'}`}>
@@ -191,7 +199,7 @@ export function SolutionsFilterBar({
                 {showAdvanced && (
                     <div className="mt-4 pt-4 border-t border-[var(--border-color)]">
                         <div className="flex items-center gap-2 mb-3">
-                            <span className="text-sm text-[var(--text-secondary)]">Теги:</span>
+                            <span className="text-sm text-[var(--text-secondary)]">{t('solutions.tagsLabel')}</span>
                         </div>
                         <div className="flex flex-wrap gap-2">
                             {availableTags.map((tag) => (
@@ -213,8 +221,8 @@ export function SolutionsFilterBar({
                 {/* Results Count & Reset */}
                 <div className="flex items-center justify-between mt-4 pt-4 border-t border-[var(--border-color)]">
                     <span className="text-sm text-[var(--text-secondary)]">
-                        Найдено: <span className="font-semibold text-[var(--text-primary)]">{resultsCount}</span>
-                        {resultsCount === 1 ? ' решение' : resultsCount < 5 ? ' решения' : ' решений'}
+                        {t('solutions.foundLabel')} <span className="font-semibold text-[var(--text-primary)]">{resultsCount}</span>
+                        {' '}{getSolutionsWord(resultsCount)}
                     </span>
 
                     {hasActiveFilters && (
@@ -223,7 +231,7 @@ export function SolutionsFilterBar({
                             className="flex items-center gap-1 text-sm text-blue-500 hover:text-blue-600 transition-colors"
                         >
                             <X className="w-4 h-4" />
-                            Сбросить фильтры
+                            {t('solutions.resetFilters')}
                         </button>
                     )}
                 </div>

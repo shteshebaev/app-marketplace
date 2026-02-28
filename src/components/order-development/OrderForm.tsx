@@ -1,5 +1,6 @@
 import { useState, forwardRef } from 'react';
 import { ArrowRight, ArrowLeft, Send, CheckCircle2 } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 
 interface FormData {
   // Step 1
@@ -29,50 +30,51 @@ const initialFormData: FormData = {
   email: '',
 };
 
-const businessSpheres = [
-  'E-commerce / Маркетплейс',
-  'Финтех / Банкинг',
-  'Логистика / Доставка',
-  'Производство',
-  'Медицина / Здоровье',
-  'Образование',
-  'Недвижимость',
-  'HoReCa',
-  'Другое',
-];
-
-const companySizes = [
-  { value: '1-10', label: '1–10 сотрудников' },
-  { value: '10-50', label: '10–50 сотрудников' },
-  { value: '50+', label: '50+ сотрудников' },
-];
-
-const budgetRanges = [
-  { value: 'under-50k', label: 'До $50,000' },
-  { value: '50k-100k', label: '$50,000 – $100,000' },
-  { value: '100k-300k', label: '$100,000 – $300,000' },
-  { value: 'over-300k', label: 'Более $300,000' },
-  { value: 'discuss', label: 'Обсудим' },
-];
-
-const launchTimelines = [
-  { value: '1-month', label: 'В течение месяца' },
-  { value: '1-3-months', label: '1–3 месяца' },
-  { value: '3-6-months', label: '3–6 месяцев' },
-  { value: '6-months+', label: 'Более 6 месяцев' },
-  { value: 'flexible', label: 'Гибкие сроки' },
-];
-
 interface OrderFormProps {
   onNavigateHome: () => void;
 }
 
 export const OrderForm = forwardRef<HTMLDivElement, OrderFormProps>(
   ({ onNavigateHome }, ref) => {
+    const { t } = useTranslation();
     const [step, setStep] = useState(1);
     const [formData, setFormData] = useState<FormData>(initialFormData);
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [isSubmitted, setIsSubmitted] = useState(false);
+
+    const businessSpheres = [
+      { value: 'ecommerce', label: t('orderDev.sphereEcommerce') },
+      { value: 'fintech', label: t('orderDev.sphereFintech') },
+      { value: 'logistics', label: t('orderDev.sphereLogistics') },
+      { value: 'manufacturing', label: t('orderDev.sphereManufacturing') },
+      { value: 'medicine', label: t('orderDev.sphereMedicine') },
+      { value: 'education', label: t('orderDev.sphereEducation') },
+      { value: 'real-estate', label: t('orderDev.sphereRealEstate') },
+      { value: 'horeca', label: t('orderDev.sphereHoreca') },
+      { value: 'other', label: t('orderDev.sphereOther') },
+    ];
+
+    const companySizes = [
+      { value: '1-10', label: t('orderDev.size1_10') },
+      { value: '10-50', label: t('orderDev.size10_50') },
+      { value: '50+', label: t('orderDev.size50plus') },
+    ];
+
+    const budgetRanges = [
+      { value: 'under-50k', label: t('orderDev.budgetUnder50k') },
+      { value: '50k-100k', label: t('orderDev.budget50k100k') },
+      { value: '100k-300k', label: t('orderDev.budget100k300k') },
+      { value: 'over-300k', label: t('orderDev.budgetOver300k') },
+      { value: 'discuss', label: t('orderDev.budgetDiscuss') },
+    ];
+
+    const launchTimelines = [
+      { value: '1-month', label: t('orderDev.timeline1month') },
+      { value: '1-3-months', label: t('orderDev.timeline1_3months') },
+      { value: '3-6-months', label: t('orderDev.timeline3_6months') },
+      { value: '6-months+', label: t('orderDev.timeline6plus') },
+      { value: 'flexible', label: t('orderDev.timelineFlexible') },
+    ];
 
     const updateField = <K extends keyof FormData>(field: K, value: FormData[K]) => {
       setFormData((prev) => ({ ...prev, [field]: value }));
@@ -116,13 +118,13 @@ export const OrderForm = forwardRef<HTMLDivElement, OrderFormProps>(
               </div>
 
               <h2 className="text-2xl md:text-3xl font-bold text-text-primary mb-4">
-                Спасибо!
+                {t('orderDev.thankYou')}
               </h2>
               <p className="text-lg text-text-secondary mb-2">
-                Мы получили вашу заявку.
+                {t('orderDev.weReceivedRequest')}
               </p>
               <p className="text-text-secondary mb-8">
-                Наш специалист свяжется с вами в ближайшее время.
+                {t('orderDev.specialistWillContact')}
               </p>
 
               <button
@@ -137,7 +139,7 @@ export const OrderForm = forwardRef<HTMLDivElement, OrderFormProps>(
                 "
               >
                 <ArrowLeft className="w-4 h-4" />
-                Вернуться на маркетплейс
+                {t('orderDev.backToMarketplace')}
               </button>
             </div>
           </div>
@@ -182,20 +184,20 @@ export const OrderForm = forwardRef<HTMLDivElement, OrderFormProps>(
             {step === 1 && (
               <div className="animate-fade-in">
                 <h3 className="text-xl font-semibold text-text-primary mb-6 text-center">
-                  Базовая информация
+                  {t('orderDev.basicInfo')}
                 </h3>
 
                 <div className="space-y-5">
                   {/* Company Name */}
                   <div>
                     <label className="block text-sm font-medium text-text-secondary mb-2">
-                      Название компании *
+                      {t('orderDev.companyNameLabel')}
                     </label>
                     <input
                       type="text"
                       value={formData.companyName}
                       onChange={(e) => updateField('companyName', e.target.value)}
-                      placeholder="ООО «Компания»"
+                      placeholder={t('orderDev.companyPlaceholder')}
                       className="input"
                     />
                   </div>
@@ -203,17 +205,17 @@ export const OrderForm = forwardRef<HTMLDivElement, OrderFormProps>(
                   {/* Business Sphere */}
                   <div>
                     <label className="block text-sm font-medium text-text-secondary mb-2">
-                      Сфера бизнеса *
+                      {t('orderDev.businessSphere')}
                     </label>
                     <select
                       value={formData.businessSphere}
                       onChange={(e) => updateField('businessSphere', e.target.value)}
                       className="input appearance-none cursor-pointer"
                     >
-                      <option value="">Выберите сферу</option>
+                      <option value="">{t('orderDev.selectSphere')}</option>
                       {businessSpheres.map((sphere) => (
-                        <option key={sphere} value={sphere}>
-                          {sphere}
+                        <option key={sphere.value} value={sphere.value}>
+                          {sphere.label}
                         </option>
                       ))}
                     </select>
@@ -222,7 +224,7 @@ export const OrderForm = forwardRef<HTMLDivElement, OrderFormProps>(
                   {/* Company Size */}
                   <div>
                     <label className="block text-sm font-medium text-text-secondary mb-2">
-                      Размер компании *
+                      {t('orderDev.companySize')}
                     </label>
                     <div className="grid grid-cols-3 gap-3">
                       {companySizes.map((size) => (
@@ -249,14 +251,14 @@ export const OrderForm = forwardRef<HTMLDivElement, OrderFormProps>(
                   {/* Budget (Optional) */}
                   <div>
                     <label className="block text-sm font-medium text-text-secondary mb-2">
-                      Бюджет <span className="text-text-tertiary">(опционально)</span>
+                      {t('orderDev.budgetOptional')} <span className="text-text-tertiary">({t('orderDev.optional')})</span>
                     </label>
                     <select
                       value={formData.budget}
                       onChange={(e) => updateField('budget', e.target.value)}
                       className="input appearance-none cursor-pointer"
                     >
-                      <option value="">Выберите диапазон</option>
+                      <option value="">{t('orderDev.selectRange')}</option>
                       {budgetRanges.map((range) => (
                         <option key={range.value} value={range.value}>
                           {range.label}
@@ -281,7 +283,7 @@ export const OrderForm = forwardRef<HTMLDivElement, OrderFormProps>(
                     flex items-center justify-center gap-2
                   "
                 >
-                  Далее
+                  {t('orderDev.next')}
                   <ArrowRight className="w-5 h-5" />
                 </button>
               </div>
@@ -291,19 +293,19 @@ export const OrderForm = forwardRef<HTMLDivElement, OrderFormProps>(
             {step === 2 && (
               <div className="animate-fade-in">
                 <h3 className="text-xl font-semibold text-text-primary mb-6 text-center">
-                  Описание проекта
+                  {t('orderDev.projectDesc')}
                 </h3>
 
                 <div className="space-y-5">
                   {/* Project Description */}
                   <div>
                     <label className="block text-sm font-medium text-text-secondary mb-2">
-                      Краткое описание задачи *
+                      {t('orderDev.taskDescription')}
                     </label>
                     <textarea
                       value={formData.projectDescription}
                       onChange={(e) => updateField('projectDescription', e.target.value)}
-                      placeholder="Опишите вашу задачу: что нужно разработать, какие проблемы решить..."
+                      placeholder={t('orderDev.taskPlaceholder')}
                       rows={4}
                       className="input resize-none h-auto py-3"
                     />
@@ -328,21 +330,21 @@ export const OrderForm = forwardRef<HTMLDivElement, OrderFormProps>(
                           <CheckCircle2 className="w-4 h-4 text-white" />
                         )}
                       </div>
-                      <span className="text-text-primary">Нужны интеграции с другими системами</span>
+                      <span className="text-text-primary">{t('orderDev.needIntegrations')}</span>
                     </label>
                   </div>
 
                   {/* Launch Timeline */}
                   <div>
                     <label className="block text-sm font-medium text-text-secondary mb-2">
-                      Сроки запуска
+                      {t('orderDev.launchTimeline')}
                     </label>
                     <select
                       value={formData.launchTimeline}
                       onChange={(e) => updateField('launchTimeline', e.target.value)}
                       className="input appearance-none cursor-pointer"
                     >
-                      <option value="">Выберите срок</option>
+                      <option value="">{t('orderDev.selectTimeline')}</option>
                       {launchTimelines.map((timeline) => (
                         <option key={timeline.value} value={timeline.value}>
                           {timeline.label}
@@ -354,20 +356,20 @@ export const OrderForm = forwardRef<HTMLDivElement, OrderFormProps>(
                   {/* Divider */}
                   <div className="border-t border-gray-200 dark:border-gray-700 pt-5">
                     <p className="text-sm font-medium text-text-secondary mb-4">
-                      Контактные данные
+                      {t('orderDev.contactInfo')}
                     </p>
                   </div>
 
                   {/* Contact Name */}
                   <div>
                     <label className="block text-sm font-medium text-text-secondary mb-2">
-                      Имя *
+                      {t('orderDev.nameRequired')}
                     </label>
                     <input
                       type="text"
                       value={formData.contactName}
                       onChange={(e) => updateField('contactName', e.target.value)}
-                      placeholder="Как к вам обращаться?"
+                      placeholder={t('orderDev.howToAddress')}
                       className="input"
                     />
                   </div>
@@ -376,7 +378,7 @@ export const OrderForm = forwardRef<HTMLDivElement, OrderFormProps>(
                   <div className="grid sm:grid-cols-2 gap-4">
                     <div>
                       <label className="block text-sm font-medium text-text-secondary mb-2">
-                        Телефон *
+                        {t('orderDev.phoneRequired')}
                       </label>
                       <input
                         type="tel"
@@ -388,7 +390,7 @@ export const OrderForm = forwardRef<HTMLDivElement, OrderFormProps>(
                     </div>
                     <div>
                       <label className="block text-sm font-medium text-text-secondary mb-2">
-                        Email *
+                        {t('orderDev.emailRequired')}
                       </label>
                       <input
                         type="email"
@@ -415,7 +417,7 @@ export const OrderForm = forwardRef<HTMLDivElement, OrderFormProps>(
                     "
                   >
                     <ArrowLeft className="w-5 h-5" />
-                    Назад
+                    {t('orderDev.back')}
                   </button>
                   <button
                     onClick={handleSubmit}
@@ -452,12 +454,12 @@ export const OrderForm = forwardRef<HTMLDivElement, OrderFormProps>(
                             d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
                           />
                         </svg>
-                        Отправка...
+                        {t('orderDev.sendingForm')}
                       </>
                     ) : (
                       <>
                         <Send className="w-5 h-5" />
-                        Отправить заявку
+                        {t('orderDev.submitRequestForm')}
                       </>
                     )}
                   </button>
@@ -465,7 +467,7 @@ export const OrderForm = forwardRef<HTMLDivElement, OrderFormProps>(
 
                 {/* Trust message */}
                 <p className="text-center text-sm text-text-tertiary mt-4">
-                  Мы свяжемся с вами в течение 1 рабочего дня.
+                  {t('orderDev.willContactIn1Day')}
                 </p>
               </div>
             )}

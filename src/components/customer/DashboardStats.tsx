@@ -1,4 +1,5 @@
 import { Package, Clock, Wallet, Calendar } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 import { mockDashboardStats } from './mockData';
 
 interface StatCardProps {
@@ -30,39 +31,40 @@ function StatCard({ icon, label, value, subtext, iconBg, iconColor }: StatCardPr
 }
 
 export function DashboardStats() {
+    const { t } = useTranslation();
     const stats = mockDashboardStats;
 
     return (
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
             <StatCard
                 icon={<Package className="w-6 h-6" />}
-                label="Активных решений"
+                label={t('dashboard.activeProducts')}
                 value={stats.activeSolutions}
-                subtext="подключено"
+                subtext={t('dashboard.connected')}
                 iconBg="bg-emerald-100 dark:bg-emerald-500/20"
                 iconColor="text-emerald-600 dark:text-emerald-400"
             />
             <StatCard
                 icon={<Clock className="w-6 h-6" />}
-                label="Заявок в обработке"
+                label={t('dashboard.pendingOrders')}
                 value={stats.pendingOrders}
-                subtext="ожидают ответа"
+                subtext={t('dashboard.awaitingResponse')}
                 iconBg="bg-amber-100 dark:bg-amber-500/20"
                 iconColor="text-amber-600 dark:text-amber-400"
             />
             <StatCard
                 icon={<Wallet className="w-6 h-6" />}
-                label="Потрачено"
+                label={t('dashboard.totalSpent')}
                 value={stats.totalSpent}
-                subtext="сум за всё время"
+                subtext={t('dashboard.sumAllTime')}
                 iconBg="bg-blue-100 dark:bg-blue-500/20"
                 iconColor="text-blue-600 dark:text-blue-400"
             />
             <StatCard
                 icon={<Calendar className="w-6 h-6" />}
-                label="Следующий платёж"
+                label={t('dashboard.nextPayment')}
                 value={stats.nextPayment}
-                subtext="к оплате"
+                subtext={t('dashboard.toPayment')}
                 iconBg="bg-violet-100 dark:bg-violet-500/20"
                 iconColor="text-violet-600 dark:text-violet-400"
             />

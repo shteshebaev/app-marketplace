@@ -1,4 +1,5 @@
 import { X, GitCompare, ChevronRight } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 import type { CompareItem } from './types';
 
 interface CompareBarProps {
@@ -9,6 +10,7 @@ interface CompareBarProps {
 }
 
 export function CompareBar({ items, onRemove, onClear, onCompare }: CompareBarProps) {
+    const { t } = useTranslation();
     if (items.length === 0) return null;
 
     return (
@@ -52,7 +54,7 @@ export function CompareBar({ items, onRemove, onClear, onCompare }: CompareBarPr
                             {items.length < 3 && (
                                 <div className="flex items-center gap-2 text-sm text-[var(--text-tertiary)] flex-shrink-0">
                                     <span className="hidden sm:inline">+</span>
-                                    <span>{3 - items.length} {items.length === 2 ? 'ещё' : 'ещё'}</span>
+                                    <span>{3 - items.length} {t('solutions.more')}</span>
                                 </div>
                             )}
                         </div>
@@ -64,7 +66,7 @@ export function CompareBar({ items, onRemove, onClear, onCompare }: CompareBarPr
                                 className="px-4 py-2 text-sm text-[var(--text-secondary)] hover:text-[var(--text-primary)]
                                     hover:bg-[var(--hover-overlay)] rounded-xl transition-all"
                             >
-                                Очистить
+                                {t('solutions.clearCompare')}
                             </button>
                             <button
                                 onClick={onCompare}
@@ -74,7 +76,7 @@ export function CompareBar({ items, onRemove, onClear, onCompare }: CompareBarPr
                                         ? 'bg-blue-500 text-white hover:bg-blue-600 hover:shadow-lg hover:shadow-blue-500/30'
                                         : 'bg-[var(--bg-default)] text-[var(--text-tertiary)] cursor-not-allowed'}`}
                             >
-                                <span>Сравнить {items.length}</span>
+                                <span>{t('solutions.compare')} {items.length}</span>
                                 <ChevronRight className="w-4 h-4" />
                             </button>
                         </div>

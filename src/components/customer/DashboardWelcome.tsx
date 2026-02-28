@@ -1,18 +1,20 @@
 import { Sparkles, ArrowRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { useAuth } from '../../context/AuthContext';
 
 export function DashboardWelcome() {
+    const { t } = useTranslation();
     const { user } = useAuth();
 
     const getGreeting = () => {
         const hour = new Date().getHours();
-        if (hour < 12) return 'Доброе утро';
-        if (hour < 18) return 'Добрый день';
-        return 'Добрый вечер';
+        if (hour < 12) return t('dashboard.goodMorning');
+        if (hour < 18) return t('dashboard.goodAfternoon');
+        return t('dashboard.goodEvening');
     };
 
-    const firstName = user?.name?.split(' ')[0] || 'Пользователь';
+    const firstName = user?.name?.split(' ')[0] || t('dashboard.defaultUser');
 
     return (
         <div className="bg-gradient-to-br from-blue-500 via-blue-600 to-indigo-700 rounded-2xl p-6 sm:p-8 text-white relative overflow-hidden">
@@ -29,10 +31,10 @@ export function DashboardWelcome() {
                         <span>{getGreeting()}</span>
                     </div>
                     <h1 className="text-2xl sm:text-3xl font-bold mb-2">
-                        {firstName}, добро пожаловать!
+                        {firstName}, {t('dashboard.welcomeBack')}
                     </h1>
                     <p className="text-blue-100 text-sm sm:text-base max-w-md">
-                        Управляйте своими бизнес-решениями, отслеживайте подписки и находите новые инструменты для роста.
+                        {t('dashboard.welcomeMessage')}
                     </p>
                 </div>
 
@@ -40,7 +42,7 @@ export function DashboardWelcome() {
                     to="/catalog"
                     className="inline-flex items-center gap-2 px-5 py-3 bg-white text-blue-600 rounded-xl font-semibold hover:bg-blue-50 transition-colors shrink-0 self-start sm:self-center"
                 >
-                    <span>Каталог решений</span>
+                    <span>{t('dashboard.catalog')}</span>
                     <ArrowRight className="w-4 h-4" />
                 </Link>
             </div>

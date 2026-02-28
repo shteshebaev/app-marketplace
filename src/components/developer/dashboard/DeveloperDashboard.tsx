@@ -1,4 +1,5 @@
 import { Package, Eye, MousePointer, TrendingUp, Plus, ArrowRight } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 import { useAuth } from '../../../context';
 
 interface DeveloperDashboardProps {
@@ -6,32 +7,33 @@ interface DeveloperDashboardProps {
 }
 
 export function DeveloperDashboard({ onNavigate }: DeveloperDashboardProps) {
+    const { t } = useTranslation();
     const { developer } = useAuth();
 
     const stats = [
         {
-            label: 'Всего решений',
+            label: t('dashboard.totalSolutions'),
             value: developer?.productsCount || 0,
             icon: <Package className="w-5 h-5" />,
             color: 'blue',
-            trend: '+2 за месяц'
+            trend: `+2 ${t('dashboard.perMonth')}`
         },
         {
-            label: 'Просмотры',
+            label: t('dashboard.views'),
             value: '12.5K',
             icon: <Eye className="w-5 h-5" />,
             color: 'emerald',
             trend: '+18%'
         },
         {
-            label: 'Переходы',
+            label: t('dashboard.clicks'),
             value: '1.2K',
             icon: <MousePointer className="w-5 h-5" />,
             color: 'violet',
             trend: '+12%'
         },
         {
-            label: 'Рейтинг',
+            label: t('dashboard.rating'),
             value: developer?.rating || 0,
             icon: <TrendingUp className="w-5 h-5" />,
             color: 'amber',
@@ -53,10 +55,10 @@ export function DeveloperDashboard({ onNavigate }: DeveloperDashboardProps) {
     };
 
     const statusLabels: Record<string, string> = {
-        draft: 'Черновик',
-        pending: 'На проверке',
-        approved: 'Опубликовано',
-        rejected: 'Отклонено',
+        draft: t('dashboard.statusDraft'),
+        pending: t('dashboard.statusPending'),
+        approved: t('dashboard.statusApproved'),
+        rejected: t('dashboard.statusRejected'),
     };
 
     return (
@@ -65,10 +67,10 @@ export function DeveloperDashboard({ onNavigate }: DeveloperDashboardProps) {
             <div className="flex items-center justify-between">
                 <div>
                     <h1 className="text-2xl font-bold text-slate-900 dark:text-white">
-                        Добро пожаловать, {developer?.companyName}!
+                        {t('dashboard.welcome')}, {developer?.companyName}!
                     </h1>
                     <p className="text-slate-500 mt-1">
-                        Управляйте своими решениями и отслеживайте статистику
+                        {t('dashboard.manageAndTrack')}
                     </p>
                 </div>
                 <button
@@ -76,7 +78,7 @@ export function DeveloperDashboard({ onNavigate }: DeveloperDashboardProps) {
                     className="flex items-center gap-2 bg-gradient-to-r from-blue-500 to-indigo-600 text-white px-5 py-3 rounded-xl font-medium shadow-lg hover:shadow-xl hover:scale-[1.02] transition-all"
                 >
                     <Plus className="w-5 h-5" />
-                    Создать решение
+                    {t('dashboard.createSolution')}
                 </button>
             </div>
 
@@ -109,13 +111,13 @@ export function DeveloperDashboard({ onNavigate }: DeveloperDashboardProps) {
             <div className="bg-white dark:bg-slate-800 rounded-2xl shadow-sm">
                 <div className="flex items-center justify-between p-6 border-b border-slate-200 dark:border-slate-700">
                     <h2 className="text-lg font-semibold text-slate-900 dark:text-white">
-                        Мои решения
+                        {t('dashboard.mySolutions')}
                     </h2>
                     <button
                         onClick={() => onNavigate('products')}
                         className="text-blue-500 hover:text-blue-600 text-sm font-medium flex items-center gap-1"
                     >
-                        Все решения
+                        {t('dashboard.allSolutions')}
                         <ArrowRight className="w-4 h-4" />
                     </button>
                 </div>
@@ -143,7 +145,7 @@ export function DeveloperDashboard({ onNavigate }: DeveloperDashboardProps) {
                                 <div className="text-slate-900 dark:text-white font-medium">
                                     {product.views.toLocaleString()}
                                 </div>
-                                <div className="text-sm text-slate-500">просмотров</div>
+                                <div className="text-sm text-slate-500">{t('dashboard.viewsLabel')}</div>
                             </div>
                         </div>
                     ))}
@@ -158,10 +160,10 @@ export function DeveloperDashboard({ onNavigate }: DeveloperDashboardProps) {
                 >
                     <Plus className="w-10 h-10 text-white/80 mb-4 group-hover:scale-110 transition-transform" />
                     <h3 className="text-xl font-semibold text-white mb-2">
-                        Создать решение
+                        {t('dashboard.createSolution')}
                     </h3>
                     <p className="text-white/70">
-                        Добавьте новый продукт в каталог
+                        {t('dashboard.addNewProduct')}
                     </p>
                 </button>
 
@@ -171,10 +173,10 @@ export function DeveloperDashboard({ onNavigate }: DeveloperDashboardProps) {
                 >
                     <Package className="w-10 h-10 text-slate-400 mb-4 group-hover:scale-110 group-hover:text-blue-500 transition-all" />
                     <h3 className="text-xl font-semibold text-slate-900 dark:text-white mb-2">
-                        Профиль компании
+                        {t('dashboard.companyProfile')}
                     </h3>
                     <p className="text-slate-500">
-                        Обновите информацию о компании
+                        {t('dashboard.updateCompanyInfo')}
                     </p>
                 </button>
 
@@ -184,10 +186,10 @@ export function DeveloperDashboard({ onNavigate }: DeveloperDashboardProps) {
                 >
                     <TrendingUp className="w-10 h-10 text-slate-400 mb-4 group-hover:scale-110 group-hover:text-emerald-500 transition-all" />
                     <h3 className="text-xl font-semibold text-slate-900 dark:text-white mb-2">
-                        Статистика
+                        {t('dashboard.statistics')}
                     </h3>
                     <p className="text-slate-500">
-                        Анализируйте показатели
+                        {t('dashboard.analyzeMetrics')}
                     </p>
                 </button>
             </div>

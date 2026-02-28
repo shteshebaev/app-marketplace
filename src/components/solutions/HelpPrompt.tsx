@@ -1,11 +1,13 @@
 import { useState, useEffect } from 'react';
 import { HelpCircle, X, ChevronRight } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 
 interface HelpPromptProps {
     onStartQuiz: () => void;
 }
 
 export function HelpPrompt({ onStartQuiz }: HelpPromptProps) {
+    const { t } = useTranslation();
     const [isVisible, setIsVisible] = useState(false);
     const [isDismissed, setIsDismissed] = useState(false);
 
@@ -61,10 +63,10 @@ export function HelpPrompt({ onStartQuiz }: HelpPromptProps) {
                     </div>
                     <div>
                         <h4 className="font-semibold text-[var(--text-primary)] mb-1">
-                            Не уверены, что выбрать?
+                            {t('solutions.helpTitle')}
                         </h4>
                         <p className="text-sm text-[var(--text-secondary)] mb-3">
-                            Ответьте на 3 простых вопроса — подберём идеальное решение для вас
+                            {t('solutions.helpDesc')}
                         </p>
                         <button
                             onClick={() => {
@@ -74,7 +76,7 @@ export function HelpPrompt({ onStartQuiz }: HelpPromptProps) {
                             className="group flex items-center gap-2 text-sm font-medium text-blue-500
                                 hover:text-blue-600 transition-colors"
                         >
-                            <span>Пройти подбор</span>
+                            <span>{t('solutions.startQuiz')}</span>
                             <ChevronRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
                         </button>
                     </div>

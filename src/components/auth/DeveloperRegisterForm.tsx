@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Eye, EyeOff, ArrowLeft, Check, X, Globe } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 import type { DeveloperRegisterData, AuthFormErrors, PasswordStrength } from '../../types/auth';
 
 interface DeveloperRegisterFormProps {
@@ -9,6 +10,7 @@ interface DeveloperRegisterFormProps {
 }
 
 export function DeveloperRegisterForm({ onSubmit, onBack, isLoading = false }: DeveloperRegisterFormProps) {
+    const { t } = useTranslation();
     const [companyName, setCompanyName] = useState('');
     const [contactName, setContactName] = useState('');
     const [email, setEmail] = useState('');
@@ -38,37 +40,37 @@ export function DeveloperRegisterForm({ onSubmit, onBack, isLoading = false }: D
         const newErrors: AuthFormErrors = {};
 
         if (!companyName.trim()) {
-            newErrors.companyName = 'Введите название компании';
+            newErrors.companyName = t('devRegister.errorCompanyRequired');
         } else if (companyName.trim().length < 2) {
-            newErrors.companyName = 'Название должно быть не менее 2 символов';
+            newErrors.companyName = t('devRegister.errorCompanyMin');
         }
 
         if (!contactName.trim()) {
-            newErrors.contactName = 'Введите имя контактного лица';
+            newErrors.contactName = t('devRegister.errorContactRequired');
         } else if (contactName.trim().length < 2) {
-            newErrors.contactName = 'Имя должно быть не менее 2 символов';
+            newErrors.contactName = t('devRegister.errorContactMin');
         }
 
         if (!email.trim()) {
-            newErrors.email = 'Введите email';
+            newErrors.email = t('devRegister.errorEmailRequired');
         } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-            newErrors.email = 'Некорректный email';
+            newErrors.email = t('devRegister.errorEmailInvalid');
         }
 
         if (!password) {
-            newErrors.password = 'Введите пароль';
+            newErrors.password = t('devRegister.errorPasswordRequired');
         } else if (password.length < 8) {
-            newErrors.password = 'Пароль должен быть не менее 8 символов';
+            newErrors.password = t('devRegister.errorPasswordMin');
         }
 
         if (!confirmPassword) {
-            newErrors.confirmPassword = 'Подтвердите пароль';
+            newErrors.confirmPassword = t('devRegister.errorConfirmRequired');
         } else if (password !== confirmPassword) {
-            newErrors.confirmPassword = 'Пароли не совпадают';
+            newErrors.confirmPassword = t('devRegister.errorPasswordsNotMatch');
         }
 
         if (website && !/^https?:\/\/.+\..+/.test(website)) {
-            newErrors.website = 'Некорректный URL (начните с http:// или https://)';
+            newErrors.website = t('devRegister.errorWebsiteInvalid');
         }
 
         setErrors(newErrors);
@@ -112,20 +114,20 @@ export function DeveloperRegisterForm({ onSubmit, onBack, isLoading = false }: D
                 className="flex items-center gap-2 text-sm text-slate-500 hover:text-slate-700 dark:hover:text-slate-300 transition-colors"
             >
                 <ArrowLeft className="w-4 h-4" />
-                Назад к выбору роли
+                {t('devRegister.backToRoles')}
             </button>
 
             {/* Company Name */}
             <div>
                 <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">
-                    Название компании
+                    {t('devRegister.companyName')}
                 </label>
                 <input
                     type="text"
                     value={companyName}
                     onChange={(e) => setCompanyName(e.target.value)}
                     onBlur={() => handleBlur('companyName')}
-                    placeholder="ООО «Моя Компания»"
+                    placeholder={t('devRegister.companyPlaceholder')}
                     className={`w-full px-4 py-3 bg-slate-50 dark:bg-slate-700 border rounded-xl text-slate-900 dark:text-white placeholder-slate-400 focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all ${
                         touched.companyName && errors.companyName
                             ? 'border-red-500'
@@ -143,14 +145,14 @@ export function DeveloperRegisterForm({ onSubmit, onBack, isLoading = false }: D
             {/* Contact Name */}
             <div>
                 <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">
-                    Контактное лицо
+                    {t('devRegister.contactPerson')}
                 </label>
                 <input
                     type="text"
                     value={contactName}
                     onChange={(e) => setContactName(e.target.value)}
                     onBlur={() => handleBlur('contactName')}
-                    placeholder="Иван Иванов"
+                    placeholder={t('devRegister.contactPlaceholder')}
                     className={`w-full px-4 py-3 bg-slate-50 dark:bg-slate-700 border rounded-xl text-slate-900 dark:text-white placeholder-slate-400 focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all ${
                         touched.contactName && errors.contactName
                             ? 'border-red-500'
@@ -168,7 +170,7 @@ export function DeveloperRegisterForm({ onSubmit, onBack, isLoading = false }: D
             {/* Email */}
             <div>
                 <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">
-                    Рабочий Email
+                    {t('devRegister.workEmail')}
                 </label>
                 <input
                     type="email"
@@ -193,7 +195,7 @@ export function DeveloperRegisterForm({ onSubmit, onBack, isLoading = false }: D
             {/* Website */}
             <div>
                 <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">
-                    Сайт <span className="text-slate-400 font-normal">(опционально)</span>
+                    {t('devRegister.website')} <span className="text-slate-400 font-normal">({t('devRegister.websiteOptional')})</span>
                 </label>
                 <div className="relative">
                     <Globe className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
@@ -221,7 +223,7 @@ export function DeveloperRegisterForm({ onSubmit, onBack, isLoading = false }: D
             {/* Password */}
             <div>
                 <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">
-                    Пароль
+                    {t('devRegister.password')}
                 </label>
                 <div className="relative">
                     <input
@@ -229,7 +231,7 @@ export function DeveloperRegisterForm({ onSubmit, onBack, isLoading = false }: D
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
                         onBlur={() => handleBlur('password')}
-                        placeholder="Минимум 8 символов"
+                        placeholder={t('devRegister.passwordPlaceholder')}
                         className={`w-full px-4 py-3 pr-12 bg-slate-50 dark:bg-slate-700 border rounded-xl text-slate-900 dark:text-white placeholder-slate-400 focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all ${
                             touched.password && errors.password
                                 ? 'border-red-500'
@@ -254,7 +256,7 @@ export function DeveloperRegisterForm({ onSubmit, onBack, isLoading = false }: D
                             <div className={`h-1 flex-1 rounded-full ${passwordStrength === 'strong' ? 'bg-emerald-500' : 'bg-slate-200 dark:bg-slate-600'}`} />
                         </div>
                         <p className={`text-xs ${passwordStrength === 'weak' ? 'text-red-500' : passwordStrength === 'medium' ? 'text-amber-500' : 'text-emerald-500'}`}>
-                            {passwordStrength === 'weak' ? 'Слабый пароль' : passwordStrength === 'medium' ? 'Средний пароль' : 'Надёжный пароль'}
+                            {passwordStrength === 'weak' ? t('devRegister.passwordWeak') : passwordStrength === 'medium' ? t('devRegister.passwordMedium') : t('devRegister.passwordStrong')}
                         </p>
                     </div>
                 )}
@@ -270,7 +272,7 @@ export function DeveloperRegisterForm({ onSubmit, onBack, isLoading = false }: D
             {/* Confirm Password */}
             <div>
                 <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">
-                    Подтвердите пароль
+                    {t('devRegister.confirmPassword')}
                 </label>
                 <div className="relative">
                     <input
@@ -278,7 +280,7 @@ export function DeveloperRegisterForm({ onSubmit, onBack, isLoading = false }: D
                         value={confirmPassword}
                         onChange={(e) => setConfirmPassword(e.target.value)}
                         onBlur={() => handleBlur('confirmPassword')}
-                        placeholder="Повторите пароль"
+                        placeholder={t('devRegister.confirmPlaceholder')}
                         className={`w-full px-4 py-3 pr-12 bg-slate-50 dark:bg-slate-700 border rounded-xl text-slate-900 dark:text-white placeholder-slate-400 focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all ${
                             touched.confirmPassword && errors.confirmPassword
                                 ? 'border-red-500'
@@ -298,7 +300,7 @@ export function DeveloperRegisterForm({ onSubmit, onBack, isLoading = false }: D
                 {confirmPassword && password === confirmPassword && (
                     <p className="mt-1.5 text-sm text-emerald-500 flex items-center gap-1">
                         <Check className="w-3.5 h-3.5" />
-                        Пароли совпадают
+                        {t('devRegister.passwordsMatch')}
                     </p>
                 )}
                 {touched.confirmPassword && errors.confirmPassword && (
@@ -321,22 +323,22 @@ export function DeveloperRegisterForm({ onSubmit, onBack, isLoading = false }: D
                             <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" />
                             <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
                         </svg>
-                        Создание аккаунта...
+                        {t('devRegister.creatingAccount')}
                     </span>
                 ) : (
-                    'Создать аккаунт разработчика'
+                    t('devRegister.createDevAccount')
                 )}
             </button>
 
             {/* Terms */}
             <p className="text-xs text-center text-slate-500 dark:text-slate-400">
-                Создавая аккаунт, вы соглашаетесь с{' '}
+                {t('devRegister.termsText')}{' '}
                 <a href="/terms" className="text-indigo-500 hover:underline">
-                    условиями использования
+                    {t('devRegister.termsLink')}
                 </a>{' '}
-                и{' '}
+                {t('common.and')}{' '}
                 <a href="/privacy" className="text-indigo-500 hover:underline">
-                    политикой конфиденциальности
+                    {t('devRegister.privacyLink')}
                 </a>
             </p>
         </form>

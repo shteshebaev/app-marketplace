@@ -1,4 +1,5 @@
 import { Star, Users, ChevronRight, Check } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 import type { Solution } from './types';
 
 interface SolutionCardProps {
@@ -11,14 +12,6 @@ interface SolutionCardProps {
     canCompare: boolean;
 }
 
-const badgeConfig: Record<string, { label: string; color: string }> = {
-    'top': { label: 'TOP', color: 'from-amber-500 to-orange-500' },
-    'best-value': { label: 'ЛУЧШАЯ ЦЕНА', color: 'from-emerald-500 to-teal-500' },
-    'new': { label: 'НОВИНКА', color: 'from-blue-500 to-indigo-500' },
-    'enterprise': { label: 'ENTERPRISE', color: 'from-slate-600 to-slate-700' },
-    'small-business': { label: 'ДЛЯ МСБ', color: 'from-violet-500 to-purple-500' }
-};
-
 export function SolutionCard({
     solution,
     index,
@@ -28,6 +21,16 @@ export function SolutionCard({
     onCompareToggle,
     canCompare
 }: SolutionCardProps) {
+    const { t } = useTranslation();
+
+    const badgeConfig: Record<string, { labelKey: string; color: string }> = {
+        'top': { labelKey: 'solutions.badgeTop', color: 'from-amber-500 to-orange-500' },
+        'best-value': { labelKey: 'solutions.badgeBestValue', color: 'from-emerald-500 to-teal-500' },
+        'new': { labelKey: 'solutions.badgeNew', color: 'from-blue-500 to-indigo-500' },
+        'enterprise': { labelKey: 'solutions.badgeEnterprise', color: 'from-slate-600 to-slate-700' },
+        'small-business': { labelKey: 'solutions.badgeSmallBusiness', color: 'from-violet-500 to-purple-500' }
+    };
+
     const badge = solution.badge ? badgeConfig[solution.badge] : null;
 
     return (
@@ -69,7 +72,7 @@ export function SolutionCard({
                 {badge && (
                     <div className={`inline-flex items-center gap-1 bg-gradient-to-r ${badge.color}
                         rounded-full px-3 py-1 mb-4`}>
-                        <span className="text-xs font-bold text-white tracking-wide">{badge.label}</span>
+                        <span className="text-xs font-bold text-white tracking-wide">{t(badge.labelKey)}</span>
                     </div>
                 )}
 
@@ -105,7 +108,7 @@ export function SolutionCard({
                         <span className="font-bold text-[var(--text-primary)]">{solution.rating}</span>
                     </div>
                     <span className="text-sm text-[var(--text-secondary)]">
-                        {solution.reviewsCount} отзывов
+                        {solution.reviewsCount} {t('solutions.reviews')}
                     </span>
                     {solution.clientsCount && (
                         <div className="flex items-center gap-1 text-sm text-[var(--text-secondary)]">
@@ -137,12 +140,12 @@ export function SolutionCard({
                 <div className="pt-4 border-t border-[var(--border-color)]">
                     <div className="flex items-baseline gap-2 mb-4">
                         <span className="text-2xl font-bold text-[var(--text-primary)]">
-                            {solution.priceType === 'from' && 'от '}
-                            {solution.price === '0' ? 'Бесплатно' : `${solution.price} ₽`}
+                            {solution.priceType === 'from' && `${t('solutions.from')} `}
+                            {solution.price === '0' ? t('solutions.free') : `${solution.price} ₽`}
                         </span>
                         {solution.price !== '0' && (
                             <span className="text-sm text-[var(--text-secondary)]">
-                                / мес
+                                / {t('solutions.perMonth')}
                             </span>
                         )}
                     </div>
@@ -156,7 +159,7 @@ export function SolutionCard({
                                 transition-all duration-200 group/btn"
                         >
                             <span className="flex items-center justify-center gap-2">
-                                Подробнее
+                                {t('solutions.details')}
                                 <ChevronRight className="w-4 h-4 group-hover/btn:translate-x-0.5 transition-transform" />
                             </span>
                         </button>
@@ -167,7 +170,7 @@ export function SolutionCard({
                                 transition-all duration-200 hover:shadow-lg hover:shadow-black/20
                                 hover:-translate-y-0.5 active:translate-y-0`}
                         >
-                            Подключить
+                            {t('solutions.connect')}
                         </button>
                     </div>
                 </div>
