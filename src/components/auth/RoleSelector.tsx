@@ -1,4 +1,4 @@
-import { User, Code2, ChevronRight, TrendingUp, Users, Rocket } from 'lucide-react';
+import { User, Code2, ChevronRight } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 
 interface RoleSelectorProps {
