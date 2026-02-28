@@ -1,6 +1,6 @@
 import { type ReactNode } from 'react';
 import { Link } from 'react-router-dom';
-import { Menu, Sun, Moon, LogIn, UserPlus } from 'lucide-react';
+import { Sun, Moon, LogIn, UserPlus } from 'lucide-react';
 import { Button } from '../ui';
 import { useTheme } from '../../hooks';
 
@@ -92,18 +92,6 @@ export function PublicLayout({ children, onNavigate, currentPage = 'home' }: Pub
                 <span className="hidden sm:inline">Регистрация</span>
               </Button>
             </Link>
-
-            {/* Mobile menu */}
-            <button
-              className="
-                lg:hidden w-10 h-10
-                flex items-center justify-center
-                rounded-apple text-text-primary
-                hover:bg-black/5 dark:hover:bg-white/10
-              "
-            >
-              <Menu className="w-5 h-5" />
-            </button>
           </div>
         </div>
       </header>
