@@ -13,14 +13,14 @@ export function MySolutions() {
             <div className="flex items-center justify-between p-5 border-b border-slate-200 dark:border-slate-700">
                 <div>
                     <h2 className="text-lg font-semibold text-slate-900 dark:text-white">
-                        Мои решения
+                        Мои продукты
                     </h2>
                     <p className="text-sm text-slate-500 dark:text-slate-400">
                         Активные подписки и доступы
                     </p>
                 </div>
                 <Link
-                    to="/catalog"
+                    to="/solutions"
                     className="inline-flex items-center gap-2 px-4 py-2 bg-blue-500 text-white rounded-xl text-sm font-medium hover:bg-blue-600 transition-colors"
                 >
                     <Plus className="w-4 h-4" />
@@ -109,13 +109,13 @@ export function MySolutions() {
                         <Package className="w-8 h-8 text-slate-400" />
                     </div>
                     <h3 className="font-semibold text-slate-900 dark:text-white mb-2">
-                        Нет активных решений
+                        Нет активных продуктов
                     </h3>
                     <p className="text-sm text-slate-500 dark:text-slate-400 mb-4">
                         Подключите первое решение из каталога
                     </p>
                     <Link
-                        to="/catalog"
+                        to="/solutions"
                         className="inline-flex items-center gap-2 px-4 py-2 bg-blue-500 text-white rounded-xl text-sm font-medium hover:bg-blue-600 transition-colors"
                     >
                         <Plus className="w-4 h-4" />
@@ -131,7 +131,7 @@ export function MySolutions() {
                         to="/dashboard/solutions"
                         className="block w-full text-center py-3 text-sm font-medium text-blue-500 hover:text-blue-600 hover:bg-blue-50 dark:hover:bg-blue-500/10 rounded-xl transition-colors"
                     >
-                        Смотреть все решения
+                        Смотреть все продукты
                     </Link>
                 </div>
             )}

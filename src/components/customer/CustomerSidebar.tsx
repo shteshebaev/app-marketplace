@@ -46,7 +46,7 @@ export function CustomerSidebar({ className = '', activeItem = 'dashboard', onNa
         },
         {
             id: 'solutions',
-            label: 'Мои решения',
+            label: 'Мои продукты',
             icon: <Package className="w-5 h-5" />
         },
         {
