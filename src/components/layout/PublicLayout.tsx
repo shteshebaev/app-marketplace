@@ -1,5 +1,6 @@
-import { type ReactNode, useState } from 'react';
-import { Menu, Sun, Moon, User, Code2 } from 'lucide-react';
+import { type ReactNode } from 'react';
+import { Link } from 'react-router-dom';
+import { Menu, Sun, Moon, LogIn, UserPlus } from 'lucide-react';
 import { Button } from '../ui';
 import { useTheme } from '../../hooks';
 
@@ -7,15 +8,12 @@ type PublicPage = 'home' | 'categories' | 'all-solutions' | 'order-development';
 
 interface PublicLayoutProps {
   children: ReactNode;
-  onLogin?: () => void;
-  onLoginAsDeveloper?: () => void;
   onNavigate?: (page: PublicPage) => void;
   currentPage?: PublicPage;
 }
 
-export function PublicLayout({ children, onLogin, onLoginAsDeveloper, onNavigate, currentPage = 'home' }: PublicLayoutProps) {
+export function PublicLayout({ children, onNavigate, currentPage = 'home' }: PublicLayoutProps) {
   const { isDark, toggleTheme } = useTheme();
-  const [showLoginMenu, setShowLoginMenu] = useState(false);
 
   return (
     <div className="min-h-screen bg-gradient-apple flex flex-col">
@@ -61,7 +59,7 @@ export function PublicLayout({ children, onLogin, onLoginAsDeveloper, onNavigate
           </nav>
 
           {/* Right section */}
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2 sm:gap-3">
             {/* Theme toggle */}
             <button
               onClick={toggleTheme}
@@ -71,58 +69,29 @@ export function PublicLayout({ children, onLogin, onLoginAsDeveloper, onNavigate
               {isDark ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
             </button>
 
-            {/* Login button with dropdown */}
-            <div className="relative">
+            {/* Login button */}
+            <Link to="/login">
               <Button
                 variant="ghost"
                 size="sm"
-                onClick={() => setShowLoginMenu(!showLoginMenu)}
+                className="inline-flex items-center gap-1.5"
               >
-                Войти
+                <LogIn className="w-4 h-4" />
+                <span className="hidden sm:inline">Войти</span>
               </Button>
+            </Link>
 
-              {showLoginMenu && (
-                <>
-                  <div
-                    className="fixed inset-0 z-40"
-                    onClick={() => setShowLoginMenu(false)}
-                  />
-                  <div className="absolute right-0 top-full mt-2 w-56 bg-white dark:bg-slate-800 rounded-xl shadow-xl border border-slate-200 dark:border-slate-700 py-2 z-50">
-                    <button
-                      onClick={() => {
-                        onLogin?.();
-                        setShowLoginMenu(false);
-                      }}
-                      className="w-full flex items-center gap-3 px-4 py-3 text-left text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors"
-                    >
-                      <User className="w-5 h-5 text-blue-500" />
-                      <div>
-                        <div className="font-medium">Войти как клиент</div>
-                        <div className="text-sm text-slate-500">Просмотр и заказ решений</div>
-                      </div>
-                    </button>
-                    <button
-                      onClick={() => {
-                        onLoginAsDeveloper?.();
-                        setShowLoginMenu(false);
-                      }}
-                      className="w-full flex items-center gap-3 px-4 py-3 text-left text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors"
-                    >
-                      <Code2 className="w-5 h-5 text-emerald-500" />
-                      <div>
-                        <div className="font-medium">Войти как разработчик</div>
-                        <div className="text-sm text-slate-500">Управление решениями</div>
-                      </div>
-                    </button>
-                  </div>
-                </>
-              )}
-            </div>
-
-            {/* CTA button */}
-            <Button variant="primary" size="sm" className="hidden sm:flex">
-              Начать бесплатно
-            </Button>
+            {/* Register button */}
+            <Link to="/register">
+              <Button
+                variant="primary"
+                size="sm"
+                className="inline-flex items-center gap-1.5"
+              >
+                <UserPlus className="w-4 h-4" />
+                <span className="hidden sm:inline">Регистрация</span>
+              </Button>
+            </Link>
 
             {/* Mobile menu */}
             <button

@@ -145,8 +145,6 @@ function PublicPagesWrapper({ children, currentPage }: { children: React.ReactNo
 
   return (
     <PublicLayout
-      onLogin={() => navigate('/login')}
-      onLoginAsDeveloper={() => navigate('/register')}
       onNavigate={(page) => {
         switch (page) {
           case 'home':
