@@ -222,6 +222,7 @@ function CategorySolutionsPageWrapper() {
         onNavigateHome={() => navigate('/')}
         onNavigateCategories={() => navigate('/categories')}
         onSolutionSelect={(solutionId) => navigate(`/product/${solutionId}`)}
+        onSolutionConnect={(solutionId) => navigate(`/product/${solutionId}?connect=true`)}
       />
     </PublicPagesWrapper>
   );
@@ -236,6 +237,7 @@ function AllSolutionsPageWrapper() {
       <AllSolutionsPage
         onOrderDevelopment={() => navigate('/order-development')}
         onSolutionSelect={(solutionId) => navigate(`/product/${solutionId}`)}
+        onSolutionConnect={(solutionId) => navigate(`/product/${solutionId}?connect=true`)}
       />
     </PublicPagesWrapper>
   );

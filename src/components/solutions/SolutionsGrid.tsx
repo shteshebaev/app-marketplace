@@ -11,6 +11,7 @@ interface SolutionsGridProps {
     compareItems: CompareItem[];
     onCompareToggle: (solution: Solution) => void;
     onSolutionSelect: (solutionId: string) => void;
+    onSolutionConnect: (solutionId: string) => void;
     onResetFilters: () => void;
     onOrderDevelopment?: () => void;
 }
@@ -112,6 +113,7 @@ export const SolutionsGrid = memo(function SolutionsGrid({
     compareItems,
     onCompareToggle,
     onSolutionSelect,
+    onSolutionConnect,
     onResetFilters,
     onOrderDevelopment
 }: SolutionsGridProps) {
@@ -151,6 +153,7 @@ export const SolutionsGrid = memo(function SolutionsGrid({
                         index={index}
                         isSelected={isSelected(solution.id)}
                         onSelect={() => onSolutionSelect(solution.id)}
+                        onConnect={() => onSolutionConnect(solution.id)}
                         onCompareToggle={() => handleCompareToggle(solution)}
                         canCompare={canCompare}
                     />
@@ -168,6 +171,7 @@ export const SolutionsGrid = memo(function SolutionsGrid({
                     index={index}
                     isSelected={isSelected(solution.id)}
                     onSelect={() => onSolutionSelect(solution.id)}
+                    onConnect={() => onSolutionConnect(solution.id)}
                     onCompareToggle={() => handleCompareToggle(solution)}
                     canCompare={canCompare}
                 />

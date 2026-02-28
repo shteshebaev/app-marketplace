@@ -6,6 +6,7 @@ interface SolutionCardProps {
     index: number;
     isSelected: boolean;
     onSelect: () => void;
+    onConnect: () => void;
     onCompareToggle: () => void;
     canCompare: boolean;
 }
@@ -23,6 +24,7 @@ export function SolutionCard({
     index,
     isSelected,
     onSelect,
+    onConnect,
     onCompareToggle,
     canCompare
 }: SolutionCardProps) {
@@ -159,6 +161,7 @@ export function SolutionCard({
                             </span>
                         </button>
                         <button
+                            onClick={onConnect}
                             className={`flex-1 py-3 px-4 bg-gradient-to-r ${solution.gradient}
                                 rounded-xl text-white font-medium text-sm
                                 transition-all duration-200 hover:shadow-lg hover:shadow-black/20

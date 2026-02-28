@@ -6,6 +6,7 @@ interface SolutionListItemProps {
     index: number;
     isSelected: boolean;
     onSelect: () => void;
+    onConnect: () => void;
     onCompareToggle: () => void;
     canCompare: boolean;
 }
@@ -23,6 +24,7 @@ export function SolutionListItem({
     index,
     isSelected,
     onSelect,
+    onConnect,
     onCompareToggle,
     canCompare
 }: SolutionListItemProps) {
@@ -159,6 +161,7 @@ export function SolutionListItem({
                         <ChevronRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
                     </button>
                     <button
+                        onClick={onConnect}
                         className={`px-4 py-2 bg-gradient-to-r ${solution.gradient}
                             rounded-xl text-white font-medium text-sm
                             transition-all duration-200 hover:shadow-lg hover:shadow-black/20`}

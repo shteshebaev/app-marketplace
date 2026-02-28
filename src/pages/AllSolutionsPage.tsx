@@ -21,13 +21,15 @@ import type { Solution, CompareItem } from '../components/solutions';
 interface AllSolutionsPageProps {
     onOrderDevelopment: () => void;
     onSolutionSelect?: (solutionId: string) => void;
+    onSolutionConnect?: (solutionId: string) => void;
 }
 
 
 
 export function AllSolutionsPage({
     onOrderDevelopment,
-    onSolutionSelect
+    onSolutionSelect,
+    onSolutionConnect
 }: AllSolutionsPageProps) {
     const allSolutions = getAllSolutions();
     const allCategories = getAllCategories();
@@ -167,6 +169,14 @@ export function AllSolutionsPage({
         }
     }, [onSolutionSelect]);
 
+    const handleSolutionConnect = useCallback((solutionId: string) => {
+        if (onSolutionConnect) {
+            onSolutionConnect(solutionId);
+        } else if (onSolutionSelect) {
+            onSolutionSelect(solutionId);
+        }
+    }, [onSolutionConnect, onSolutionSelect]);
+
     // Check if any filters are active
     const hasActiveFilters = filters.search || filters.minRating > 0 || filters.tags.length > 0 || filters.categories.length > 0;
 
@@ -215,6 +225,7 @@ export function AllSolutionsPage({
                         compareItems={compareItems}
                         onCompareToggle={handleCompareToggle}
                         onSolutionSelect={handleSolutionSelect}
+                        onSolutionConnect={handleSolutionConnect}
                         onResetFilters={handleResetFilters}
                         onOrderDevelopment={onOrderDevelopment}
                     />

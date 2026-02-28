@@ -19,13 +19,15 @@ interface SolutionsPageProps {
     onNavigateHome: () => void;
     onNavigateCategories: () => void;
     onSolutionSelect?: (solutionId: string) => void;
+    onSolutionConnect?: (solutionId: string) => void;
 }
 
 export function SolutionsPage({
     categoryId,
     onNavigateHome,
     onNavigateCategories,
-    onSolutionSelect
+    onSolutionSelect,
+    onSolutionConnect
 }: SolutionsPageProps) {
     const category = categoryDetails[categoryId];
     const allSolutions = getSolutionsByCategory(categoryId);
@@ -147,6 +149,14 @@ export function SolutionsPage({
         }
     }, [onSolutionSelect]);
 
+    const handleSolutionConnect = useCallback((solutionId: string) => {
+        if (onSolutionConnect) {
+            onSolutionConnect(solutionId);
+        } else if (onSolutionSelect) {
+            onSolutionSelect(solutionId);
+        }
+    }, [onSolutionConnect, onSolutionSelect]);
+
     const handleStartQuiz = useCallback(() => {
         // TODO: Open quiz modal
         console.log('Start quiz');
@@ -208,6 +218,7 @@ export function SolutionsPage({
                         compareItems={compareItems}
                         onCompareToggle={handleCompareToggle}
                         onSolutionSelect={handleSolutionSelect}
+                        onSolutionConnect={handleSolutionConnect}
                         onResetFilters={handleResetFilters}
                     />
                 </div>
