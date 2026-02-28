@@ -23,6 +23,7 @@ import { OrdersPage } from '../../pages/OrdersPage';
 import { SubscriptionsPage } from '../../pages/SubscriptionsPage';
 import { NotificationsPage } from '../../pages/NotificationsPage';
 import { MySolutionsPage } from '../../pages/MySolutionsPage';
+import { SettingsPage } from './settings';
 
 // Main dashboard content
 function DashboardContent() {
@@ -71,7 +72,7 @@ export function CustomerDashboardLayout({ children, initialPage = 'dashboard' }:
             case 'notifications':
                 return <NotificationsPage />;
             case 'settings':
-                return <div className="text-slate-900 dark:text-white">Настройки (в разработке)</div>;
+                return <SettingsPage />;
             default:
                 return <DashboardContent />;
         }

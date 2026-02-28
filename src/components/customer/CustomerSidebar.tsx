@@ -34,7 +34,6 @@ interface MenuItem {
 export function CustomerSidebar({ className = '', activeItem = 'dashboard', onNavigate }: CustomerSidebarProps) {
     const { user, logout } = useAuth();
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-    const [currentPage, setCurrentPage] = useState<CustomerPage>(activeItem);
 
     const unreadNotifications = mockNotifications.filter(n => !n.isRead).length;
     const pendingOrders = mockOrders.filter(o => o.status === 'PENDING' || o.status === 'WAITING_PAYMENT').length;
@@ -78,7 +77,6 @@ export function CustomerSidebar({ className = '', activeItem = 'dashboard', onNa
     ];
 
     const handleNavigate = (page: CustomerPage) => {
-        setCurrentPage(page);
         if (onNavigate) {
             onNavigate(page);
         }
@@ -90,7 +88,7 @@ export function CustomerSidebar({ className = '', activeItem = 'dashboard', onNa
     };
 
     const isActive = (id: CustomerPage) => {
-        return currentPage === id;
+        return activeItem === id;
     };
 
     const renderMenuItem = (item: MenuItem, onClick?: () => void) => (
