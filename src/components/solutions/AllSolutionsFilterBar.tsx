@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from 'react';
-import { Search, SlidersHorizontal, Star, LayoutGrid, List, ChevronDown, X, Folder } from 'lucide-react';
+import { Search, SlidersHorizontal, Star, LayoutGrid, List, ChevronDown, X, Folder, Filter } from 'lucide-react';
 import type { SolutionSortOption, SolutionViewMode, CategoryDetails } from './types';
 
 export interface AllSolutionsFilterState {
@@ -39,6 +39,7 @@ export function AllSolutionsFilterBar({
     const [showAdvanced, setShowAdvanced] = useState(false);
     const [showSortDropdown, setShowSortDropdown] = useState(false);
     const [showCategoryDropdown, setShowCategoryDropdown] = useState(false);
+    const [showMobileFilters, setShowMobileFilters] = useState(false);
     const categoryDropdownRef = useRef<HTMLDivElement>(null);
 
     const updateFilter = <K extends keyof AllSolutionsFilterState>(
@@ -85,12 +86,193 @@ export function AllSolutionsFilterBar({
     }, []);
 
     const hasActiveFilters = filters.search || filters.minRating > 0 || filters.tags.length > 0 || filters.categories.length > 0;
+    const activeFiltersCount = (filters.minRating > 0 ? 1 : 0) + filters.tags.length + filters.categories.length;
 
     return (
         <div className="sticky top-[72px] z-20 bg-[var(--bg-default)]/95 backdrop-blur-xl border-b border-[var(--border-color)]">
-            <div className="max-w-[1400px] mx-auto px-6 lg:px-10 py-4">
-                {/* Main Filter Row */}
-                <div className="flex flex-col lg:flex-row lg:items-center gap-4">
+            <div className="max-w-[1400px] mx-auto px-4 lg:px-10 py-4">
+                {/* Mobile: Search + Filter Toggle */}
+                <div className="flex items-center gap-2 lg:hidden">
+                    {/* Search */}
+                    <div className="relative flex-1">
+                        <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[var(--text-tertiary)]" />
+                        <input
+                            type="text"
+                            placeholder="Поиск..."
+                            value={filters.search}
+                            onChange={(e) => updateFilter('search', e.target.value)}
+                            className="w-full pl-10 pr-4 py-2.5 bg-[var(--bg-card)] border border-[var(--border-color)]
+                                rounded-xl text-sm text-[var(--text-primary)] placeholder:text-[var(--text-tertiary)]
+                                focus:outline-none focus:ring-2 focus:ring-blue-500/30 focus:border-blue-500"
+                        />
+                        {filters.search && (
+                            <button
+                                onClick={() => updateFilter('search', '')}
+                                className="absolute right-2 top-1/2 -translate-y-1/2 p-1 hover:bg-[var(--hover-overlay)] rounded-full"
+                            >
+                                <X className="w-4 h-4 text-[var(--text-tertiary)]" />
+                            </button>
+                        )}
+                    </div>
+
+                    {/* Filter Toggle Button */}
+                    <button
+                        onClick={() => setShowMobileFilters(!showMobileFilters)}
+                        className={`relative flex items-center justify-center w-11 h-11 rounded-xl border transition-all
+                            ${showMobileFilters || activeFiltersCount > 0
+                                ? 'bg-blue-500 border-blue-500 text-white'
+                                : 'bg-[var(--bg-card)] border-[var(--border-color)] text-[var(--text-primary)]'}`}
+                    >
+                        <Filter className="w-5 h-5" />
+                        {activeFiltersCount > 0 && !showMobileFilters && (
+                            <span className="absolute -top-1 -right-1 w-5 h-5 bg-red-500 text-white text-xs rounded-full flex items-center justify-center">
+                                {activeFiltersCount}
+                            </span>
+                        )}
+                    </button>
+
+                    {/* View Toggle */}
+                    <div className="flex items-center gap-0.5 p-1 bg-[var(--bg-card)] border border-[var(--border-color)] rounded-xl">
+                        <button
+                            onClick={() => updateFilter('viewMode', 'grid' as SolutionViewMode)}
+                            className={`p-2 rounded-lg transition-all
+                                ${filters.viewMode === 'grid'
+                                    ? 'bg-blue-500 text-white'
+                                    : 'text-[var(--text-secondary)]'}`}
+                        >
+                            <LayoutGrid className="w-4 h-4" />
+                        </button>
+                        <button
+                            onClick={() => updateFilter('viewMode', 'list' as SolutionViewMode)}
+                            className={`p-2 rounded-lg transition-all
+                                ${filters.viewMode === 'list'
+                                    ? 'bg-blue-500 text-white'
+                                    : 'text-[var(--text-secondary)]'}`}
+                        >
+                            <List className="w-4 h-4" />
+                        </button>
+                    </div>
+                </div>
+
+                {/* Mobile Filters Panel */}
+                {showMobileFilters && (
+                    <div className="lg:hidden mt-4 pt-4 border-t border-[var(--border-color)] space-y-4">
+                        {/* Sort */}
+                        <div>
+                            <label className="text-xs text-[var(--text-tertiary)] uppercase tracking-wide mb-2 block">
+                                Сортировка
+                            </label>
+                            <div className="flex flex-wrap gap-2">
+                                {sortOptions.map((option) => (
+                                    <button
+                                        key={option.value}
+                                        onClick={() => updateFilter('sort', option.value)}
+                                        className={`px-3 py-2 rounded-lg text-sm transition-all
+                                            ${filters.sort === option.value
+                                                ? 'bg-blue-500 text-white'
+                                                : 'bg-[var(--bg-card)] border border-[var(--border-color)] text-[var(--text-primary)]'}`}
+                                    >
+                                        {option.label}
+                                    </button>
+                                ))}
+                            </div>
+                        </div>
+
+                        {/* Rating */}
+                        <div>
+                            <label className="text-xs text-[var(--text-tertiary)] uppercase tracking-wide mb-2 block">
+                                Минимальный рейтинг
+                            </label>
+                            <div className="flex items-center gap-2">
+                                {ratingOptions.map((rating) => (
+                                    <button
+                                        key={rating}
+                                        onClick={() => updateFilter('minRating', rating)}
+                                        className={`flex items-center gap-1 px-3 py-2 rounded-lg text-sm transition-all
+                                            ${filters.minRating === rating
+                                                ? 'bg-amber-500 text-white'
+                                                : 'bg-[var(--bg-card)] border border-[var(--border-color)] text-[var(--text-primary)]'}`}
+                                    >
+                                        {rating > 0 && <Star className="w-3.5 h-3.5 fill-current" />}
+                                        {rating === 0 ? 'Все' : `${rating}+`}
+                                    </button>
+                                ))}
+                            </div>
+                        </div>
+
+                        {/* Categories */}
+                        <div>
+                            <label className="text-xs text-[var(--text-tertiary)] uppercase tracking-wide mb-2 block">
+                                Категории
+                            </label>
+                            <div className="flex flex-wrap gap-2">
+                                <button
+                                    onClick={() => updateFilter('categories', [])}
+                                    className={`px-3 py-2 rounded-lg text-sm transition-all
+                                        ${filters.categories.length === 0
+                                            ? 'bg-blue-500 text-white'
+                                            : 'bg-[var(--bg-card)] border border-[var(--border-color)] text-[var(--text-primary)]'}`}
+                                >
+                                    Все
+                                </button>
+                                {availableCategories.map((category) => (
+                                    <button
+                                        key={category.id}
+                                        onClick={() => toggleCategory(category.id)}
+                                        className={`px-3 py-2 rounded-lg text-sm transition-all
+                                            ${filters.categories.includes(category.id)
+                                                ? 'bg-blue-500 text-white'
+                                                : 'bg-[var(--bg-card)] border border-[var(--border-color)] text-[var(--text-primary)]'}`}
+                                    >
+                                        {category.name}
+                                    </button>
+                                ))}
+                            </div>
+                        </div>
+
+                        {/* Tags */}
+                        <div>
+                            <label className="text-xs text-[var(--text-tertiary)] uppercase tracking-wide mb-2 block">
+                                Теги
+                            </label>
+                            <div className="flex flex-wrap gap-2">
+                                {availableTags.map((tag) => (
+                                    <button
+                                        key={tag}
+                                        onClick={() => toggleTag(tag)}
+                                        className={`px-3 py-1.5 rounded-full text-sm transition-all
+                                            ${filters.tags.includes(tag)
+                                                ? 'bg-blue-500 text-white'
+                                                : 'bg-[var(--bg-card)] border border-[var(--border-color)] text-[var(--text-secondary)]'}`}
+                                    >
+                                        {tag}
+                                    </button>
+                                ))}
+                            </div>
+                        </div>
+
+                        {/* Reset & Apply */}
+                        <div className="flex items-center gap-3 pt-2">
+                            {hasActiveFilters && (
+                                <button
+                                    onClick={resetFilters}
+                                    className="flex-1 py-2.5 text-sm text-red-500 border border-red-200 dark:border-red-500/30 rounded-xl hover:bg-red-50 dark:hover:bg-red-500/10 transition-colors"
+                                >
+                                    Сбросить
+                                </button>
+                            )}
+                            <button
+                                onClick={() => setShowMobileFilters(false)}
+                                className="flex-1 py-2.5 text-sm text-white bg-blue-500 rounded-xl hover:bg-blue-600 transition-colors"
+                            >
+                                Показать {resultsCount} {resultsCount === 1 ? 'решение' : resultsCount < 5 ? 'решения' : 'решений'}
+                            </button>
+                        </div>
+                    </div>
+                )}
+
+                {/* Desktop: Full Filter Row */}
+                <div className="hidden lg:flex flex-col lg:flex-row lg:items-center gap-4">
                     {/* Search */}
                     <div className="relative flex-1 max-w-md">
                         <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-[var(--text-tertiary)]" />
@@ -284,9 +466,9 @@ export function AllSolutionsFilterBar({
                     </div>
                 </div>
 
-                {/* Advanced Filters (Tags) */}
+                {/* Desktop: Advanced Filters (Tags) */}
                 {showAdvanced && (
-                    <div className="mt-4 pt-4 border-t border-[var(--border-color)]">
+                    <div className="hidden lg:block mt-4 pt-4 border-t border-[var(--border-color)]">
                         <div className="flex items-center gap-2 mb-3">
                             <span className="text-sm text-[var(--text-secondary)]">Теги:</span>
                         </div>
@@ -307,8 +489,8 @@ export function AllSolutionsFilterBar({
                     </div>
                 )}
 
-                {/* Results Count & Reset */}
-                <div className="flex items-center justify-between mt-4 pt-4 border-t border-[var(--border-color)]">
+                {/* Results Count & Reset - Desktop */}
+                <div className="hidden lg:flex items-center justify-between mt-4 pt-4 border-t border-[var(--border-color)]">
                     <span className="text-sm text-[var(--text-secondary)]">
                         Найдено: <span className="font-semibold text-[var(--text-primary)]">{resultsCount}</span>
                         {resultsCount === 1 ? ' решение' : resultsCount < 5 ? ' решения' : ' решений'}
@@ -324,6 +506,25 @@ export function AllSolutionsFilterBar({
                         </button>
                     )}
                 </div>
+
+                {/* Results Count - Mobile (when filters closed) */}
+                {!showMobileFilters && (
+                    <div className="flex lg:hidden items-center justify-between mt-3 pt-3 border-t border-[var(--border-color)]">
+                        <span className="text-sm text-[var(--text-secondary)]">
+                            Найдено: <span className="font-semibold text-[var(--text-primary)]">{resultsCount}</span>
+                        </span>
+
+                        {hasActiveFilters && (
+                            <button
+                                onClick={resetFilters}
+                                className="flex items-center gap-1 text-sm text-blue-500"
+                            >
+                                <X className="w-4 h-4" />
+                                Сбросить
+                            </button>
+                        )}
+                    </div>
+                )}
             </div>
         </div>
     );
