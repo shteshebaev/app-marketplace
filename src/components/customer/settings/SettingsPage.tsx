@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import {
     User,
     Shield,
@@ -18,21 +19,22 @@ type SettingsTab = 'profile' | 'security' | 'notifications' | 'billing' | 'integ
 
 interface TabItem {
     id: SettingsTab;
-    label: string;
+    labelKey: string;
     icon: React.ReactNode;
     danger?: boolean;
 }
 
-const tabs: TabItem[] = [
-    { id: 'profile', label: 'Профиль', icon: <User className="w-5 h-5" /> },
-    { id: 'security', label: 'Безопасность', icon: <Shield className="w-5 h-5" /> },
-    { id: 'notifications', label: 'Уведомления', icon: <Bell className="w-5 h-5" /> },
-    { id: 'billing', label: 'Платежи', icon: <CreditCard className="w-5 h-5" /> },
-    { id: 'integrations', label: 'Интеграции', icon: <Key className="w-5 h-5" /> },
-    { id: 'danger', label: 'Удаление аккаунта', icon: <Trash2 className="w-5 h-5" />, danger: true }
+const tabsConfig: TabItem[] = [
+    { id: 'profile', labelKey: 'settings.profile', icon: <User className="w-5 h-5" /> },
+    { id: 'security', labelKey: 'settings.security', icon: <Shield className="w-5 h-5" /> },
+    { id: 'notifications', labelKey: 'settings.notificationsTab', icon: <Bell className="w-5 h-5" /> },
+    { id: 'billing', labelKey: 'settings.billing', icon: <CreditCard className="w-5 h-5" /> },
+    { id: 'integrations', labelKey: 'settings.integrations', icon: <Key className="w-5 h-5" /> },
+    { id: 'danger', labelKey: 'settings.dangerZone', icon: <Trash2 className="w-5 h-5" />, danger: true }
 ];
 
 export function SettingsPage() {
+    const { t } = useTranslation();
     const [activeTab, setActiveTab] = useState<SettingsTab>('profile');
 
     const renderContent = () => {
@@ -59,10 +61,10 @@ export function SettingsPage() {
             {/* Header */}
             <div>
                 <h1 className="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white">
-                    Настройки
+                    {t('settings.title')}
                 </h1>
                 <p className="mt-1 text-slate-500 dark:text-slate-400">
-                    Управление вашим аккаунтом и настройками безопасности
+                    {t('settings.subtitle')}
                 </p>
             </div>
 
@@ -73,7 +75,7 @@ export function SettingsPage() {
                     <div className="bg-white dark:bg-slate-800 rounded-2xl p-2 shadow-sm border border-slate-200 dark:border-slate-700">
                         {/* Mobile: Horizontal scroll */}
                         <div className="flex lg:flex-col gap-1 overflow-x-auto lg:overflow-visible pb-2 lg:pb-0 -mx-2 px-2 lg:mx-0 lg:px-0">
-                            {tabs.map((tab) => (
+                            {tabsConfig.map((tab) => (
                                 <button
                                     key={tab.id}
                                     onClick={() => setActiveTab(tab.id)}
@@ -91,7 +93,7 @@ export function SettingsPage() {
                                     `}
                                 >
                                     {tab.icon}
-                                    <span className="font-medium">{tab.label}</span>
+                                    <span className="font-medium">{t(tab.labelKey)}</span>
                                 </button>
                             ))}
                         </div>

@@ -1,4 +1,5 @@
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { AuthLayout, LoginForm, SocialAuth, AuthDivider } from '../components/auth';
 import { useAuth } from '../context/AuthContext';
 import type { LoginCredentials, SocialProvider, DashboardType } from '../types/auth';
@@ -6,6 +7,7 @@ import type { LoginCredentials, SocialProvider, DashboardType } from '../types/a
 const LAST_DASHBOARD_KEY = 'marketplace_last_dashboard';
 
 export function LoginPage() {
+    const { t } = useTranslation();
     const navigate = useNavigate();
     const { login, isLoading, error, selectDashboard } = useAuth();
 
@@ -55,8 +57,8 @@ export function LoginPage() {
 
     return (
         <AuthLayout
-            title="Вход в аккаунт"
-            subtitle="Добро пожаловать! Войдите для продолжения"
+            title={t('auth.loginTitle')}
+            subtitle={t('auth.loginSubtitle')}
         >
             <SocialAuth
                 onSocialLogin={handleSocialLogin}

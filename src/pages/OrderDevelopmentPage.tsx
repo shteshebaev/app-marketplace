@@ -3,7 +3,6 @@ import {
   OrderHero,
   ProblemSolution,
   OrderForm,
-  TrustBadges,
   ProcessSteps,
   FixedCTA,
 } from '../components/order-development';
@@ -34,7 +33,7 @@ export function OrderDevelopmentPage({ onNavigateHome }: OrderDevelopmentPagePro
       <OrderForm ref={formRef} onNavigateHome={onNavigateHome} />
 
       {/* Social Proof */}
-      <TrustBadges />
+    {/*  <TrustBadges />*/}
 
       {/* Process Steps */}
       <ProcessSteps />

@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import {
     AuthLayout,
     RoleSelector,
@@ -14,6 +15,7 @@ import type { UserRegisterData, DeveloperRegisterData, SocialProvider } from '..
 type Step = 'select-role' | 'user-form' | 'developer-form';
 
 export function RegisterPage() {
+    const { t } = useTranslation();
     const navigate = useNavigate();
     const { registerUser, registerDeveloper, isLoading } = useAuth();
     const [step, setStep] = useState<Step>('select-role');
@@ -50,22 +52,22 @@ export function RegisterPage() {
     const getTitle = () => {
         switch (step) {
             case 'select-role':
-                return 'Создайте аккаунт';
+                return t('auth.registerTitle');
             case 'user-form':
-                return 'Регистрация';
+                return t('auth.registerTitle');
             case 'developer-form':
-                return 'Регистрация разработчика';
+                return t('auth.registerTitle');
         }
     };
 
     const getSubtitle = () => {
         switch (step) {
             case 'select-role':
-                return 'Выберите, как вы хотите использовать платформу';
+                return t('auth.registerSubtitle');
             case 'user-form':
-                return 'Создайте аккаунт для использования решений';
+                return t('auth.registerSubtitle');
             case 'developer-form':
-                return 'Создайте аккаунт для публикации решений';
+                return t('auth.registerSubtitle');
         }
     };
 

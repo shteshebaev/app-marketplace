@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Eye, EyeOff, ArrowLeft, Check, X } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 import type { UserRegisterData, AuthFormErrors, PasswordStrength } from '../../types/auth';
 
 interface UserRegisterFormProps {
@@ -9,6 +10,7 @@ interface UserRegisterFormProps {
 }
 
 export function UserRegisterForm({ onSubmit, onBack, isLoading = false }: UserRegisterFormProps) {
+    const { t } = useTranslation();
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -36,27 +38,27 @@ export function UserRegisterForm({ onSubmit, onBack, isLoading = false }: UserRe
         const newErrors: AuthFormErrors = {};
 
         if (!name.trim()) {
-            newErrors.name = 'Введите имя';
+            newErrors.name = t('errors.required');
         } else if (name.trim().length < 2) {
-            newErrors.name = 'Имя должно быть не менее 2 символов';
+            newErrors.name = t('errors.required');
         }
 
         if (!email.trim()) {
-            newErrors.email = 'Введите email';
+            newErrors.email = t('errors.required');
         } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-            newErrors.email = 'Некорректный email';
+            newErrors.email = t('errors.invalidEmail');
         }
 
         if (!password) {
-            newErrors.password = 'Введите пароль';
+            newErrors.password = t('errors.required');
         } else if (password.length < 8) {
-            newErrors.password = 'Пароль должен быть не менее 8 символов';
+            newErrors.password = t('errors.passwordTooShort');
         }
 
         if (!confirmPassword) {
-            newErrors.confirmPassword = 'Подтвердите пароль';
+            newErrors.confirmPassword = t('errors.required');
         } else if (password !== confirmPassword) {
-            newErrors.confirmPassword = 'Пароли не совпадают';
+            newErrors.confirmPassword = t('errors.passwordsNotMatch');
         }
 
         setErrors(newErrors);
@@ -91,20 +93,20 @@ export function UserRegisterForm({ onSubmit, onBack, isLoading = false }: UserRe
                 className="flex items-center gap-2 text-sm text-slate-500 hover:text-slate-700 dark:hover:text-slate-300 transition-colors"
             >
                 <ArrowLeft className="w-4 h-4" />
-                Назад к выбору роли
+                {t('common.back')}
             </button>
 
             {/* Name */}
             <div>
                 <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">
-                    Имя
+                    {t('auth.name')}
                 </label>
                 <input
                     type="text"
                     value={name}
                     onChange={(e) => setName(e.target.value)}
                     onBlur={() => handleBlur('name')}
-                    placeholder="Иван Иванов"
+                    placeholder={t('auth.name')}
                     className={`w-full px-4 py-3 bg-slate-50 dark:bg-slate-700 border rounded-xl text-slate-900 dark:text-white placeholder-slate-400 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all ${
                         touched.name && errors.name
                             ? 'border-red-500'
@@ -122,7 +124,7 @@ export function UserRegisterForm({ onSubmit, onBack, isLoading = false }: UserRe
             {/* Email */}
             <div>
                 <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">
-                    Email
+                    {t('auth.email')}
                 </label>
                 <input
                     type="email"
@@ -147,7 +149,7 @@ export function UserRegisterForm({ onSubmit, onBack, isLoading = false }: UserRe
             {/* Password */}
             <div>
                 <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">
-                    Пароль
+                    {t('auth.password')}
                 </label>
                 <div className="relative">
                     <input
@@ -155,7 +157,7 @@ export function UserRegisterForm({ onSubmit, onBack, isLoading = false }: UserRe
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
                         onBlur={() => handleBlur('password')}
-                        placeholder="Минимум 8 символов"
+                        placeholder={t('settings.minChars')}
                         className={`w-full px-4 py-3 pr-12 bg-slate-50 dark:bg-slate-700 border rounded-xl text-slate-900 dark:text-white placeholder-slate-400 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all ${
                             touched.password && errors.password
                                 ? 'border-red-500'
@@ -180,7 +182,7 @@ export function UserRegisterForm({ onSubmit, onBack, isLoading = false }: UserRe
                             <div className={`h-1 flex-1 rounded-full ${passwordStrength === 'strong' ? 'bg-emerald-500' : 'bg-slate-200 dark:bg-slate-600'}`} />
                         </div>
                         <p className={`text-xs ${passwordStrength === 'weak' ? 'text-red-500' : passwordStrength === 'medium' ? 'text-amber-500' : 'text-emerald-500'}`}>
-                            {passwordStrength === 'weak' ? 'Слабый пароль' : passwordStrength === 'medium' ? 'Средний пароль' : 'Надёжный пароль'}
+                            {passwordStrength === 'weak' ? 'Weak' : passwordStrength === 'medium' ? 'Medium' : 'Strong'}
                         </p>
                     </div>
                 )}
@@ -196,7 +198,7 @@ export function UserRegisterForm({ onSubmit, onBack, isLoading = false }: UserRe
             {/* Confirm Password */}
             <div>
                 <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">
-                    Подтвердите пароль
+                    {t('auth.confirmPassword')}
                 </label>
                 <div className="relative">
                     <input
@@ -204,7 +206,7 @@ export function UserRegisterForm({ onSubmit, onBack, isLoading = false }: UserRe
                         value={confirmPassword}
                         onChange={(e) => setConfirmPassword(e.target.value)}
                         onBlur={() => handleBlur('confirmPassword')}
-                        placeholder="Повторите пароль"
+                        placeholder={t('auth.confirmPassword')}
                         className={`w-full px-4 py-3 pr-12 bg-slate-50 dark:bg-slate-700 border rounded-xl text-slate-900 dark:text-white placeholder-slate-400 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all ${
                             touched.confirmPassword && errors.confirmPassword
                                 ? 'border-red-500'
@@ -224,7 +226,7 @@ export function UserRegisterForm({ onSubmit, onBack, isLoading = false }: UserRe
                 {confirmPassword && password === confirmPassword && (
                     <p className="mt-1.5 text-sm text-emerald-500 flex items-center gap-1">
                         <Check className="w-3.5 h-3.5" />
-                        Пароли совпадают
+                        OK
                     </p>
                 )}
                 {touched.confirmPassword && errors.confirmPassword && (
@@ -247,22 +249,22 @@ export function UserRegisterForm({ onSubmit, onBack, isLoading = false }: UserRe
                             <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" />
                             <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
                         </svg>
-                        Создание аккаунта...
+                        {t('common.loading')}
                     </span>
                 ) : (
-                    'Создать аккаунт'
+                    t('auth.signUp')
                 )}
             </button>
 
             {/* Terms */}
             <p className="text-xs text-center text-slate-500 dark:text-slate-400">
-                Создавая аккаунт, вы соглашаетесь с{' '}
+                {t('auth.termsAgree')}{' '}
                 <a href="/terms" className="text-blue-500 hover:underline">
-                    условиями использования
+                    {t('auth.termsOfService')}
                 </a>{' '}
-                и{' '}
+                {t('common.and')}{' '}
                 <a href="/privacy" className="text-blue-500 hover:underline">
-                    политикой конфиденциальности
+                    {t('auth.privacyPolicy')}
                 </a>
             </p>
         </form>

@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import {
     LayoutDashboard,
     Package,
@@ -32,6 +33,7 @@ interface MenuItem {
 }
 
 export function CustomerSidebar({ className = '', activeItem = 'dashboard', onNavigate }: CustomerSidebarProps) {
+    const { t } = useTranslation();
     const { user, logout } = useAuth();
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
@@ -41,28 +43,28 @@ export function CustomerSidebar({ className = '', activeItem = 'dashboard', onNa
     const menuItems: MenuItem[] = [
         {
             id: 'dashboard',
-            label: 'Главная',
+            label: t('dashboard.main'),
             icon: <LayoutDashboard className="w-5 h-5" />
         },
         {
             id: 'solutions',
-            label: 'Мои продукты',
+            label: t('dashboard.myProducts'),
             icon: <Package className="w-5 h-5" />
         },
         {
             id: 'orders',
-            label: 'Заявки',
+            label: t('dashboard.orders'),
             icon: <ShoppingCart className="w-5 h-5" />,
             badge: pendingOrders > 0 ? pendingOrders : undefined
         },
         {
             id: 'subscriptions',
-            label: 'Подписки',
+            label: t('dashboard.subscriptions'),
             icon: <CreditCard className="w-5 h-5" />
         },
         {
             id: 'notifications',
-            label: 'Уведомления',
+            label: t('dashboard.notifications'),
             icon: <Bell className="w-5 h-5" />,
             badge: unreadNotifications > 0 ? unreadNotifications : undefined
         }
@@ -71,7 +73,7 @@ export function CustomerSidebar({ className = '', activeItem = 'dashboard', onNa
     const bottomMenuItems: MenuItem[] = [
         {
             id: 'settings',
-            label: 'Настройки',
+            label: t('dashboard.settings'),
             icon: <Settings className="w-5 h-5" />
         }
     ];
@@ -136,7 +138,7 @@ export function CustomerSidebar({ className = '', activeItem = 'dashboard', onNa
                     </div>
                     <div className="flex-1 min-w-0">
                         <h3 className="font-semibold text-slate-900 dark:text-white truncate">
-                            {user?.name || 'Пользователь'}
+                            {user?.name || t('header.profile')}
                         </h3>
                         <p className="text-sm text-slate-500 dark:text-slate-400 truncate">
                             {user?.email || 'user@example.com'}
@@ -157,7 +159,7 @@ export function CustomerSidebar({ className = '', activeItem = 'dashboard', onNa
                     className="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700/50 transition-all"
                 >
                     <Search className="w-5 h-5" />
-                    <span className="flex-1 font-medium">Каталог решений</span>
+                    <span className="flex-1 font-medium">{t('dashboard.catalog')}</span>
                 </Link>
 
                 {bottomMenuItems.map(item => renderMenuItem(item))}
@@ -170,7 +172,7 @@ export function CustomerSidebar({ className = '', activeItem = 'dashboard', onNa
                     className="flex items-center gap-3 px-4 py-3 w-full rounded-xl text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-500/10 transition-colors"
                 >
                     <LogOut className="w-5 h-5" />
-                    <span className="font-medium">Выйти</span>
+                    <span className="font-medium">{t('header.logout')}</span>
                 </button>
             </div>
         </aside>
@@ -225,7 +227,7 @@ export function CustomerSidebar({ className = '', activeItem = 'dashboard', onNa
                             </div>
                             <div>
                                 <h3 className="font-semibold text-slate-900 dark:text-white">
-                                    {user?.name || 'Пользователь'}
+                                    {user?.name || t('header.profile')}
                                 </h3>
                                 <p className="text-sm text-slate-500 dark:text-slate-400">
                                     {user?.email || 'user@example.com'}
@@ -253,7 +255,7 @@ export function CustomerSidebar({ className = '', activeItem = 'dashboard', onNa
                             onClick={() => setIsMobileMenuOpen(false)}
                         >
                             <Search className="w-5 h-5" />
-                            <span className="flex-1 font-medium">Каталог решений</span>
+                            <span className="flex-1 font-medium">{t('dashboard.catalog')}</span>
                         </Link>
 
                         {bottomMenuItems.map(item => renderMenuItem(item, () => setIsMobileMenuOpen(false)))}
@@ -266,7 +268,7 @@ export function CustomerSidebar({ className = '', activeItem = 'dashboard', onNa
                             className="flex items-center gap-3 px-4 py-3 w-full rounded-xl text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-500/10 transition-colors"
                         >
                             <LogOut className="w-5 h-5" />
-                            <span className="font-medium">Выйти</span>
+                            <span className="font-medium">{t('header.logout')}</span>
                         </button>
                     </div>
                 </div>

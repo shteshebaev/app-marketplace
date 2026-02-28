@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Eye, EyeOff, X } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 import type { LoginCredentials, AuthFormErrors } from '../../types/auth';
 
 interface LoginFormProps {
@@ -9,10 +10,10 @@ interface LoginFormProps {
 }
 
 export function LoginForm({ onSubmit, isLoading = false, error }: LoginFormProps) {
+    const { t } = useTranslation();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [showPassword, setShowPassword] = useState(false);
-    const [rememberMe, setRememberMe] = useState(false);
     const [errors, setErrors] = useState<AuthFormErrors>({});
     const [touched, setTouched] = useState<Record<string, boolean>>({});
 
@@ -20,13 +21,13 @@ export function LoginForm({ onSubmit, isLoading = false, error }: LoginFormProps
         const newErrors: AuthFormErrors = {};
 
         if (!email.trim()) {
-            newErrors.email = 'Введите email';
+            newErrors.email = t('errors.required');
         } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-            newErrors.email = 'Некорректный email';
+            newErrors.email = t('errors.invalidEmail');
         }
 
         if (!password) {
-            newErrors.password = 'Введите пароль';
+            newErrors.password = t('errors.required');
         }
 
         setErrors(newErrors);
@@ -65,7 +66,7 @@ export function LoginForm({ onSubmit, isLoading = false, error }: LoginFormProps
             {/* Email */}
             <div>
                 <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">
-                    Email
+                    {t('auth.email')}
                 </label>
                 <input
                     type="email"
@@ -92,13 +93,13 @@ export function LoginForm({ onSubmit, isLoading = false, error }: LoginFormProps
             <div>
                 <div className="flex items-center justify-between mb-1.5">
                     <label className="block text-sm font-medium text-slate-700 dark:text-slate-300">
-                        Пароль
+                        {t('auth.password')}
                     </label>
                     <a
                         href="/forgot-password"
                         className="text-sm text-blue-500 hover:text-blue-600 font-medium"
                     >
-                        Забыли пароль?
+                        {t('auth.forgotPassword')}
                     </a>
                 </div>
                 <div className="relative">
@@ -107,7 +108,7 @@ export function LoginForm({ onSubmit, isLoading = false, error }: LoginFormProps
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
                         onBlur={() => handleBlur('password')}
-                        placeholder="Введите пароль"
+                        placeholder={t('auth.password')}
                         autoComplete="current-password"
                         className={`w-full px-4 py-3 pr-12 bg-slate-50 dark:bg-slate-700 border rounded-xl text-slate-900 dark:text-white placeholder-slate-400 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all ${
                             touched.password && errors.password
@@ -131,20 +132,6 @@ export function LoginForm({ onSubmit, isLoading = false, error }: LoginFormProps
                 )}
             </div>
 
-            {/* Remember Me */}
-            <div className="flex items-center">
-                <input
-                    type="checkbox"
-                    id="remember"
-                    checked={rememberMe}
-                    onChange={(e) => setRememberMe(e.target.checked)}
-                    className="w-4 h-4 rounded border-slate-300 text-blue-500 focus:ring-blue-500"
-                />
-                <label htmlFor="remember" className="ml-2 text-sm text-slate-600 dark:text-slate-400">
-                    Запомнить меня
-                </label>
-            </div>
-
             {/* Submit */}
             <button
                 type="submit"
@@ -157,25 +144,25 @@ export function LoginForm({ onSubmit, isLoading = false, error }: LoginFormProps
                             <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" />
                             <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
                         </svg>
-                        Вход...
+                        {t('common.loading')}
                     </span>
                 ) : (
-                    'Войти'
+                    t('auth.signIn')
                 )}
             </button>
 
             {/* Register Link */}
             <p className="text-center text-sm text-slate-500 dark:text-slate-400">
-                Нет аккаунта?{' '}
+                {t('auth.noAccount')}{' '}
                 <a href="/register" className="text-blue-500 hover:text-blue-600 font-medium">
-                    Создать аккаунт
+                    {t('auth.signUp')}
                 </a>
             </p>
 
             {/* Demo Quick Login */}
             <div className="pt-4 border-t border-slate-200 dark:border-slate-700">
                 <p className="text-xs text-center text-slate-400 dark:text-slate-500 mb-3">
-                    Демо-аккаунты для тестирования:
+                    Demo accounts:
                 </p>
                 <div className="grid grid-cols-3 gap-2">
                     <button
@@ -186,7 +173,7 @@ export function LoginForm({ onSubmit, isLoading = false, error }: LoginFormProps
                         }}
                         className="px-2 py-2 text-xs bg-blue-50 dark:bg-blue-500/10 text-blue-600 dark:text-blue-400 rounded-lg hover:bg-blue-100 dark:hover:bg-blue-500/20 transition-colors"
                     >
-                        Клиент
+                        {t('auth.asClient')}
                     </button>
                     <button
                         type="button"
@@ -196,7 +183,7 @@ export function LoginForm({ onSubmit, isLoading = false, error }: LoginFormProps
                         }}
                         className="px-2 py-2 text-xs bg-emerald-50 dark:bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 rounded-lg hover:bg-emerald-100 dark:hover:bg-emerald-500/20 transition-colors"
                     >
-                        Разработчик
+                        {t('auth.asDeveloper')}
                     </button>
                     <button
                         type="button"
@@ -206,7 +193,7 @@ export function LoginForm({ onSubmit, isLoading = false, error }: LoginFormProps
                         }}
                         className="px-2 py-2 text-xs bg-purple-50 dark:bg-purple-500/10 text-purple-600 dark:text-purple-400 rounded-lg hover:bg-purple-100 dark:hover:bg-purple-500/20 transition-colors"
                     >
-                        Обе роли
+                        Both
                     </button>
                 </div>
             </div>

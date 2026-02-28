@@ -1,6 +1,8 @@
 import { useState } from 'react';
-import { Camera, Check, Mail, Phone, Building2, User } from 'lucide-react';
+import { Camera, Check, Mail, Phone, Building2, User, Globe } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 import { useAuth } from '../../../context/AuthContext';
+import { languages, type LanguageCode } from '../../../i18n';
 
 interface ProfileForm {
     firstName: string;
@@ -11,6 +13,7 @@ interface ProfileForm {
 }
 
 export function ProfileSettings() {
+    const { t, i18n } = useTranslation();
     const { user } = useAuth();
     const [isSaving, setIsSaving] = useState(false);
     const [showSuccess, setShowSuccess] = useState(false);
@@ -41,13 +44,13 @@ export function ProfileSettings() {
         const newErrors: Partial<ProfileForm> = {};
 
         if (!form.firstName.trim()) {
-            newErrors.firstName = 'Введите имя';
+            newErrors.firstName = t('errors.required');
         }
         if (!form.lastName.trim()) {
-            newErrors.lastName = 'Введите фамилию';
+            newErrors.lastName = t('errors.required');
         }
         if (!validateEmail(form.email)) {
-            newErrors.email = 'Некорректный email';
+            newErrors.email = t('errors.invalidEmail');
         }
 
         if (Object.keys(newErrors).length > 0) {
@@ -70,10 +73,10 @@ export function ProfileSettings() {
         <div className="bg-white dark:bg-slate-800 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-700">
             <div className="p-6 border-b border-slate-200 dark:border-slate-700">
                 <h2 className="text-xl font-semibold text-slate-900 dark:text-white">
-                    Личные данные
+                    {t('settings.profileTitle')}
                 </h2>
                 <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">
-                    Обновите информацию о вашем профиле
+                    {t('settings.profileSubtitle')}
                 </p>
             </div>
 
@@ -93,10 +96,10 @@ export function ProfileSettings() {
                     </div>
                     <div>
                         <h3 className="font-medium text-slate-900 dark:text-white">
-                            Фото профиля
+                            {t('settings.profilePhoto')}
                         </h3>
                         <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">
-                            JPG, PNG или GIF. Максимум 2MB
+                            {t('settings.photoHint')}
                         </p>
                     </div>
                 </div>
@@ -106,7 +109,7 @@ export function ProfileSettings() {
                     {/* First Name */}
                     <div>
                         <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
-                            Имя <span className="text-red-500">*</span>
+                            {t('settings.firstName')} <span className="text-red-500">*</span>
                         </label>
                         <div className="relative">
                             <User className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
@@ -124,7 +127,7 @@ export function ProfileSettings() {
                                     }
                                     focus:outline-none focus:ring-2 focus:ring-opacity-50
                                 `}
-                                placeholder="Введите имя"
+                                placeholder={t('settings.firstName')}
                             />
                         </div>
                         {errors.firstName && (
@@ -135,7 +138,7 @@ export function ProfileSettings() {
                     {/* Last Name */}
                     <div>
                         <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
-                            Фамилия <span className="text-red-500">*</span>
+                            {t('settings.lastName')} <span className="text-red-500">*</span>
                         </label>
                         <div className="relative">
                             <User className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
@@ -153,7 +156,7 @@ export function ProfileSettings() {
                                     }
                                     focus:outline-none focus:ring-2 focus:ring-opacity-50
                                 `}
-                                placeholder="Введите фамилию"
+                                placeholder={t('settings.lastName')}
                             />
                         </div>
                         {errors.lastName && (
@@ -164,7 +167,7 @@ export function ProfileSettings() {
                     {/* Company */}
                     <div>
                         <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
-                            Компания
+                            {t('settings.company')}
                         </label>
                         <div className="relative">
                             <Building2 className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
@@ -179,7 +182,7 @@ export function ProfileSettings() {
                                     focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 focus:border-blue-500
                                     transition-colors
                                 "
-                                placeholder="Название компании"
+                                placeholder={t('settings.company')}
                             />
                         </div>
                     </div>
@@ -187,7 +190,7 @@ export function ProfileSettings() {
                     {/* Phone */}
                     <div>
                         <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
-                            Телефон
+                            {t('settings.phone')}
                         </label>
                         <div className="relative">
                             <Phone className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
@@ -210,7 +213,7 @@ export function ProfileSettings() {
                     {/* Email - Full Width */}
                     <div className="md:col-span-2">
                         <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
-                            Email <span className="text-red-500">*</span>
+                            {t('auth.email')} <span className="text-red-500">*</span>
                         </label>
                         <div className="relative">
                             <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
@@ -235,7 +238,40 @@ export function ProfileSettings() {
                             <p className="mt-1 text-sm text-red-500">{errors.email}</p>
                         )}
                         <p className="mt-2 text-sm text-slate-500 dark:text-slate-400">
-                            Изменение email потребует подтверждения
+                            {t('settings.emailChangeHint')}
+                        </p>
+                    </div>
+
+                    {/* Language */}
+                    <div className="md:col-span-2">
+                        <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
+                            {t('settings.language')}
+                        </label>
+                        <div className="relative">
+                            <Globe className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
+                            <select
+                                value={i18n.language}
+                                onChange={(e) => {
+                                    i18n.changeLanguage(e.target.value as LanguageCode);
+                                    localStorage.setItem('language', e.target.value);
+                                }}
+                                className="
+                                    w-full pl-12 pr-4 py-3 rounded-xl border bg-white dark:bg-slate-900
+                                    border-slate-200 dark:border-slate-600
+                                    text-slate-900 dark:text-white
+                                    focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 focus:border-blue-500
+                                    transition-colors appearance-none cursor-pointer
+                                "
+                            >
+                                {languages.map((lang) => (
+                                    <option key={lang.code} value={lang.code}>
+                                        {lang.flag} {lang.name}
+                                    </option>
+                                ))}
+                            </select>
+                        </div>
+                        <p className="mt-2 text-sm text-slate-500 dark:text-slate-400">
+                            {t('settings.languageHint')}
                         </p>
                     </div>
                 </div>
@@ -245,7 +281,7 @@ export function ProfileSettings() {
                     {showSuccess && (
                         <div className="flex items-center gap-2 text-green-600 dark:text-green-400">
                             <Check className="w-5 h-5" />
-                            <span className="text-sm font-medium">Изменения сохранены</span>
+                            <span className="text-sm font-medium">{t('settings.changesSaved')}</span>
                         </div>
                     )}
                     <div className={!showSuccess ? 'ml-auto' : ''}>
@@ -262,10 +298,10 @@ export function ProfileSettings() {
                             {isSaving ? (
                                 <>
                                     <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                                    Сохранение...
+                                    {t('common.loading')}
                                 </>
                             ) : (
-                                'Сохранить изменения'
+                                t('settings.saveChanges')
                             )}
                         </button>
                     </div>

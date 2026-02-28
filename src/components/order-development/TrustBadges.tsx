@@ -34,12 +34,12 @@ export function TrustBadges() {
   return (
     <section className="py-16 md:py-20 px-4 bg-gray-50 dark:bg-[#0A0A0A]">
       <div className="max-w-5xl mx-auto">
-        {/* Title */}
+         Title
         <h2 className="text-2xl md:text-3xl font-bold text-text-primary text-center mb-12">
           Нам доверяют
         </h2>
 
-        {/* Client Logos */}
+         Client Logos
         <div className="flex flex-wrap justify-center items-center gap-6 md:gap-10 mb-16">
           {clients.map((client, index) => (
             <div
@@ -59,7 +59,7 @@ export function TrustBadges() {
           ))}
         </div>
 
-        {/* Reviews */}
+         Reviews
         <div className="grid md:grid-cols-3 gap-6">
           {reviews.map((review, index) => (
             <div
@@ -72,7 +72,7 @@ export function TrustBadges() {
               "
               style={{ animationDelay: `${index * 100}ms` }}
             >
-              {/* Stars */}
+               Stars
               <div className="flex gap-1 mb-4">
                 {Array.from({ length: review.rating }).map((_, i) => (
                   <Star
@@ -82,12 +82,12 @@ export function TrustBadges() {
                 ))}
               </div>
 
-              {/* Review Text */}
+               Review Text
               <p className="text-text-secondary mb-4 text-sm leading-relaxed">
                 "{review.text}"
               </p>
 
-              {/* Author */}
+               Author
               <div>
                 <p className="font-semibold text-text-primary text-sm">
                   {review.author}

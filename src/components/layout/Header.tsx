@@ -1,8 +1,10 @@
 import { Menu, Search, Bell, User, Sun, Moon, LogIn, UserPlus } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { Button } from '../ui';
 import { useTheme } from '../../hooks';
 import { useAuth } from '../../context/AuthContext';
+import { LanguageSwitcher } from './LanguageSwitcher';
 
 interface HeaderProps {
   onMenuToggle?: () => void;
@@ -11,6 +13,7 @@ interface HeaderProps {
 }
 
 export function Header({ onMenuToggle, hideMobileMenu = false, hideNavigation = false }: HeaderProps) {
+  const { t } = useTranslation();
   const { isDark, toggleTheme } = useTheme();
   const { isAuthenticated, user, logout, selectedDashboard } = useAuth();
 
@@ -81,20 +84,22 @@ export function Header({ onMenuToggle, hideMobileMenu = false, hideNavigation = 
         {/* Center section: Navigation (desktop) */}
         {!hideNavigation && (
           <nav className="hidden lg:flex items-center gap-1">
-            <NavLink href="/catalog" active>Каталог</NavLink>
-            <NavLink href="/services">Услуги</NavLink>
-            <NavLink href="/about">О нас</NavLink>
-            <NavLink href="/support">Поддержка</NavLink>
+            <NavLink href="/solutions" active>{t('header.catalog')}</NavLink>
+            <NavLink href="/categories">{t('header.categories')}</NavLink>
+            <NavLink href="/support">{t('header.support')}</NavLink>
           </nav>
         )}
 
         {/* Right section: Actions */}
         <div className="flex items-center gap-2">
+          {/* Language switcher */}
+          <LanguageSwitcher />
+
           {/* Theme toggle */}
           <button
             onClick={toggleTheme}
             className="theme-toggle"
-            aria-label={isDark ? 'Включить светлую тему' : 'Включить тёмную тему'}
+            aria-label={isDark ? t('header.lightMode') : t('header.darkMode')}
           >
             {isDark ? (
               <Sun className="w-5 h-5" />
@@ -175,7 +180,7 @@ export function Header({ onMenuToggle, hideMobileMenu = false, hideNavigation = 
                     <User className="w-4 h-4 text-primary" />
                   )}
                 </div>
-                <span className="text-body-sm font-medium">{user?.name?.split(' ')[0] || 'Профиль'}</span>
+                <span className="text-body-sm font-medium">{user?.name?.split(' ')[0] || t('header.profile')}</span>
               </Link>
 
               {/* Logout button */}
@@ -185,7 +190,7 @@ export function Header({ onMenuToggle, hideMobileMenu = false, hideNavigation = 
                 onClick={logout}
                 className="hidden md:flex ml-2"
               >
-                Выйти
+                {t('header.logout')}
               </Button>
             </>
           ) : (
@@ -198,7 +203,7 @@ export function Header({ onMenuToggle, hideMobileMenu = false, hideNavigation = 
                   className="hidden sm:inline-flex items-center gap-1.5"
                 >
                   <LogIn className="w-4 h-4" />
-                  Войти
+                  {t('header.login')}
                 </Button>
               </Link>
 
@@ -210,7 +215,7 @@ export function Header({ onMenuToggle, hideMobileMenu = false, hideNavigation = 
                   className="hidden md:inline-flex items-center gap-1.5 ml-2"
                 >
                   <UserPlus className="w-4 h-4" />
-                  Регистрация
+                  {t('header.register')}
                 </Button>
               </Link>
             </>
