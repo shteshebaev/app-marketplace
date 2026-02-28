@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 import {
     LayoutDashboard,
     Package,
@@ -153,13 +154,13 @@ export function CustomerSidebar({ className = '', activeItem = 'dashboard', onNa
                 <div className="h-px bg-slate-200 dark:bg-slate-700 my-4" />
 
                 {/* Catalog Link */}
-                <a
-                    href="/catalog"
+                <Link
+                    to="/solutions"
                     className="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700/50 transition-all"
                 >
                     <Search className="w-5 h-5" />
                     <span className="flex-1 font-medium">Каталог решений</span>
-                </a>
+                </Link>
 
                 {bottomMenuItems.map(item => renderMenuItem(item))}
             </nav>
@@ -248,13 +249,14 @@ export function CustomerSidebar({ className = '', activeItem = 'dashboard', onNa
                         <div className="h-px bg-slate-200 dark:bg-slate-700 my-4" />
 
                         {/* Catalog Link */}
-                        <a
-                            href="/catalog"
+                        <Link
+                            to="/solutions"
                             className="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700/50 transition-all"
+                            onClick={() => setIsMobileMenuOpen(false)}
                         >
                             <Search className="w-5 h-5" />
                             <span className="flex-1 font-medium">Каталог решений</span>
-                        </a>
+                        </Link>
 
                         {bottomMenuItems.map(item => renderMenuItem(item, () => setIsMobileMenuOpen(false)))}
                     </nav>
