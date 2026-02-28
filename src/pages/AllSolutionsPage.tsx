@@ -17,20 +17,20 @@ import {
 } from '../components/solutions';
 import type { AllSolutionsFilterState } from '../components/solutions/AllSolutionsFilterBar';
 import type { Solution, CompareItem } from '../components/solutions';
+import { useConnectSolution } from '../hooks/useConnectSolution';
 
 interface AllSolutionsPageProps {
     onOrderDevelopment: () => void;
     onSolutionSelect?: (solutionId: string) => void;
-    onSolutionConnect?: (solutionId: string) => void;
 }
 
 
 
 export function AllSolutionsPage({
     onOrderDevelopment,
-    onSolutionSelect,
-    onSolutionConnect
+    onSolutionSelect
 }: AllSolutionsPageProps) {
+    const { connectSolution } = useConnectSolution();
     const allSolutions = getAllSolutions();
     const allCategories = getAllCategories();
     const recommendedSolutions = getGlobalRecommendedSolutions();
@@ -170,12 +170,11 @@ export function AllSolutionsPage({
     }, [onSolutionSelect]);
 
     const handleSolutionConnect = useCallback((solutionId: string) => {
-        if (onSolutionConnect) {
-            onSolutionConnect(solutionId);
-        } else if (onSolutionSelect) {
-            onSolutionSelect(solutionId);
+        const solution = allSolutions.find(s => s.id === solutionId);
+        if (solution) {
+            connectSolution(solution);
         }
-    }, [onSolutionConnect, onSolutionSelect]);
+    }, [allSolutions, connectSolution]);
 
     // Check if any filters are active
     const hasActiveFilters = filters.search || filters.minRating > 0 || filters.tags.length > 0 || filters.categories.length > 0;

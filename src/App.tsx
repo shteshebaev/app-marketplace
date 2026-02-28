@@ -18,6 +18,8 @@ import { DeveloperProfilePage } from './components/developer/public';
 import { ProductsList } from './components/developer/products';
 import { CreateProductWizard } from './components/developer/wizard';
 import { useAuth, AuthProvider } from './context';
+import { ConnectProvider } from './context/ConnectContext';
+import { ConnectModals } from './components/connect';
 
 // Protected route wrapper
 function ProtectedRoute({ children, allowedDashboards }: { children: React.ReactNode; allowedDashboards?: ('customer' | 'developer' | 'admin')[] }) {
@@ -222,7 +224,6 @@ function CategorySolutionsPageWrapper() {
         onNavigateHome={() => navigate('/')}
         onNavigateCategories={() => navigate('/categories')}
         onSolutionSelect={(solutionId) => navigate(`/product/${solutionId}`)}
-        onSolutionConnect={(solutionId) => navigate(`/product/${solutionId}?connect=true`)}
       />
     </PublicPagesWrapper>
   );
@@ -237,7 +238,6 @@ function AllSolutionsPageWrapper() {
       <AllSolutionsPage
         onOrderDevelopment={() => navigate('/order-development')}
         onSolutionSelect={(solutionId) => navigate(`/product/${solutionId}`)}
-        onSolutionConnect={(solutionId) => navigate(`/product/${solutionId}?connect=true`)}
       />
     </PublicPagesWrapper>
   );
@@ -354,11 +354,20 @@ function AppRoutes() {
   );
 }
 
+function AppContent() {
+  return (
+    <ConnectProvider>
+      <AppRoutes />
+      <ConnectModals />
+    </ConnectProvider>
+  );
+}
+
 function App() {
   return (
     <BrowserRouter>
       <AuthProvider>
-        <AppRoutes />
+        <AppContent />
       </AuthProvider>
     </BrowserRouter>
   );

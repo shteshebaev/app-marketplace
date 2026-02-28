@@ -13,22 +13,22 @@ import {
     availableTags
 } from '../components/solutions';
 import type { SolutionFilterState, Solution, CompareItem } from '../components/solutions';
+import { useConnectSolution } from '../hooks/useConnectSolution';
 
 interface SolutionsPageProps {
     categoryId: string;
     onNavigateHome: () => void;
     onNavigateCategories: () => void;
     onSolutionSelect?: (solutionId: string) => void;
-    onSolutionConnect?: (solutionId: string) => void;
 }
 
 export function SolutionsPage({
     categoryId,
     onNavigateHome,
     onNavigateCategories,
-    onSolutionSelect,
-    onSolutionConnect
+    onSolutionSelect
 }: SolutionsPageProps) {
+    const { connectSolution } = useConnectSolution();
     const category = categoryDetails[categoryId];
     const allSolutions = getSolutionsByCategory(categoryId);
     const topSolutions = getTopSolutions(categoryId);
@@ -150,12 +150,11 @@ export function SolutionsPage({
     }, [onSolutionSelect]);
 
     const handleSolutionConnect = useCallback((solutionId: string) => {
-        if (onSolutionConnect) {
-            onSolutionConnect(solutionId);
-        } else if (onSolutionSelect) {
-            onSolutionSelect(solutionId);
+        const solution = allSolutions.find(s => s.id === solutionId);
+        if (solution) {
+            connectSolution(solution);
         }
-    }, [onSolutionConnect, onSolutionSelect]);
+    }, [allSolutions, connectSolution]);
 
     const handleStartQuiz = useCallback(() => {
         // TODO: Open quiz modal
