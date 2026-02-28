@@ -48,7 +48,7 @@ export function DeveloperDashboardLayout({
     return (
         <div className="min-h-screen bg-slate-50 dark:bg-slate-950">
             {/* Header */}
-            <Header hideMobileMenu />
+            <Header hideMobileMenu hideNavigation />
 
             {/* Mobile Menu Button - Fixed at bottom */}
             <button

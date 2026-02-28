@@ -7,9 +7,10 @@ import { useAuth } from '../../context/AuthContext';
 interface HeaderProps {
   onMenuToggle?: () => void;
   hideMobileMenu?: boolean;
+  hideNavigation?: boolean;
 }
 
-export function Header({ onMenuToggle, hideMobileMenu = false }: HeaderProps) {
+export function Header({ onMenuToggle, hideMobileMenu = false, hideNavigation = false }: HeaderProps) {
   const { isDark, toggleTheme } = useTheme();
   const { isAuthenticated, user, logout, selectedDashboard } = useAuth();
 
@@ -78,12 +79,14 @@ export function Header({ onMenuToggle, hideMobileMenu = false }: HeaderProps) {
         </div>
 
         {/* Center section: Navigation (desktop) */}
-        <nav className="hidden lg:flex items-center gap-1">
-          <NavLink href="/catalog" active>Каталог</NavLink>
-          <NavLink href="/services">Услуги</NavLink>
-          <NavLink href="/about">О нас</NavLink>
-          <NavLink href="/support">Поддержка</NavLink>
-        </nav>
+        {!hideNavigation && (
+          <nav className="hidden lg:flex items-center gap-1">
+            <NavLink href="/catalog" active>Каталог</NavLink>
+            <NavLink href="/services">Услуги</NavLink>
+            <NavLink href="/about">О нас</NavLink>
+            <NavLink href="/support">Поддержка</NavLink>
+          </nav>
+        )}
 
         {/* Right section: Actions */}
         <div className="flex items-center gap-2">

@@ -22,7 +22,7 @@ export function DashboardLayout({
   return (
     <div className="min-h-screen bg-gradient-apple">
       {/* Header */}
-      <Header onMenuToggle={toggleSidebar} />
+      <Header onMenuToggle={toggleSidebar} hideNavigation />
 
       {/* Main content area */}
       <div className="flex pt-[72px]">

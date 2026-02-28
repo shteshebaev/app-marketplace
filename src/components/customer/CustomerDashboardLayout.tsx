@@ -80,7 +80,7 @@ export function CustomerDashboardLayout({ children, initialPage = 'dashboard' }:
     return (
         <div className="min-h-screen bg-slate-50 dark:bg-slate-900">
             {/* Header - hide mobile menu since we have sidebar */}
-            <Header hideMobileMenu />
+            <Header hideMobileMenu hideNavigation />
 
             <div className="flex">
                 {/* Sidebar */}
