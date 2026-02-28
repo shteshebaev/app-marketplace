@@ -54,8 +54,6 @@ export function PublicLayout({ children, onNavigate, currentPage = 'home' }: Pub
             <NavButton onClick={() => onNavigate?.('all-solutions')} isActive={currentPage === 'all-solutions'}>
               Решения
             </NavButton>
-            <NavLink href="#pricing">Цены</NavLink>
-            <NavLink href="#about">О нас</NavLink>
           </nav>
 
           {/* Right section */}
@@ -101,29 +99,6 @@ export function PublicLayout({ children, onNavigate, currentPage = 'home' }: Pub
         {children}
       </main>
     </div>
-  );
-}
-
-interface NavLinkProps {
-  href: string;
-  children: React.ReactNode;
-}
-
-function NavLink({ href, children }: NavLinkProps) {
-  return (
-    <a
-      href={href}
-      className="
-        px-4 py-2
-        text-body-sm font-medium
-        text-text-secondary
-        rounded-apple
-        transition-all duration-apple ease-apple
-        hover:text-text-primary hover:bg-black/5 dark:hover:bg-white/10
-      "
-    >
-      {children}
-    </a>
   );
 }
 
