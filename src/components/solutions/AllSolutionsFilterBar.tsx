@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect } from 'react';
 import { Search, SlidersHorizontal, Star, LayoutGrid, List, ChevronDown, X, Folder, Filter } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 import type { SolutionSortOption, SolutionViewMode, CategoryDetails } from './types';
 
 export interface AllSolutionsFilterState {
@@ -19,14 +20,6 @@ interface AllSolutionsFilterBarProps {
     resultsCount: number;
 }
 
-const sortOptions: { value: SolutionSortOption; label: string }[] = [
-    { value: 'popular', label: 'По популярности' },
-    { value: 'rating', label: 'По рейтингу' },
-    { value: 'price-asc', label: 'Сначала дешёвые' },
-    { value: 'price-desc', label: 'Сначала дорогие' },
-    { value: 'newest', label: 'По новизне' }
-];
-
 const ratingOptions = [4.5, 4.0, 3.5, 0];
 
 export function AllSolutionsFilterBar({
@@ -36,6 +29,16 @@ export function AllSolutionsFilterBar({
     availableCategories,
     resultsCount
 }: AllSolutionsFilterBarProps) {
+    const { t } = useTranslation();
+
+    const sortOptions: { value: SolutionSortOption; label: string }[] = [
+        { value: 'popular', label: t('allSolutions.sortPopular') },
+        { value: 'rating', label: t('allSolutions.sortRating') },
+        { value: 'price-asc', label: t('allSolutions.sortPriceAsc') },
+        { value: 'price-desc', label: t('allSolutions.sortPriceDesc') },
+        { value: 'newest', label: t('allSolutions.sortNewest') }
+    ];
+
     const [showAdvanced, setShowAdvanced] = useState(false);
     const [showSortDropdown, setShowSortDropdown] = useState(false);
     const [showCategoryDropdown, setShowCategoryDropdown] = useState(false);
@@ -98,7 +101,7 @@ export function AllSolutionsFilterBar({
                         <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[var(--text-tertiary)]" />
                         <input
                             type="text"
-                            placeholder="Поиск..."
+                            placeholder={t('allSolutions.searchPlaceholder')}
                             value={filters.search}
                             onChange={(e) => updateFilter('search', e.target.value)}
                             className="w-full pl-10 pr-4 py-2.5 bg-[var(--bg-card)] border border-[var(--border-color)]
@@ -160,7 +163,7 @@ export function AllSolutionsFilterBar({
                         {/* Sort */}
                         <div>
                             <label className="text-xs text-[var(--text-tertiary)] uppercase tracking-wide mb-2 block">
-                                Сортировка
+                                {t('allSolutions.sortLabel')}
                             </label>
                             <div className="flex flex-wrap gap-2">
                                 {sortOptions.map((option) => (
@@ -181,7 +184,7 @@ export function AllSolutionsFilterBar({
                         {/* Rating */}
                         <div>
                             <label className="text-xs text-[var(--text-tertiary)] uppercase tracking-wide mb-2 block">
-                                Минимальный рейтинг
+                                {t('allSolutions.minRating')}
                             </label>
                             <div className="flex items-center gap-2">
                                 {ratingOptions.map((rating) => (
@@ -194,7 +197,7 @@ export function AllSolutionsFilterBar({
                                                 : 'bg-[var(--bg-card)] border border-[var(--border-color)] text-[var(--text-primary)]'}`}
                                     >
                                         {rating > 0 && <Star className="w-3.5 h-3.5 fill-current" />}
-                                        {rating === 0 ? 'Все' : `${rating}+`}
+                                        {rating === 0 ? t('allSolutions.ratingAll') : `${rating}+`}
                                     </button>
                                 ))}
                             </div>
@@ -203,7 +206,7 @@ export function AllSolutionsFilterBar({
                         {/* Categories */}
                         <div>
                             <label className="text-xs text-[var(--text-tertiary)] uppercase tracking-wide mb-2 block">
-                                Категории
+                                {t('allSolutions.categoriesTitle')}
                             </label>
                             <div className="flex flex-wrap gap-2">
                                 <button
@@ -213,7 +216,7 @@ export function AllSolutionsFilterBar({
                                             ? 'bg-blue-500 text-white'
                                             : 'bg-[var(--bg-card)] border border-[var(--border-color)] text-[var(--text-primary)]'}`}
                                 >
-                                    Все
+                                    {t('allSolutions.ratingAll')}
                                 </button>
                                 {availableCategories.map((category) => (
                                     <button
@@ -233,7 +236,7 @@ export function AllSolutionsFilterBar({
                         {/* Tags */}
                         <div>
                             <label className="text-xs text-[var(--text-tertiary)] uppercase tracking-wide mb-2 block">
-                                Теги
+                                {t('allSolutions.tagsLabel')}
                             </label>
                             <div className="flex flex-wrap gap-2">
                                 {availableTags.map((tag) => (
@@ -258,14 +261,14 @@ export function AllSolutionsFilterBar({
                                     onClick={resetFilters}
                                     className="flex-1 py-2.5 text-sm text-red-500 border border-red-200 dark:border-red-500/30 rounded-xl hover:bg-red-50 dark:hover:bg-red-500/10 transition-colors"
                                 >
-                                    Сбросить
+                                    {t('allSolutions.reset')}
                                 </button>
                             )}
                             <button
                                 onClick={() => setShowMobileFilters(false)}
                                 className="flex-1 py-2.5 text-sm text-white bg-blue-500 rounded-xl hover:bg-blue-600 transition-colors"
                             >
-                                Показать {resultsCount} {resultsCount === 1 ? 'решение' : resultsCount < 5 ? 'решения' : 'решений'}
+                                {t('allSolutions.show')} {resultsCount} {resultsCount === 1 ? t('allSolutions.solution1') : resultsCount < 5 ? t('allSolutions.solution2_4') : t('allSolutions.solution5')}
                             </button>
                         </div>
                     </div>
@@ -278,7 +281,7 @@ export function AllSolutionsFilterBar({
                         <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-[var(--text-tertiary)]" />
                         <input
                             type="text"
-                            placeholder="Поиск по названию..."
+                            placeholder={t('allSolutions.searchPlaceholderFull')}
                             value={filters.search}
                             onChange={(e) => updateFilter('search', e.target.value)}
                             className="w-full pl-12 pr-4 py-3 bg-[var(--bg-card)] border border-[var(--border-color)]
@@ -308,8 +311,8 @@ export function AllSolutionsFilterBar({
                             <Folder className="w-4 h-4" />
                             <span className="text-sm font-medium flex-1 text-left">
                                 {filters.categories.length > 0
-                                    ? `${filters.categories.length} категор${filters.categories.length === 1 ? 'ия' : filters.categories.length < 5 ? 'ии' : 'ий'}`
-                                    : 'Все категории'}
+                                    ? `${filters.categories.length} ${filters.categories.length === 1 ? t('allSolutions.category1') : filters.categories.length < 5 ? t('allSolutions.category2_4') : t('allSolutions.category5')}`
+                                    : t('allSolutions.allCategories')}
                             </span>
                             <ChevronDown className={`w-4 h-4 transition-transform ${showCategoryDropdown ? 'rotate-180' : ''}`} />
                         </button>
@@ -325,7 +328,7 @@ export function AllSolutionsFilterBar({
                                                 ? 'bg-blue-500 text-white'
                                                 : 'hover:bg-[var(--hover-overlay)] text-[var(--text-primary)]'}`}
                                     >
-                                        Все категории
+                                        {t('allSolutions.allCategories')}
                                     </button>
                                 </div>
                                 <div className="p-2 max-h-64 overflow-y-auto">
@@ -346,7 +349,7 @@ export function AllSolutionsFilterBar({
                                             </div>
                                             <div className="flex-1 min-w-0">
                                                 <div className="font-medium truncate">{category.name}</div>
-                                                <div className="text-xs text-[var(--text-tertiary)]">{category.count} решений</div>
+                                                <div className="text-xs text-[var(--text-tertiary)]">{category.count} {t('allSolutions.solutionsCount')}</div>
                                             </div>
                                             {filters.categories.includes(category.id) && (
                                                 <div className="w-5 h-5 rounded bg-blue-500 flex items-center justify-center">
@@ -369,7 +372,7 @@ export function AllSolutionsFilterBar({
                             className="flex items-center gap-2 px-4 py-3 bg-[var(--bg-card)] border border-[var(--border-color)]
                                 rounded-xl hover:border-[var(--text-tertiary)] transition-all min-w-[180px]"
                         >
-                            <span className="text-[var(--text-secondary)] text-sm">Сортировка:</span>
+                            <span className="text-[var(--text-secondary)] text-sm">{t('allSolutions.sortLabel')}:</span>
                             <span className="text-[var(--text-primary)] font-medium text-sm flex-1 text-left">
                                 {sortOptions.find(o => o.value === filters.sort)?.label}
                             </span>
@@ -408,7 +411,7 @@ export function AllSolutionsFilterBar({
                     {/* Rating Filter */}
                     <div className="flex items-center gap-2 px-4 py-3 bg-[var(--bg-card)] border border-[var(--border-color)] rounded-xl">
                         <Star className="w-4 h-4 text-amber-500 fill-amber-500" />
-                        <span className="text-sm text-[var(--text-secondary)] hidden sm:inline">Рейтинг:</span>
+                        <span className="text-sm text-[var(--text-secondary)] hidden sm:inline">{t('allSolutions.ratingLabel')}:</span>
                         <div className="flex items-center gap-1">
                             {ratingOptions.map((rating) => (
                                 <button
@@ -419,7 +422,7 @@ export function AllSolutionsFilterBar({
                                             ? 'bg-amber-500 text-white font-medium'
                                             : 'text-[var(--text-secondary)] hover:bg-[var(--hover-overlay)]'}`}
                                 >
-                                    {rating === 0 ? 'Все' : `${rating}+`}
+                                    {rating === 0 ? t('allSolutions.ratingAll') : `${rating}+`}
                                 </button>
                             ))}
                         </div>
@@ -434,7 +437,7 @@ export function AllSolutionsFilterBar({
                                 : 'bg-[var(--bg-card)] border-[var(--border-color)] text-[var(--text-primary)] hover:border-[var(--text-tertiary)]'}`}
                     >
                         <SlidersHorizontal className="w-4 h-4" />
-                        <span className="text-sm font-medium">Теги</span>
+                        <span className="text-sm font-medium">{t('allSolutions.tagsBtn')}</span>
                         {filters.tags.length > 0 && (
                             <span className={`w-5 h-5 rounded-full text-xs flex items-center justify-center
                                 ${showAdvanced ? 'bg-white/20' : 'bg-blue-500 text-white'}`}>
@@ -470,7 +473,7 @@ export function AllSolutionsFilterBar({
                 {showAdvanced && (
                     <div className="hidden lg:block mt-4 pt-4 border-t border-[var(--border-color)]">
                         <div className="flex items-center gap-2 mb-3">
-                            <span className="text-sm text-[var(--text-secondary)]">Теги:</span>
+                            <span className="text-sm text-[var(--text-secondary)]">{t('allSolutions.tagsLabel')}:</span>
                         </div>
                         <div className="flex flex-wrap gap-2">
                             {availableTags.map((tag) => (
@@ -492,8 +495,8 @@ export function AllSolutionsFilterBar({
                 {/* Results Count & Reset - Desktop */}
                 <div className="hidden lg:flex items-center justify-between mt-4 pt-4 border-t border-[var(--border-color)]">
                     <span className="text-sm text-[var(--text-secondary)]">
-                        Найдено: <span className="font-semibold text-[var(--text-primary)]">{resultsCount}</span>
-                        {resultsCount === 1 ? ' решение' : resultsCount < 5 ? ' решения' : ' решений'}
+                        {t('allSolutions.found')}: <span className="font-semibold text-[var(--text-primary)]">{resultsCount}</span>
+                        {resultsCount === 1 ? ` ${t('allSolutions.solution1')}` : resultsCount < 5 ? ` ${t('allSolutions.solution2_4')}` : ` ${t('allSolutions.solution5')}`}
                     </span>
 
                     {hasActiveFilters && (
@@ -502,7 +505,7 @@ export function AllSolutionsFilterBar({
                             className="flex items-center gap-1 text-sm text-blue-500 hover:text-blue-600 transition-colors"
                         >
                             <X className="w-4 h-4" />
-                            Сбросить фильтры
+                            {t('allSolutions.resetFilters')}
                         </button>
                     )}
                 </div>
@@ -511,7 +514,7 @@ export function AllSolutionsFilterBar({
                 {!showMobileFilters && (
                     <div className="flex lg:hidden items-center justify-between mt-3 pt-3 border-t border-[var(--border-color)]">
                         <span className="text-sm text-[var(--text-secondary)]">
-                            Найдено: <span className="font-semibold text-[var(--text-primary)]">{resultsCount}</span>
+                            {t('allSolutions.found')}: <span className="font-semibold text-[var(--text-primary)]">{resultsCount}</span>
                         </span>
 
                         {hasActiveFilters && (
@@ -520,7 +523,7 @@ export function AllSolutionsFilterBar({
                                 className="flex items-center gap-1 text-sm text-blue-500"
                             >
                                 <X className="w-4 h-4" />
-                                Сбросить
+                                {t('allSolutions.reset')}
                             </button>
                         )}
                     </div>

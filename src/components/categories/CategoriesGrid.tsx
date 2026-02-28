@@ -1,4 +1,5 @@
 import { useMemo } from 'react';
+import { useTranslation } from 'react-i18next';
 import { type Category, type ViewMode } from './types';
 import { CategoryCard } from './CategoryCard';
 import { CategoryListItem } from './CategoryListItem';
@@ -12,6 +13,8 @@ interface CategoriesGridProps {
 }
 
 export function CategoriesGrid({ categories, viewMode, isLoading = false, onCategoryClick }: CategoriesGridProps) {
+    const { t } = useTranslation();
+
     // Memoize the rendered categories to prevent unnecessary re-renders
     const renderedCategories = useMemo(() => {
         if (viewMode === 'grid') {
@@ -48,10 +51,10 @@ export function CategoriesGrid({ categories, viewMode, isLoading = false, onCate
                     <span className="text-3xl">🔍</span>
                 </div>
                 <h3 className="text-lg font-semibold text-slate-900 dark:text-white mb-2">
-                    Ничего не найдено
+                    {t('categoriesPage.emptyTitle')}
                 </h3>
                 <p className="text-slate-500 dark:text-slate-400 max-w-sm">
-                    Попробуйте изменить параметры поиска или сбросить фильтры
+                    {t('categoriesPage.emptyDesc')}
                 </p>
             </div>
         );

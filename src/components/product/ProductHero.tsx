@@ -22,6 +22,7 @@ import {
     Smile,
     ShoppingBag
 } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 import type { SolutionProfile } from './types';
 
 interface ProductHeroProps {
@@ -52,15 +53,17 @@ const iconMap: Record<string, React.ReactNode> = {
     'shopping-bag': <ShoppingBag className="w-10 h-10" />,
 };
 
-const badgeLabels: Record<string, { text: string; className: string }> = {
-    top: { text: 'TOP', className: 'bg-gradient-to-r from-amber-400 to-orange-500' },
-    'best-value': { text: 'Лучшая цена', className: 'bg-gradient-to-r from-emerald-400 to-teal-500' },
-    new: { text: 'Новинка', className: 'bg-gradient-to-r from-blue-400 to-cyan-500' },
-    enterprise: { text: 'Enterprise', className: 'bg-gradient-to-r from-violet-500 to-purple-600' },
-    'small-business': { text: 'Для малого бизнеса', className: 'bg-gradient-to-r from-pink-400 to-rose-500' }
-};
-
 export function ProductHero({ profile, onConnect, onDemo }: ProductHeroProps) {
+    const { t } = useTranslation();
+
+    const badgeLabels: Record<string, { textKey: string; className: string }> = {
+        top: { textKey: 'product.top', className: 'bg-gradient-to-r from-amber-400 to-orange-500' },
+        'best-value': { textKey: 'product.bestValue', className: 'bg-gradient-to-r from-emerald-400 to-teal-500' },
+        new: { textKey: 'product.new', className: 'bg-gradient-to-r from-blue-400 to-cyan-500' },
+        enterprise: { textKey: 'product.enterprise', className: 'bg-gradient-to-r from-violet-500 to-purple-600' },
+        'small-business': { textKey: 'product.forSmallBusiness', className: 'bg-gradient-to-r from-pink-400 to-rose-500' }
+    };
+
     const badge = profile.badge ? badgeLabels[profile.badge] : null;
 
     return (
@@ -92,7 +95,7 @@ export function ProductHero({ profile, onConnect, onDemo }: ProductHeroProps) {
                         {/* Badge */}
                         {badge && (
                             <span className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-bold text-white shadow-lg mb-6 ${badge.className}`}>
-                                {badge.text}
+                                {t(badge.textKey)}
                             </span>
                         )}
 
@@ -122,7 +125,7 @@ export function ProductHero({ profile, onConnect, onDemo }: ProductHeroProps) {
                             <div className="flex items-center gap-2 bg-white/10 backdrop-blur-sm px-4 py-2 rounded-xl">
                                 <Star className="w-5 h-5 text-amber-400 fill-amber-400" />
                                 <span className="text-white font-bold">{profile.rating}</span>
-                                <span className="text-white/70">({profile.reviewsCount} отзывов)</span>
+                                <span className="text-white/70">({profile.reviewsCount} {t('product.reviewsCount')})</span>
                             </div>
 
                             {/* Clients */}
@@ -130,7 +133,7 @@ export function ProductHero({ profile, onConnect, onDemo }: ProductHeroProps) {
                                 <div className="flex items-center gap-2 bg-white/10 backdrop-blur-sm px-4 py-2 rounded-xl">
                                     <Users className="w-5 h-5 text-white/80" />
                                     <span className="text-white font-bold">{profile.clientsCount.toLocaleString()}+</span>
-                                    <span className="text-white/70">клиентов</span>
+                                    <span className="text-white/70">{t('product.clients')}</span>
                                 </div>
                             )}
                         </div>
@@ -150,11 +153,11 @@ export function ProductHero({ profile, onConnect, onDemo }: ProductHeroProps) {
                         {/* Price */}
                         <div className="flex items-baseline gap-2 mb-8">
                             <span className="text-3xl lg:text-4xl font-bold text-white">
-                                {profile.priceType === 'from' ? 'от ' : ''}{profile.price === '0' ? 'Бесплатно' : `${profile.price} ₽`}
+                                {profile.priceType === 'from' ? `${t('allSolutions.from')} ` : ''}{profile.price === '0' ? t('product.free') : `${profile.price} ₽`}
                             </span>
                             {profile.price !== '0' && profile.priceType !== 'custom' && (
                                 <span className="text-white/70 text-lg">
-                                    / {profile.priceType === 'monthly' ? 'мес' : profile.priceType === 'yearly' ? 'год' : ''}
+                                    / {profile.priceType === 'monthly' ? t('product.perMonth') : profile.priceType === 'yearly' ? t('product.perYear') : ''}
                                 </span>
                             )}
                         </div>
@@ -175,7 +178,7 @@ export function ProductHero({ profile, onConnect, onDemo }: ProductHeroProps) {
                                     className="flex items-center justify-center gap-3 bg-white/10 backdrop-blur-sm text-white font-semibold px-8 py-4 rounded-2xl border border-white/20 hover:bg-white/20 hover:scale-[1.02] active:scale-[0.98] transition-all duration-200"
                                 >
                                     <Play className="w-5 h-5" />
-                                    Смотреть демо
+                                    {t('product.watchDemo')}
                                 </button>
                             )}
                         </div>
@@ -190,7 +193,7 @@ export function ProductHero({ profile, onConnect, onDemo }: ProductHeroProps) {
                                     {iconMap[profile.logo] || <Building className="w-12 h-12" />}
                                 </div>
                                 <div className="text-center">
-                                    <p className="text-lg font-medium text-white/80 mb-2">Превью интерфейса</p>
+                                    <p className="text-lg font-medium text-white/80 mb-2">{t('product.interfacePreview')}</p>
                                     <p className="text-sm text-white/50">{profile.name}</p>
                                 </div>
                             </div>

@@ -1,4 +1,5 @@
 import { Layers, Package, Sparkles } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 
 interface CategoriesHeroProps {
     totalCategories: number;
@@ -7,6 +8,8 @@ interface CategoriesHeroProps {
 }
 
 export function CategoriesHero({ totalCategories, totalSolutions, hasRecentUpdates = true }: CategoriesHeroProps) {
+    const { t } = useTranslation();
+
     return (
         <section className="relative overflow-hidden rounded-[28px] bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 p-8 lg:p-10 mb-6">
             {/* Subtle gradient orbs */}
@@ -19,10 +22,10 @@ export function CategoriesHero({ totalCategories, totalSolutions, hasRecentUpdat
                     {/* Left - Title */}
                     <div>
                         <h1 className="text-3xl lg:text-4xl font-bold text-white leading-tight mb-3 tracking-tight">
-                            Все категории решений
+                            {t('categoriesPage.heroTitle')}
                         </h1>
                         <p className="text-slate-400 text-lg max-w-lg">
-                            Выберите направление для автоматизации и масштабирования бизнеса
+                            {t('categoriesPage.heroSubtitle')}
                         </p>
                     </div>
 
@@ -31,19 +34,19 @@ export function CategoriesHero({ totalCategories, totalSolutions, hasRecentUpdat
                         <StatBadge
                             icon={<Layers className="w-5 h-5" />}
                             value={totalCategories}
-                            label="категорий"
+                            label={t('categoriesPage.categoriesLabel')}
                             color="blue"
                         />
                         <StatBadge
                             icon={<Package className="w-5 h-5" />}
                             value={`${totalSolutions}+`}
-                            label="решений"
+                            label={t('categoriesPage.solutionsLabel')}
                             color="violet"
                         />
                         {hasRecentUpdates && (
                             <div className="hidden sm:flex items-center gap-2 px-4 py-2 rounded-full bg-emerald-500/10 border border-emerald-500/20">
                                 <Sparkles className="w-4 h-4 text-emerald-400" />
-                                <span className="text-sm font-medium text-emerald-400">Обновлено</span>
+                                <span className="text-sm font-medium text-emerald-400">{t('categoriesPage.updated')}</span>
                             </div>
                         )}
                     </div>

@@ -1,4 +1,5 @@
 import { ArrowLeft, Eye, PlayCircle, Grid, CreditCard, MessageCircle } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 import type { ProductNavAnchor } from './types';
 
 interface ProductNavProps {
@@ -26,6 +27,8 @@ export function ProductNav({
     onNavigateBack,
     onAnchorClick
 }: ProductNavProps) {
+    const { t } = useTranslation();
+
     return (
         <nav
             className={`
@@ -50,7 +53,7 @@ export function ProductNav({
                         `}
                     >
                         <ArrowLeft className="w-5 h-5" />
-                        <span className="hidden sm:inline">Назад</span>
+                        <span className="hidden sm:inline">{t('product.back')}</span>
                     </button>
 
                     {/* Center - Product name (only when sticky) */}

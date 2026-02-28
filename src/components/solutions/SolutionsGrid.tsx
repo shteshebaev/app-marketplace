@@ -1,5 +1,6 @@
 import { memo } from 'react';
 import { Search, RefreshCw, Sparkles } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 import type { Solution, SolutionViewMode, CompareItem } from './types';
 import { SolutionCard } from './SolutionCard';
 import { SolutionListItem } from './SolutionListItem';
@@ -70,6 +71,8 @@ function SolutionSkeleton({ viewMode }: { viewMode: SolutionViewMode }) {
 }
 
 function EmptyState({ onResetFilters, onOrderDevelopment }: { onResetFilters: () => void; onOrderDevelopment?: () => void }) {
+    const { t } = useTranslation();
+
     return (
         <div className="flex flex-col items-center justify-center py-16 px-6 text-center">
             <div className="w-20 h-20 rounded-3xl bg-[var(--bg-card)] border border-[var(--border-color)]
@@ -77,10 +80,10 @@ function EmptyState({ onResetFilters, onOrderDevelopment }: { onResetFilters: ()
                 <Search className="w-10 h-10 text-[var(--text-tertiary)]" />
             </div>
             <h3 className="text-xl font-bold text-[var(--text-primary)] mb-2">
-                Ничего не найдено
+                {t('allSolutions.emptyTitle')}
             </h3>
             <p className="text-[var(--text-secondary)] max-w-md mb-6">
-                Попробуйте изменить фильтр или закажите индивидуальную разработку под ваши задачи.
+                {t('allSolutions.emptyDesc')}
             </p>
             <div className="flex flex-col sm:flex-row gap-3">
                 <button
@@ -90,7 +93,7 @@ function EmptyState({ onResetFilters, onOrderDevelopment }: { onResetFilters: ()
                         font-medium hover:bg-[var(--hover-overlay)] transition-all"
                 >
                     <RefreshCw className="w-4 h-4" />
-                    Сбросить фильтры
+                    {t('allSolutions.resetFilters')}
                 </button>
                 <button
                     onClick={onOrderDevelopment}
@@ -99,7 +102,7 @@ function EmptyState({ onResetFilters, onOrderDevelopment }: { onResetFilters: ()
                         hover:shadow-lg hover:shadow-orange-500/30 transition-all"
                 >
                     <Sparkles className="w-4 h-4" />
-                    Заказать разработку
+                    {t('allSolutions.orderDev')}
                 </button>
             </div>
         </div>

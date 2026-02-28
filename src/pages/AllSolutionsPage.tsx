@@ -200,8 +200,6 @@ export function AllSolutionsPage({
                 <RecommendedSolutions
                     solutions={recommendedSolutions}
                     onSelect={handleSolutionSelect}
-                    title="Рекомендуемые решения"
-                    subtitle="Лучшие продукты по версии наших клиентов"
                 />
             )}
 

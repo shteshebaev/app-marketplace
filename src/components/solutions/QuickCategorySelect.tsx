@@ -1,4 +1,5 @@
 import { Users, ShoppingCart, Truck, GraduationCap, DollarSign, Utensils } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 import type { CategoryDetails } from './types';
 
 interface QuickCategorySelectProps {
@@ -30,11 +31,13 @@ export function QuickCategorySelect({
     selectedCategories,
     onCategoryToggle
 }: QuickCategorySelectProps) {
+    const { t } = useTranslation();
+
     return (
         <section className="py-8 bg-white dark:bg-slate-900/50 border-b border-slate-200 dark:border-slate-800">
             <div className="max-w-[1400px] mx-auto px-6 lg:px-10">
                 <h2 className="text-lg font-semibold text-slate-600 dark:text-slate-400 mb-4">
-                    Выберите направление:
+                    {t('allSolutions.selectDirection')}
                 </h2>
 
                 <div className="flex flex-wrap gap-3">

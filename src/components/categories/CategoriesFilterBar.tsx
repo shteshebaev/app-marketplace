@@ -1,4 +1,5 @@
 import { Search, ChevronDown, LayoutGrid, List, Flame } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 import { type FilterState, type SortOption, type ViewMode } from './types';
 
 interface CategoriesFilterBarProps {
@@ -10,12 +11,6 @@ interface CategoriesFilterBarProps {
     resultsCount: number;
 }
 
-const sortOptions: { value: SortOption; label: string }[] = [
-    { value: 'popular', label: 'По популярности' },
-    { value: 'count', label: 'По количеству решений' },
-    { value: 'alphabetical', label: 'По алфавиту' },
-];
-
 export function CategoriesFilterBar({
     filters,
     onSearchChange,
@@ -24,6 +19,14 @@ export function CategoriesFilterBar({
     onViewModeChange,
     resultsCount,
 }: CategoriesFilterBarProps) {
+    const { t } = useTranslation();
+
+    const sortOptions: { value: SortOption; label: string }[] = [
+        { value: 'popular', label: t('categoriesPage.sortPopular') },
+        { value: 'count', label: t('categoriesPage.sortCount') },
+        { value: 'alphabetical', label: t('categoriesPage.sortAlphabetical') },
+    ];
+
     return (
         <div className="sticky top-[72px] z-40 -mx-6 px-6 py-4 mb-6 bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl border-b border-slate-200/50 dark:border-slate-800/50">
             <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between">
@@ -34,7 +37,7 @@ export function CategoriesFilterBar({
                         <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
                         <input
                             type="text"
-                            placeholder="Поиск категории..."
+                            placeholder={t('categoriesPage.searchPlaceholder')}
                             value={filters.search}
                             onChange={(e) => onSearchChange(e.target.value)}
                             className="w-full h-11 pl-12 pr-4 rounded-xl bg-slate-100 dark:bg-slate-800 border border-transparent focus:border-blue-500 focus:bg-white dark:focus:bg-slate-900 text-slate-900 dark:text-white placeholder:text-slate-400 outline-none transition-all duration-200"
@@ -67,7 +70,7 @@ export function CategoriesFilterBar({
                         }`}
                     >
                         <Flame className="w-4 h-4" />
-                        <span className="hidden sm:inline">Популярные</span>
+                        <span className="hidden sm:inline">{t('categoriesPage.popular')}</span>
                     </button>
                 </div>
 
@@ -75,7 +78,7 @@ export function CategoriesFilterBar({
                 <div className="flex items-center gap-4">
                     {/* Results count */}
                     <span className="text-sm text-slate-500 dark:text-slate-400">
-                        {resultsCount} {getResultsLabel(resultsCount)}
+                        {resultsCount} {getResultsLabel(resultsCount, t)}
                     </span>
 
                     {/* View mode switcher */}
@@ -124,8 +127,8 @@ function ViewModeButton({ mode, currentMode, onClick, icon }: ViewModeButtonProp
     );
 }
 
-function getResultsLabel(count: number): string {
-    if (count === 1) return 'категория';
-    if (count >= 2 && count <= 4) return 'категории';
-    return 'категорий';
+function getResultsLabel(count: number, t: (key: string) => string): string {
+    if (count === 1) return t('categoriesPage.category1');
+    if (count >= 2 && count <= 4) return t('categoriesPage.category2_4');
+    return t('categoriesPage.category5');
 }

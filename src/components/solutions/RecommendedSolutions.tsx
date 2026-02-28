@@ -1,4 +1,5 @@
 import { Star, TrendingUp, Gem, ChevronRight } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 import type { Solution } from './types';
 
 interface RecommendedSolutionsProps {
@@ -8,18 +9,22 @@ interface RecommendedSolutionsProps {
     subtitle?: string;
 }
 
-const recommendationTypes = [
-    { badge: 'top', icon: Star, label: 'Лучшее по рейтингу', color: 'from-amber-500 to-orange-500' },
-    { badge: 'best-value', icon: TrendingUp, label: 'Самое популярное', color: 'from-emerald-500 to-teal-500' },
-    { badge: 'popular', icon: Gem, label: 'Оптимально по цене', color: 'from-blue-500 to-indigo-500' }
-];
-
 export function RecommendedSolutions({
     solutions,
     onSelect,
-    title = 'Рекомендуем начать с',
-    subtitle = 'Проверенные решения, выбранные экспертами'
+    title,
+    subtitle
 }: RecommendedSolutionsProps) {
+    const { t } = useTranslation();
+
+    const recommendationTypes = [
+        { badge: 'top', icon: Star, labelKey: 'allSolutions.topLabel', color: 'from-amber-500 to-orange-500' },
+        { badge: 'best-value', icon: TrendingUp, labelKey: 'allSolutions.recommendedLabel', color: 'from-emerald-500 to-teal-500' },
+        { badge: 'popular', icon: Gem, labelKey: 'allSolutions.recommendedLabel', color: 'from-blue-500 to-indigo-500' }
+    ];
+
+    const displayTitle = title || t('allSolutions.recommended');
+    const displaySubtitle = subtitle || t('allSolutions.recommendedSubtitle');
     if (solutions.length === 0) return null;
 
     return (
@@ -30,10 +35,10 @@ export function RecommendedSolutions({
                     <div className="w-1 h-8 bg-gradient-to-b from-blue-500 to-indigo-500 rounded-full" />
                     <div>
                         <h2 className="text-xl font-bold text-[var(--text-primary)]">
-                            {title}
+                            {displayTitle}
                         </h2>
                         <p className="text-sm text-[var(--text-secondary)]">
-                            {subtitle}
+                            {displaySubtitle}
                         </p>
                     </div>
                 </div>
@@ -60,7 +65,7 @@ export function RecommendedSolutions({
                                 <div className={`inline-flex items-center gap-1.5 bg-gradient-to-r ${recType.color}
                                     rounded-full px-3 py-1 mb-4`}>
                                     <Icon className="w-3.5 h-3.5 text-white" />
-                                    <span className="text-xs font-medium text-white">{recType.label}</span>
+                                    <span className="text-xs font-medium text-white">{t(recType.labelKey)}</span>
                                 </div>
 
                                 {/* Content */}
@@ -88,7 +93,7 @@ export function RecommendedSolutions({
                                                 </span>
                                             </div>
                                             <span className="text-sm text-[var(--text-secondary)]">
-                                                {solution.reviewsCount} отзывов
+                                                {solution.reviewsCount} {t('allSolutions.reviews')}
                                             </span>
                                         </div>
                                     </div>
@@ -102,12 +107,12 @@ export function RecommendedSolutions({
                                 <div className="mt-4 pt-4 border-t border-[var(--border-color)]">
                                     <div className="flex items-baseline justify-between">
                                         <span className="text-lg font-bold text-[var(--text-primary)]">
-                                            {solution.priceType === 'from' && 'от '}
-                                            {solution.price === '0' ? 'Бесплатно' : `${solution.price} ₽`}
+                                            {solution.priceType === 'from' && `${t('allSolutions.from')} `}
+                                            {solution.price === '0' ? t('allSolutions.free') : `${solution.price} ₽`}
                                         </span>
                                         {solution.price !== '0' && (
                                             <span className="text-sm text-[var(--text-secondary)]">
-                                                / мес
+                                                / {t('allSolutions.perMonth')}
                                             </span>
                                         )}
                                     </div>

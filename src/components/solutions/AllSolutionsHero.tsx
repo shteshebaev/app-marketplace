@@ -1,4 +1,5 @@
 import { Package, Layers, Star } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 
 interface AllSolutionsHeroProps {
     totalSolutions: number;
@@ -7,6 +8,8 @@ interface AllSolutionsHeroProps {
 }
 
 export function AllSolutionsHero({ totalSolutions, totalCategories, avgRating }: AllSolutionsHeroProps) {
+    const { t } = useTranslation();
+
     return (
         <section className="relative overflow-hidden">
             {/* Background gradient */}
@@ -34,10 +37,10 @@ export function AllSolutionsHero({ totalSolutions, totalCategories, avgRating }:
                     {/* Left - Title & Subtitle */}
                     <div className="flex-1">
                         <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-4 leading-tight">
-                            Все решения для бизнеса
+                            {t('allSolutions.heroTitle')}
                         </h1>
                         <p className="text-lg text-slate-300 max-w-xl">
-                            {totalSolutions}+ проверенных инструментов для автоматизации и роста вашего бизнеса
+                            {totalSolutions}+ {t('allSolutions.heroSubtitle')}
                         </p>
                     </div>
 
@@ -50,7 +53,7 @@ export function AllSolutionsHero({ totalSolutions, totalCategories, avgRating }:
                             </div>
                             <div>
                                 <div className="text-2xl font-bold text-white">{totalCategories}</div>
-                                <div className="text-sm text-slate-400">категорий</div>
+                                <div className="text-sm text-slate-400">{t('allSolutions.categoriesLabel')}</div>
                             </div>
                         </div>
 
@@ -61,7 +64,7 @@ export function AllSolutionsHero({ totalSolutions, totalCategories, avgRating }:
                             </div>
                             <div>
                                 <div className="text-2xl font-bold text-white">{totalSolutions}+</div>
-                                <div className="text-sm text-slate-400">решений</div>
+                                <div className="text-sm text-slate-400">{t('allSolutions.solutionsLabel')}</div>
                             </div>
                         </div>
 
@@ -72,7 +75,7 @@ export function AllSolutionsHero({ totalSolutions, totalCategories, avgRating }:
                             </div>
                             <div>
                                 <div className="text-2xl font-bold text-white">{avgRating}</div>
-                                <div className="text-sm text-slate-400">рейтинг</div>
+                                <div className="text-sm text-slate-400">{t('allSolutions.ratingLabel')}</div>
                             </div>
                         </div>
                     </div>
