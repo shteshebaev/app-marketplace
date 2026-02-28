@@ -1,16 +1,19 @@
 import { CheckCircle } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 
 interface OrderHeroProps {
   onScrollToForm: () => void;
 }
 
-const benefits = [
-  '150+ реализованных проектов',
-  '99.9% uptime',
-  'Поддержка 24/7',
-];
-
 export function OrderHero({ onScrollToForm }: OrderHeroProps) {
+  const { t } = useTranslation();
+
+  const benefits = [
+    t('orderDev.benefit1'),
+    t('orderDev.benefit2'),
+    t('orderDev.benefit3'),
+  ];
+
   return (
     <section className="relative overflow-hidden">
       {/* Gradient Background */}
@@ -33,11 +36,10 @@ export function OrderHero({ onScrollToForm }: OrderHeroProps) {
           {/* Left Content */}
           <div className="text-white">
             <h1 className="text-4xl md:text-5xl font-bold mb-6 leading-tight">
-              Разработаем решение под ваш бизнес
+              {t('orderDev.heroTitle')}
             </h1>
             <p className="text-lg md:text-xl opacity-90 mb-8 leading-relaxed">
-              CRM, автоматизация, маркетплейсы, интеграции —
-              полный цикл разработки под ключ.
+              {t('orderDev.heroSubtitle')}
             </p>
             <button
               onClick={onScrollToForm}
@@ -50,7 +52,7 @@ export function OrderHero({ onScrollToForm }: OrderHeroProps) {
                 hover:scale-105 active:scale-100
               "
             >
-              Оставить заявку
+              {t('orderDev.submitRequest')}
             </button>
           </div>
 

@@ -1,38 +1,25 @@
 import { Search, Lightbulb, Code2, Headphones } from 'lucide-react';
-
-const steps = [
-  {
-    icon: Search,
-    title: 'Анализ требований',
-    description: 'Изучаем ваши процессы и формируем техническое задание',
-  },
-  {
-    icon: Lightbulb,
-    title: 'Проектирование',
-    description: 'Создаём архитектуру и прототипы интерфейсов',
-  },
-  {
-    icon: Code2,
-    title: 'Разработка',
-    description: 'Пишем чистый код с тестами и документацией',
-  },
-  {
-    icon: Headphones,
-    title: 'Поддержка',
-    description: 'Обеспечиваем стабильную работу и масштабирование',
-  },
-];
+import { useTranslation } from 'react-i18next';
 
 export function ProcessSteps() {
+  const { t } = useTranslation();
+
+  const steps = [
+    { icon: Search, title: t('orderDev.step1Title'), description: t('orderDev.step1Desc') },
+    { icon: Lightbulb, title: t('orderDev.step2Title'), description: t('orderDev.step2Desc') },
+    { icon: Code2, title: t('orderDev.step3Title'), description: t('orderDev.step3Desc') },
+    { icon: Headphones, title: t('orderDev.step4Title'), description: t('orderDev.step4Desc') },
+  ];
+
   return (
     <section className="py-16 md:py-20 px-4">
       <div className="max-w-5xl mx-auto">
         {/* Title */}
         <h2 className="text-2xl md:text-3xl font-bold text-text-primary text-center mb-4">
-          Как мы работаем
+          {t('orderDev.processTitle')}
         </h2>
         <p className="text-text-secondary text-center mb-12 max-w-2xl mx-auto">
-          Прозрачный процесс от идеи до запуска
+          {t('orderDev.processSubtitle')}
         </p>
 
         {/* Steps */}

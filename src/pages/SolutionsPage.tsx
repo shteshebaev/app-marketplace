@@ -1,4 +1,5 @@
 import { useState, useMemo, useCallback } from 'react';
+import { useTranslation } from 'react-i18next';
 import {
     CategoryHeader,
     RecommendedSolutions,
@@ -28,6 +29,7 @@ export function SolutionsPage({
     onNavigateCategories,
     onSolutionSelect
 }: SolutionsPageProps) {
+    const { t } = useTranslation();
     const { connectSolution } = useConnectSolution();
     const category = categoryDetails[categoryId];
     const allSolutions = getSolutionsByCategory(categoryId);
@@ -166,13 +168,13 @@ export function SolutionsPage({
             <div className="min-h-screen flex items-center justify-center">
                 <div className="text-center">
                     <h1 className="text-2xl font-bold text-[var(--text-primary)] mb-2">
-                        Категория не найдена
+                        {t('catalog.noResults')}
                     </h1>
                     <button
                         onClick={onNavigateCategories}
                         className="text-blue-500 hover:text-blue-600"
                     >
-                        Вернуться к категориям
+                        {t('header.categories')}
                     </button>
                 </div>
             </div>

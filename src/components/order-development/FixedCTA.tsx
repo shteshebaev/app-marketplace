@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Send } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 
 interface FixedCTAProps {
   onScrollToForm: () => void;
@@ -7,6 +8,7 @@ interface FixedCTAProps {
 }
 
 export function FixedCTA({ onScrollToForm, showAfterScroll = 600 }: FixedCTAProps) {
+  const { t } = useTranslation();
   const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
@@ -47,10 +49,10 @@ export function FixedCTA({ onScrollToForm, showAfterScroll = 600 }: FixedCTAProp
             {/* Left text - hidden on mobile */}
             <div className="hidden sm:block">
               <p className="text-text-primary font-medium">
-                Готовы обсудить проект?
+                {t('orderDev.ctaTitle')}
               </p>
               <p className="text-sm text-text-secondary">
-                Ответим в течение 1 рабочего дня
+                {t('orderDev.ctaSubtitle')}
               </p>
             </div>
 
@@ -69,7 +71,7 @@ export function FixedCTA({ onScrollToForm, showAfterScroll = 600 }: FixedCTAProp
               "
             >
               <Send className="w-4 h-4" />
-              Оставить заявку
+              {t('orderDev.submitRequest')}
             </button>
           </div>
         </div>

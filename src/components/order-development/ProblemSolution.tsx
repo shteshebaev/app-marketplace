@@ -1,31 +1,22 @@
 import { Check } from 'lucide-react';
-
-const reasons = [
-  {
-    title: 'Нужны нестандартные процессы',
-    description: 'Ваш бизнес уникален и требует кастомных решений',
-  },
-  {
-    title: 'Готовые решения не подходят',
-    description: 'Коробочные продукты ограничивают ваш рост',
-  },
-  {
-    title: 'Требуются интеграции с вашими системами',
-    description: 'Нужна бесшовная связь между сервисами',
-  },
-  {
-    title: 'Нужна масштабируемая архитектура',
-    description: 'Планируете рост и увеличение нагрузки',
-  },
-];
+import { useTranslation } from 'react-i18next';
 
 export function ProblemSolution() {
+  const { t } = useTranslation();
+
+  const reasons = [
+    { title: t('orderDev.reason1Title'), description: t('orderDev.reason1Desc') },
+    { title: t('orderDev.reason2Title'), description: t('orderDev.reason2Desc') },
+    { title: t('orderDev.reason3Title'), description: t('orderDev.reason3Desc') },
+    { title: t('orderDev.reason4Title'), description: t('orderDev.reason4Desc') },
+  ];
+
   return (
     <section className="py-16 md:py-20 px-4">
       <div className="max-w-4xl mx-auto">
         <div className="text-center mb-12">
           <h2 className="text-2xl md:text-3xl font-bold text-text-primary mb-4">
-            Вам подходит индивидуальная разработка, если:
+            {t('orderDev.problemTitle')}
           </h2>
         </div>
 

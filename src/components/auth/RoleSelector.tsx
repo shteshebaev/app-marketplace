@@ -1,10 +1,13 @@
 import { User, Code2, ChevronRight, TrendingUp, Users, Rocket } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 
 interface RoleSelectorProps {
     onSelectRole: (role: 'USER' | 'DEVELOPER') => void;
 }
 
 export function RoleSelector({ onSelectRole }: RoleSelectorProps) {
+    const { t } = useTranslation();
+
     return (
         <div className="space-y-4">
             {/* User Role */}
@@ -19,12 +22,12 @@ export function RoleSelector({ onSelectRole }: RoleSelectorProps) {
                     <div className="flex-1 min-w-0">
                         <div className="flex items-center justify-between">
                             <h3 className="text-lg font-semibold text-slate-900 dark:text-white">
-                                Я пользователь
+                                {t('auth.asClient')}
                             </h3>
                             <ChevronRight className="w-5 h-5 text-slate-400 group-hover:text-blue-500 group-hover:translate-x-1 transition-all" />
                         </div>
                         <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">
-                            Хочу находить и использовать бизнес-решения
+                            {t('auth.registerSubtitle')}
                         </p>
                     </div>
                 </div>
@@ -42,38 +45,22 @@ export function RoleSelector({ onSelectRole }: RoleSelectorProps) {
                     <div className="flex-1 min-w-0">
                         <div className="flex items-center justify-between">
                             <h3 className="text-lg font-semibold text-slate-900 dark:text-white">
-                                Я разработчик
+                                {t('auth.asDeveloper')}
                             </h3>
                             <ChevronRight className="w-5 h-5 text-slate-400 group-hover:text-indigo-500 group-hover:translate-x-1 transition-all" />
                         </div>
                         <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">
-                            Хочу публиковать свои решения на платформе
+                            {t('product.developer')}
                         </p>
-                    </div>
-                </div>
-
-                {/* Developer Benefits */}
-                <div className="mt-4 pt-4 border-t border-slate-200 dark:border-slate-600 grid grid-cols-3 gap-2">
-                    <div className="flex items-center gap-1.5 text-xs text-slate-500 dark:text-slate-400">
-                        <Rocket className="w-3.5 h-3.5 text-indigo-500" />
-                        <span>Публикуйте</span>
-                    </div>
-                    <div className="flex items-center gap-1.5 text-xs text-slate-500 dark:text-slate-400">
-                        <Users className="w-3.5 h-3.5 text-indigo-500" />
-                        <span>Клиенты</span>
-                    </div>
-                    <div className="flex items-center gap-1.5 text-xs text-slate-500 dark:text-slate-400">
-                        <TrendingUp className="w-3.5 h-3.5 text-indigo-500" />
-                        <span>Растите</span>
                     </div>
                 </div>
             </button>
 
             {/* Login Link */}
             <p className="text-center text-sm text-slate-500 dark:text-slate-400 pt-4">
-                Уже есть аккаунт?{' '}
+                {t('auth.hasAccount')}{' '}
                 <a href="/login" className="text-blue-500 hover:text-blue-600 font-medium">
-                    Войти
+                    {t('auth.signIn')}
                 </a>
             </p>
         </div>

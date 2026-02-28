@@ -1,8 +1,10 @@
 import { type ReactNode } from 'react';
 import { Link } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { Sun, Moon, LogIn, UserPlus } from 'lucide-react';
 import { Button } from '../ui';
 import { useTheme } from '../../hooks';
+import { LanguageSwitcher } from './LanguageSwitcher';
 
 type PublicPage = 'home' | 'categories' | 'all-solutions' | 'order-development';
 
@@ -13,6 +15,7 @@ interface PublicLayoutProps {
 }
 
 export function PublicLayout({ children, onNavigate, currentPage = 'home' }: PublicLayoutProps) {
+  const { t } = useTranslation();
   const { isDark, toggleTheme } = useTheme();
 
   return (
@@ -49,20 +52,23 @@ export function PublicLayout({ children, onNavigate, currentPage = 'home' }: Pub
           {/* Center Navigation */}
           <nav className="hidden lg:flex items-center gap-1">
             <NavButton onClick={() => onNavigate?.('categories')} isActive={currentPage === 'categories'}>
-              Категории
+              {t('header.categories')}
             </NavButton>
             <NavButton onClick={() => onNavigate?.('all-solutions')} isActive={currentPage === 'all-solutions'}>
-              Решения
+              {t('header.catalog')}
             </NavButton>
           </nav>
 
           {/* Right section */}
           <div className="flex items-center gap-2 sm:gap-3">
+            {/* Language switcher */}
+            <LanguageSwitcher />
+
             {/* Theme toggle */}
             <button
               onClick={toggleTheme}
               className="theme-toggle"
-              aria-label={isDark ? 'Светлая тема' : 'Тёмная тема'}
+              aria-label={isDark ? t('header.lightMode') : t('header.darkMode')}
             >
               {isDark ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
             </button>
@@ -75,7 +81,7 @@ export function PublicLayout({ children, onNavigate, currentPage = 'home' }: Pub
                 className="inline-flex items-center gap-1.5"
               >
                 <LogIn className="w-4 h-4" />
-                <span className="hidden sm:inline">Войти</span>
+                <span className="hidden sm:inline">{t('header.login')}</span>
               </Button>
             </Link>
 
@@ -87,7 +93,7 @@ export function PublicLayout({ children, onNavigate, currentPage = 'home' }: Pub
                 className="inline-flex items-center gap-1.5"
               >
                 <UserPlus className="w-4 h-4" />
-                <span className="hidden sm:inline">Регистрация</span>
+                <span className="hidden sm:inline">{t('header.register')}</span>
               </Button>
             </Link>
           </div>
