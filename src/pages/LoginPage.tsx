@@ -1,36 +1,50 @@
-import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { AuthLayout, LoginForm, SocialAuth, AuthDivider } from '../components/auth';
-import type { LoginCredentials, SocialProvider, UserRole } from '../types/auth';
+import { useAuth } from '../context/AuthContext';
+import type { LoginCredentials, SocialProvider, DashboardType } from '../types/auth';
 
-interface LoginPageProps {
-    onLoginSuccess: (role: UserRole) => void;
-}
+const LAST_DASHBOARD_KEY = 'marketplace_last_dashboard';
 
-export function LoginPage({ onLoginSuccess }: LoginPageProps) {
-    const [isLoading, setIsLoading] = useState(false);
-    const [error, setError] = useState<string | null>(null);
+export function LoginPage() {
+    const navigate = useNavigate();
+    const { login, isLoading, error, selectDashboard } = useAuth();
 
     const handleLogin = async (data: LoginCredentials) => {
-        setIsLoading(true);
-        setError(null);
-
         try {
-            // TODO: Call API
-            console.log('Login:', data);
-            await new Promise(resolve => setTimeout(resolve, 1500)); // Simulate API
+            const roles = await login(data);
 
-            // Simulate different roles based on email for demo
-            if (data.email.includes('developer') || data.email.includes('dev')) {
-                onLoginSuccess('DEVELOPER');
-            } else if (data.email.includes('admin')) {
-                onLoginSuccess('ADMIN');
+            // If user has multiple roles (USER + DEVELOPER)
+            if (roles.length > 1) {
+                const hasUser = roles.includes('USER');
+                const hasDeveloper = roles.includes('DEVELOPER');
+
+                if (hasUser && hasDeveloper) {
+                    // Check if there's a saved preference
+                    const lastDashboard = localStorage.getItem(LAST_DASHBOARD_KEY) as DashboardType | null;
+
+                    if (lastDashboard === 'customer' || lastDashboard === 'developer') {
+                        // Use saved preference
+                        selectDashboard(lastDashboard);
+                        navigate(lastDashboard === 'developer' ? '/developer/dashboard' : '/dashboard');
+                    } else {
+                        // No saved preference - show selection page
+                        navigate('/select-dashboard');
+                    }
+                    return;
+                }
+            }
+
+            // Single role - redirect directly
+            if (roles.includes('ADMIN')) {
+                navigate('/admin');
+            } else if (roles.includes('DEVELOPER')) {
+                navigate('/developer/dashboard');
             } else {
-                onLoginSuccess('USER');
+                navigate('/dashboard');
             }
         } catch (err) {
-            setError('Неверный email или пароль');
-        } finally {
-            setIsLoading(false);
+            // Error is handled by AuthContext
+            console.error('Login error:', err);
         }
     };
 

@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import {
     AuthLayout,
     RoleSelector,
@@ -7,47 +8,37 @@ import {
     SocialAuth,
     AuthDivider
 } from '../components/auth';
+import { useAuth } from '../context/AuthContext';
 import type { UserRegisterData, DeveloperRegisterData, SocialProvider } from '../types/auth';
 
 type Step = 'select-role' | 'user-form' | 'developer-form';
 
-interface RegisterPageProps {
-    onRegisterSuccess: (role: 'USER' | 'DEVELOPER') => void;
-}
-
-export function RegisterPage({ onRegisterSuccess }: RegisterPageProps) {
+export function RegisterPage() {
+    const navigate = useNavigate();
+    const { registerUser, registerDeveloper, isLoading } = useAuth();
     const [step, setStep] = useState<Step>('select-role');
-    const [isLoading, setIsLoading] = useState(false);
 
     const handleSelectRole = (role: 'USER' | 'DEVELOPER') => {
         setStep(role === 'USER' ? 'user-form' : 'developer-form');
     };
 
     const handleUserRegister = async (data: UserRegisterData) => {
-        setIsLoading(true);
         try {
-            // TODO: Call API
-            console.log('User register:', data);
-            await new Promise(resolve => setTimeout(resolve, 1500)); // Simulate API
-            onRegisterSuccess('USER');
+            await registerUser(data);
+            // Navigate to customer dashboard after registration
+            navigate('/dashboard');
         } catch (error) {
             console.error('Registration error:', error);
-        } finally {
-            setIsLoading(false);
         }
     };
 
     const handleDeveloperRegister = async (data: DeveloperRegisterData) => {
-        setIsLoading(true);
         try {
-            // TODO: Call API
-            console.log('Developer register:', data);
-            await new Promise(resolve => setTimeout(resolve, 1500)); // Simulate API
-            onRegisterSuccess('DEVELOPER');
+            await registerDeveloper(data);
+            // Navigate to developer dashboard after registration
+            navigate('/developer/dashboard');
         } catch (error) {
             console.error('Registration error:', error);
-        } finally {
-            setIsLoading(false);
         }
     };
 

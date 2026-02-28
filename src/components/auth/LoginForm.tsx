@@ -171,6 +171,45 @@ export function LoginForm({ onSubmit, isLoading = false, error }: LoginFormProps
                     Создать аккаунт
                 </a>
             </p>
+
+            {/* Demo Quick Login */}
+            <div className="pt-4 border-t border-slate-200 dark:border-slate-700">
+                <p className="text-xs text-center text-slate-400 dark:text-slate-500 mb-3">
+                    Демо-аккаунты для тестирования:
+                </p>
+                <div className="grid grid-cols-3 gap-2">
+                    <button
+                        type="button"
+                        onClick={() => {
+                            setEmail('user@example.com');
+                            setPassword('demo123');
+                        }}
+                        className="px-2 py-2 text-xs bg-blue-50 dark:bg-blue-500/10 text-blue-600 dark:text-blue-400 rounded-lg hover:bg-blue-100 dark:hover:bg-blue-500/20 transition-colors"
+                    >
+                        Клиент
+                    </button>
+                    <button
+                        type="button"
+                        onClick={() => {
+                            setEmail('dev@example.com');
+                            setPassword('demo123');
+                        }}
+                        className="px-2 py-2 text-xs bg-emerald-50 dark:bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 rounded-lg hover:bg-emerald-100 dark:hover:bg-emerald-500/20 transition-colors"
+                    >
+                        Разработчик
+                    </button>
+                    <button
+                        type="button"
+                        onClick={() => {
+                            setEmail('multi@example.com');
+                            setPassword('demo123');
+                        }}
+                        className="px-2 py-2 text-xs bg-purple-50 dark:bg-purple-500/10 text-purple-600 dark:text-purple-400 rounded-lg hover:bg-purple-100 dark:hover:bg-purple-500/20 transition-colors"
+                    >
+                        Обе роли
+                    </button>
+                </div>
+            </div>
         </form>
     );
 }

@@ -1,6 +1,8 @@
-import { Menu, Search, Bell, User, Sun, Moon } from 'lucide-react';
+import { Menu, Search, Bell, User, Sun, Moon, LogIn, UserPlus } from 'lucide-react';
+import { Link } from 'react-router-dom';
 import { Button } from '../ui';
 import { useTheme } from '../../hooks';
+import { useAuth } from '../../context/AuthContext';
 
 interface HeaderProps {
   onMenuToggle?: () => void;
@@ -9,6 +11,18 @@ interface HeaderProps {
 
 export function Header({ onMenuToggle, hideMobileMenu = false }: HeaderProps) {
   const { isDark, toggleTheme } = useTheme();
+  const { isAuthenticated, user, logout, selectedDashboard } = useAuth();
+
+  // Determine dashboard URL based on selected dashboard
+  const getDashboardUrl = () => {
+    if (!selectedDashboard) return '/select-dashboard';
+    switch (selectedDashboard) {
+      case 'customer': return '/dashboard';
+      case 'developer': return '/developer/dashboard';
+      case 'admin': return '/admin';
+      default: return '/dashboard';
+    }
+  };
 
   return (
     <header
@@ -129,39 +143,75 @@ export function Header({ onMenuToggle, hideMobileMenu = false }: HeaderProps) {
             />
           </button>
 
-          {/* Profile button */}
-          <button
-            className="
-              hidden sm:flex
-              items-center gap-2
-              h-10 pl-2 pr-3
-              rounded-apple
-              text-text-primary
-              transition-all duration-apple ease-apple
-              hover:bg-black/5 dark:hover:bg-white/10
-              active:scale-95
-            "
-          >
-            <div
-              className="
-                w-7 h-7
-                bg-gray-200 dark:bg-[#3A3A3C] rounded-full
-                flex items-center justify-center
-              "
-            >
-              <User className="w-4 h-4 text-text-secondary" />
-            </div>
-            <span className="text-body-sm font-medium">Профиль</span>
-          </button>
+          {isAuthenticated ? (
+            <>
+              {/* Profile button - when authenticated */}
+              <Link
+                to={getDashboardUrl()}
+                className="
+                  hidden sm:flex
+                  items-center gap-2
+                  h-10 pl-2 pr-3
+                  rounded-apple
+                  text-text-primary
+                  transition-all duration-apple ease-apple
+                  hover:bg-black/5 dark:hover:bg-white/10
+                  active:scale-95
+                "
+              >
+                <div
+                  className="
+                    w-7 h-7
+                    bg-primary/10 dark:bg-primary/20 rounded-full
+                    flex items-center justify-center
+                  "
+                >
+                  {user?.avatar ? (
+                    <img src={user.avatar} alt={user.name} className="w-full h-full rounded-full object-cover" />
+                  ) : (
+                    <User className="w-4 h-4 text-primary" />
+                  )}
+                </div>
+                <span className="text-body-sm font-medium">{user?.name?.split(' ')[0] || 'Профиль'}</span>
+              </Link>
 
-          {/* CTA Button */}
-          <Button
-            variant="primary"
-            size="sm"
-            className="hidden md:flex ml-2"
-          >
-            Начать бесплатно
-          </Button>
+              {/* Logout button */}
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={logout}
+                className="hidden md:flex ml-2"
+              >
+                Выйти
+              </Button>
+            </>
+          ) : (
+            <>
+              {/* Login button */}
+              <Link to="/login">
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  className="hidden sm:inline-flex items-center gap-1.5"
+                >
+                  <LogIn className="w-4 h-4" />
+                  Войти
+                </Button>
+              </Link>
+
+              {/* Register button */}
+              <Link to="/register">
+                <Button
+                  variant="primary"
+                  size="sm"
+                  className="hidden md:inline-flex items-center gap-1.5 ml-2"
+                >
+                  <UserPlus className="w-4 h-4" />
+                  Регистрация
+                </Button>
+              </Link>
+            </>
+          )}
         </div>
       </div>
     </header>

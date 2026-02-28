@@ -10,3 +10,4 @@ export { LoginPage } from './LoginPage';
 export { SubscriptionsPage } from './SubscriptionsPage';
 export { NotificationsPage } from './NotificationsPage';
 export { MySolutionsPage } from './MySolutionsPage';
+export { SelectDashboardPage } from './SelectDashboardPage';

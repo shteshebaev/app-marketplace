@@ -1,11 +1,13 @@
 import { createContext, useContext, useState, useCallback, type ReactNode } from 'react';
-import type { User, UserRole, AuthState, RegisterData, LoginCredentials, UserRegisterData, DeveloperRegisterData } from '../types/auth';
+import type { User, UserRole, DashboardType, AuthState, RegisterData, LoginCredentials, UserRegisterData, DeveloperRegisterData } from '../types/auth';
+import { hasMultipleDashboards, getAvailableDashboards } from '../types/auth';
 import type { Developer } from '../types/developer';
 
 interface AuthContextValue extends AuthState {
-    login: (data: LoginCredentials) => Promise<UserRole>;
+    login: (data: LoginCredentials) => Promise<UserRole[]>;
     loginAsDeveloper: () => void;
     loginAsUser: () => void;
+    loginAsMultiRole: () => void;
     logout: () => void;
     register: (data: RegisterData) => Promise<UserRole>;
     registerUser: (data: UserRegisterData) => Promise<void>;
@@ -17,6 +19,11 @@ interface AuthContextValue extends AuthState {
     developer: Developer | null;
     setDeveloper: (developer: Developer) => void;
     clearError: () => void;
+    // New: Multiple roles support
+    needsDashboardSelection: boolean;
+    selectedDashboard: DashboardType | null;
+    selectDashboard: (dashboard: DashboardType) => void;
+    availableDashboards: DashboardType[];
 }
 
 const AuthContext = createContext<AuthContextValue | null>(null);
@@ -53,7 +60,7 @@ const mockDeveloperUser: User = {
     id: 'user-dev-1',
     email: 'developer@example.com',
     name: 'Иван Разработчиков',
-    role: 'DEVELOPER',
+    roles: ['DEVELOPER'],
     isVerified: true,
     developerId: 'dev-1',
     createdAt: '2024-01-01',
@@ -63,7 +70,7 @@ const mockRegularUser: User = {
     id: 'user-1',
     email: 'user@example.com',
     name: 'Александр Иванов',
-    role: 'USER',
+    roles: ['USER'],
     isVerified: true,
     createdAt: '2024-01-01',
 };
@@ -72,29 +79,52 @@ const mockAdminUser: User = {
     id: 'user-admin-1',
     email: 'admin@example.com',
     name: 'Администратор',
-    role: 'ADMIN',
+    roles: ['ADMIN'],
     isVerified: true,
     createdAt: '2024-01-01',
 };
+
+// Mock user with multiple roles (both USER and DEVELOPER)
+const mockMultiRoleUser: User = {
+    id: 'user-multi-1',
+    email: 'multi@example.com',
+    name: 'Мария Смирнова',
+    roles: ['USER', 'DEVELOPER'],
+    isVerified: true,
+    developerId: 'dev-1',
+    createdAt: '2024-01-01',
+};
+
+const LAST_DASHBOARD_KEY = 'marketplace_last_dashboard';
 
 export function AuthProvider({ children }: { children: ReactNode }) {
     const [user, setUser] = useState<User | null>(null);
     const [developer, setDeveloper] = useState<Developer | null>(null);
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
+    const [selectedDashboard, setSelectedDashboard] = useState<DashboardType | null>(null);
 
     const isAuthenticated = !!user;
-    const isUser = user?.role === 'USER';
-    const isDeveloper = user?.role === 'DEVELOPER';
-    const isAdmin = user?.role === 'ADMIN';
+    const isUser = user?.roles.includes('USER') ?? false;
+    const isDeveloper = user?.roles.includes('DEVELOPER') ?? false;
+    const isAdmin = user?.roles.includes('ADMIN') ?? false;
 
-    const hasRole = useCallback((role: UserRole) => user?.role === role, [user]);
+    const hasRole = useCallback((role: UserRole) => user?.roles.includes(role) ?? false, [user]);
+
+    const needsDashboardSelection = hasMultipleDashboards(user) && !selectedDashboard;
+    const availableDashboards = getAvailableDashboards(user);
+
+    const selectDashboard = useCallback((dashboard: DashboardType) => {
+        setSelectedDashboard(dashboard);
+        localStorage.setItem(LAST_DASHBOARD_KEY, dashboard);
+    }, []);
 
     const clearError = useCallback(() => setError(null), []);
 
-    const login = useCallback(async (data: LoginCredentials): Promise<UserRole> => {
+    const login = useCallback(async (data: LoginCredentials): Promise<UserRole[]> => {
         setIsLoading(true);
         setError(null);
+        setSelectedDashboard(null);
 
         try {
             // Simulate API call
@@ -102,7 +132,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
             // Mock: determine role based on email for demo
             let mockUser: User;
-            if (data.email.includes('developer') || data.email.includes('dev')) {
+            if (data.email.includes('multi')) {
+                // User with multiple roles
+                mockUser = { ...mockMultiRoleUser, email: data.email };
+                setDeveloper(mockDeveloper);
+            } else if (data.email.includes('developer') || data.email.includes('dev')) {
                 mockUser = { ...mockDeveloperUser, email: data.email };
                 setDeveloper(mockDeveloper);
             } else if (data.email.includes('admin')) {
@@ -112,7 +146,16 @@ export function AuthProvider({ children }: { children: ReactNode }) {
             }
 
             setUser(mockUser);
-            return mockUser.role;
+
+            // If single role, auto-select dashboard
+            if (mockUser.roles.length === 1) {
+                const role = mockUser.roles[0];
+                if (role === 'USER') setSelectedDashboard('customer');
+                else if (role === 'DEVELOPER') setSelectedDashboard('developer');
+                else if (role === 'ADMIN') setSelectedDashboard('admin');
+            }
+
+            return mockUser.roles;
         } catch (err) {
             setError('Неверный email или пароль');
             throw err;
@@ -124,22 +167,33 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     const loginAsDeveloper = useCallback(() => {
         setUser(mockDeveloperUser);
         setDeveloper(mockDeveloper);
+        setSelectedDashboard('developer');
     }, []);
 
     const loginAsUser = useCallback(() => {
         setUser(mockRegularUser);
         setDeveloper(null);
+        setSelectedDashboard('customer');
+    }, []);
+
+    const loginAsMultiRole = useCallback(() => {
+        setUser(mockMultiRoleUser);
+        setDeveloper(mockDeveloper);
+        setSelectedDashboard(null); // Will show dashboard selection
     }, []);
 
     const logout = useCallback(() => {
         setUser(null);
         setDeveloper(null);
         setError(null);
+        setSelectedDashboard(null);
+        localStorage.removeItem(LAST_DASHBOARD_KEY);
     }, []);
 
     const registerUser = useCallback(async (data: UserRegisterData): Promise<void> => {
         setIsLoading(true);
         setError(null);
+        setSelectedDashboard(null);
 
         try {
             // Simulate API call
@@ -149,12 +203,13 @@ export function AuthProvider({ children }: { children: ReactNode }) {
                 id: `user-${Date.now()}`,
                 email: data.email,
                 name: data.name,
-                role: 'USER',
+                roles: ['USER'],
                 isVerified: false, // Email verification pending
                 createdAt: new Date().toISOString(),
             };
 
             setUser(newUser);
+            setSelectedDashboard('customer');
         } catch (err) {
             setError('Ошибка при регистрации. Попробуйте снова.');
             throw err;
@@ -166,6 +221,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     const registerDeveloper = useCallback(async (data: DeveloperRegisterData): Promise<void> => {
         setIsLoading(true);
         setError(null);
+        setSelectedDashboard(null);
 
         try {
             // Simulate API call
@@ -177,7 +233,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
                 id: `user-${Date.now()}`,
                 email: data.email,
                 name: data.contactName,
-                role: 'DEVELOPER',
+                roles: ['DEVELOPER'],
                 isVerified: false, // Email verification pending
                 developerId: newDeveloperId,
                 createdAt: new Date().toISOString(),
@@ -207,6 +263,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
             setUser(newUser);
             setDeveloper(newDeveloper);
+            setSelectedDashboard('developer');
         } catch (err) {
             setError('Ошибка при регистрации. Попробуйте снова.');
             throw err;
@@ -233,6 +290,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         login,
         loginAsDeveloper,
         loginAsUser,
+        loginAsMultiRole,
         logout,
         register,
         registerUser,
@@ -244,6 +302,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         developer,
         setDeveloper,
         clearError,
+        // Multiple roles support
+        needsDashboardSelection,
+        selectedDashboard,
+        selectDashboard,
+        availableDashboards,
     };
 
     return (
