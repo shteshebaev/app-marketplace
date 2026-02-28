@@ -1,8 +1,7 @@
 import { useState } from 'react';
-import { DashboardLayout, PublicLayout, DeveloperDashboardLayout } from './components/layout';
+import { PublicLayout, DeveloperDashboardLayout } from './components/layout';
+import { CustomerDashboardLayout } from './components/customer';
 import {
-  OrdersPage,
-  DashboardPage,
   HomePage,
   CategoriesPage,
   SolutionsPage,
@@ -31,14 +30,8 @@ interface NavigationState {
 
 function App() {
   const { isAuthenticated, isDeveloper, logout, loginAsDeveloper, loginAsUser } = useAuth();
-  const [activeMenuItem, setActiveMenuItem] = useState('dashboard');
   const [developerPage, setDeveloperPage] = useState<DeveloperPage>('dashboard');
   const [navigation, setNavigation] = useState<NavigationState>({ page: 'home' });
-
-  const handleNavigate = (path: string) => {
-    const menuItem = path.replace('/', '');
-    setActiveMenuItem(menuItem);
-  };
 
   const handlePublicNavigate = (page: PublicPage, categoryId?: string, solutionId?: string) => {
     console.log('Navigate to:', page);
@@ -61,8 +54,6 @@ function App() {
   const handleRegisterSuccess = (role: UserRole) => {
     if (role === 'DEVELOPER') {
       setDeveloperPage('dashboard');
-    } else {
-      setActiveMenuItem('dashboard');
     }
     setNavigation({ page: 'home' });
   };
@@ -75,24 +66,10 @@ function App() {
     } else if (role === 'ADMIN') {
       // TODO: Redirect to admin dashboard
       loginAsUser();
-      setActiveMenuItem('dashboard');
     } else {
       loginAsUser();
-      setActiveMenuItem('dashboard');
     }
     setNavigation({ page: 'home' });
-  };
-
-  // Render page based on active menu item (User Dashboard)
-  const renderPage = () => {
-    switch (activeMenuItem) {
-      case 'dashboard':
-        return <DashboardPage />;
-      case 'orders':
-        return <OrdersPage />;
-      default:
-        return <DashboardPage />;
-    }
   };
 
   // Render developer dashboard page
@@ -239,15 +216,8 @@ function App() {
     );
   }
 
-  // User dashboard view
-  return (
-    <DashboardLayout
-      activeMenuItem={activeMenuItem}
-      onNavigate={handleNavigate}
-    >
-      {renderPage()}
-    </DashboardLayout>
-  );
+  // Customer dashboard view - CustomerDashboardLayout manages its own navigation
+  return <CustomerDashboardLayout />;
 }
 
 export default App;

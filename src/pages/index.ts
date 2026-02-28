@@ -7,3 +7,6 @@ export { AllSolutionsPage } from './AllSolutionsPage';
 export { OrderDevelopmentPage } from './OrderDevelopmentPage';
 export { RegisterPage } from './RegisterPage';
 export { LoginPage } from './LoginPage';
+export { SubscriptionsPage } from './SubscriptionsPage';
+export { NotificationsPage } from './NotificationsPage';
+export { MySolutionsPage } from './MySolutionsPage';
